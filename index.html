@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arqueo de Caja - AGESP</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f6f9;
+    color: #2c3e50;
+    padding: 15px;
+  }
+  header {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  header h1 { color: #1e3a5f; font-size: 1.5rem; }
+  header p { color: #666; font-size: 0.85rem; }
+
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+  }
+  .tabs button {
+    padding: 9px 14px;
+    border: none;
+    background: #dbe4ee;
+    color: #1e3a5f;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.8rem;
+  }
+  .tabs button.active { background: #1e3a5f; color: #fff; }
+
+  .seccion { display: none; }
+  .seccion.active { display: block; }
+
+  .card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    max-width: 1100px;
+    margin: 0 auto 15px auto;
+  }
+  .card h2 {
+    color: #1e3a5f;
+    margin-bottom: 12px;
+    text-align: center;
+    border-bottom: 2px solid #dbe4ee;
+    padding-bottom: 8px;
+    font-size: 1.1rem;
+  }
+
+  .encabezado {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 15px;
+    margin-bottom: 12px;
+    font-size: 0.85rem;
+  }
+  .encabezado > div { flex: 1 1 45%; padding: 4px 0; }
+  .encabezado strong { color: #1e3a5f; }
+
+  .campo-editable {
+    width: 100%;
+    padding: 5px 6px;
+    border: 1px solid #ccd6e0;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    font-family: inherit;
+    color: #2c3e50;
+    background: #fafbfd;
+    margin-top: 2px;
+  }
+  .campo-editable:focus { outline: none; border-color: #1e3a5f; background: #fff; }
+
+  table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
+  th, td {
+    padding: 5px 3px;
+    text-align: center;
+    border-bottom: 1px solid #eaeef3;
+    font-size: 0.82rem;
+  }
+  th { background: #1e3a5f; color: #fff; font-size: 0.75rem; }
+  td input {
+    width: 100%;
+    padding: 4px 3px;
+    border: 1px solid #ccd6e0;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 0.8rem;
+    font-family: inherit;
+  }
+  td input:focus { outline: none; border-color: #1e3a5f; }
+  td input.num { text-align: right; }
+
+  .total-row td { font-weight: bold; background: #f0f4f8; font-size: 0.85rem; }
+
+  .tabla-vales th, .tabla-vales td { padding: 3px 2px; font-size: 0.75rem; }
+  .tabla-vales td input { padding: 3px 2px; font-size: 0.75rem; }
+
+  .btn-eliminar-fila {
+    background: #c0392b;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 2px 6px;
+    cursor: pointer;
+    font-size: 0.7rem;
+  }
+
+  .resumen {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+    padding: 10px;
+    background: #f0f4f8;
+    border-radius: 6px;
+    font-size: 0.85rem;
+  }
+  .resumen > div { flex: 1 1 45%; padding: 3px 0; }
+
+  .obs {
+    width: 100%;
+    padding: 7px;
+    border: 1px solid #ccd6e0;
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    margin-top: 8px;
+    resize: vertical;
+    min-height: 50px;
+  }
+
+  .firmas {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    margin-top: 40px;
+    padding-top: 8px;
+  }
+  .firma { flex: 1; text-align: center; font-size: 0.8rem; }
+  .firma .linea {
+    border-top: 1.5px solid #1e3a5f;
+    margin-bottom: 5px;
+    height: 35px;
+  }
+  .firma .nombre { font-weight: bold; color: #1e3a5f; font-size: 0.9rem; }
+  .firma .cargo { color: #555; font-size: 0.75rem; margin-top: 2px; }
+  .firma .rol {
+    font-size: 0.7rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+  }
+
+  .acciones {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    padding: 9px 14px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.8rem;
+  }
+  .btn-primary { background: #1e3a5f; color: #fff; }
+  .btn-success { background: #27ae60; color: #fff; }
+  .btn-secondary { background: #95a5a6; color: #fff; }
+  .btn-danger { background: #c0392b; color: #fff; }
+  .btn-info { background: #2980b9; color: #fff; }
+
+  .item-historial {
+    border: 1px solid #e0e6ed;
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 8px;
+    background: #fafbfd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .item-historial .info { font-size: 0.8rem; color: #555; }
+  .item-historial .info strong { color: #1e3a5f; }
+
+  /* ================= MODO OSCURO ================= */
+  body.tema-oscuro {
+    background: #1a1e26;
+    color: #e6eaf0;
+  }
+  body.tema-oscuro header h1 { color: #7fb3ff; }
+  body.tema-oscuro header p { color: #a8b0bd; }
+
+  body.tema-oscuro .tabs button {
+    background: #2a3140;
+    color: #c7d2e0;
+  }
+  body.tema-oscuro .tabs button.active {
+    background: #7fb3ff;
+    color: #10151c;
+  }
+  body.tema-oscuro #btnTema {
+    background: #ffd479;
+    color: #10151c;
+  }
+
+  body.tema-oscuro .card {
+    background: #232a36;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  }
+  body.tema-oscuro .card h2 {
+    color: #7fb3ff;
+    border-bottom-color: #2a3140;
+  }
+  body.tema-oscuro .encabezado strong { color: #7fb3ff; }
+  body.tema-oscuro .encabezado input,
+  body.tema-oscuro .campo-editable {
+    background: #2a3140;
+    border-color: #3a4252;
+    color: #e6eaf0;
+  }
+  body.tema-oscuro .campo-editable:focus {
+    border-color: #7fb3ff;
+    background: #2f3849;
+  }
+
+  body.tema-oscuro table th {
+    background: #10151c;
+    color: #c7d2e0;
+  }
+  body.tema-oscuro table td {
+    border-bottom-color: #2a3140;
+    color: #e6eaf0;
+  }
+  body.tema-oscuro td input {
+    background: #2a3140;
+    border-color: #3a4252;
+    color: #e6eaf0;
+  }
+  body.tema-oscuro td input:focus { border-color: #7fb3ff; }
+
+  body.tema-oscuro .total-row td {
+    background: #2a3140;
+    color: #7fb3ff;
+  }
+  body.tema-oscuro .resumen {
+    background: #2a3140;
+    color: #c7d2e0;
+  }
+  body.tema-oscuro .obs {
+    background: #2a3140;
+    border-color: #3a4252;
+    color: #e6eaf0;
+  }
+  body.tema-oscuro .firma .linea { border-top-color: #7fb3ff; }
+  body.tema-oscuro .firma .nombre { color: #7fb3ff; }
+  body.tema-oscuro .firma .cargo { color: #a8b0bd; }
+  body.tema-oscuro .firma .rol { color: #7a8494; }
+
+  body.tema-oscuro .item-historial {
+    background: #2a3140;
+    border-color: #3a4252;
+  }
+  body.tema-oscuro .item-historial .info { color: #c7d2e0; }
+  body.tema-oscuro .item-historial .info strong { color: #7fb3ff; }
+
+  @media print {
+    body { background: #fff; padding: 0; }
+    .tabs, .acciones, header p, .no-print { display: none !important; }
+    .card { box-shadow: none; max-width: 100%; page-break-inside: avoid; padding: 8px; }
+    .seccion { display: none !important; }
+    .seccion.active { display: block !important; }
+    textarea { border: none; background: transparent; }
+    .campo-editable {
+      border: none; background: transparent; padding: 0;
+      font-weight: bold; color: #1e3a5f;
+    }
+    .tabla-vales td input {
+      border: none; background: transparent; padding: 0;
+    }
+    .tabla-vales th, .tabla-vales td { border: 1px solid #999; padding: 2px; }
+    .btn-eliminar-fila { display: none !important; }
+    body.tema-oscuro { background: #fff; color: #000; }
+    body.tema-oscuro .card { background: #fff; }
+    body.tema-oscuro table th { background: #1e3a5f; color: #fff; }
+    body.tema-oscuro td input,
+    body.tema-oscuro .campo-editable {
+      background: transparent; color: #000; border: none;
+    }
+    body.tema-oscuro .encabezado strong,
+    body.tema-oscuro .card h2,
+    body.tema-oscuro .firma .nombre { color: #1e3a5f; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>AGESP - Control de Caja</h1>
+  <p>Arqueos - Vales de Dieta - Vales de Pagos Menores</p>
+</header>
+
+<div class="tabs no-print">
+  <button id="btnPagos" class="active" onclick="mostrarSeccion('pagos')">Arqueo Pagos</button>
+  <button id="btnDietas" onclick="mostrarSeccion('dietas')">Arqueo Dietas</button>
+  <button id="btnValesDieta" onclick="mostrarSeccion('valesDieta')">Vales Dieta</button>
+  <button id="btnValesPagos" onclick="mostrarSeccion('valesPagos')">Vales Pagos Menores</button>
+  <button id="btnHistorial" onclick="mostrarSeccion('historial')">Historial</button>
+  <button id="btnTema" onclick="alternarTema()">Oscuro</button>
+</div>
+
+<!-- ============ ARQUEO PAGOS MENORES ============ -->
+<div id="pagos" class="seccion active">
+  <div class="card">
+    <h2>Arqueo - Pagos Menores</h2>
+
+    <div class="encabezado">
+      <div><strong>Entidad:</strong> AGESP</div>
+      <div>
+        <strong>Fecha del arqueo:</strong>
+        <input type="date" id="fechaInputPagos" class="campo-editable"
+               oninput="actualizarFirma('pagos')">
+      </div>
+      <div>
+        <strong>Responsable:</strong>
+        <input type="text" id="responsablePagos" class="campo-editable"
+               value="Elieser Duarte Lopez"
+               oninput="actualizarFirma('pagos')">
+      </div>
+      <div>
+        <strong>Contrapartida:</strong>
+        <input type="text" id="contrapartidaPagos" class="campo-editable"
+               value="Especialista Principal"
+               oninput="actualizarFirma('pagos')">
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr><th>Denominacion</th><th>Cantidad</th><th>Subtotal</th></tr>
+      </thead>
+      <tbody id="tablaPagos"></tbody>
+      <tfoot>
+        <tr class="total-row">
+          <td colspan="2">TOTAL CONTADO</td>
+          <td id="totalPagos">$0</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <div class="resumen">
+      <div><strong>Efectivo sistema:</strong>
+        <input type="number" id="sistemaPagos" value="0" min="0"
+               oninput="calcular('pagos')"
+               style="width:110px; padding:4px; border:1px solid #ccd6e0; border-radius:5px;">
+      </div>
+      <div><strong>Diferencia:</strong>
+        <span id="diferenciaPagos">$0</span>
+      </div>
+    </div>
+
+    <textarea class="obs" id="obsPagos" placeholder="Observaciones..."></textarea>
+
+    <div class="firmas">
+      <div class="firma">
+        <div class="linea"></div>
+        <div class="rol">Responsable</div>
+        <div class="nombre" id="firmaRespPagos">Elieser Duarte Lopez</div>
+        <div class="cargo">Especialista B Gestion Economica</div>
+      </div>
+      <div class="firma">
+        <div class="linea"></div>
+        <div class="rol">Contrapartida</div>
+        <div class="nombre" id="firmaContraPagos">Especialista Principal</div>
+        <div class="cargo">Especialista Principal</div>
+      </div>
+    </div>
+
+    <div class="acciones no-print">
+      <button class="btn btn-secondary" onclick="limpiar('pagos')">Limpiar</button>
+      <button class="btn btn-success" onclick="guardar('pagos')">Guardar</button>
+      <button class="btn btn-primary" onclick="imprimir()">Imprimir</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ ARQUEO DIETAS ============ -->
+<div id="dietas" class="seccion">
+  <div class="card">
+    <h2>Arqueo - Dietas</h2>
+
+    <div class="encabezado">
+      <div><strong>Entidad:</strong> AGESP</div>
+      <div>
+        <strong>Fecha del arqueo:</strong>
+        <input type="date" id="fechaInputDietas" class="campo-editable"
+               oninput="actualizarFirma('dietas')">
+      </div>
+      <div>
+        <strong>Responsable:</strong>
+        <input type="text" id="responsableDietas" class="campo-editable"
+               value="Elieser Duarte Lopez"
+               oninput="actualizarFirma('dietas')">
+      </div>
+      <div>
+        <strong>Contrapartida:</strong>
+        <input type="text" id="contrapartidaDietas" class="campo-editable"
+               value="Especialista Principal"
+               oninput="actualizarFirma('dietas')">
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr><th>Denominacion</th><th>Cantidad</th><th>Subtotal</th></tr>
+      </thead>
+      <tbody id="tablaDietas"></tbody>
+      <tfoot>
+        <tr class="total-row">
+          <td colspan="2">TOTAL CONTADO</td>
+          <td id="totalDietas">$0</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <div class="resumen">
+      <div><strong>Efectivo sistema:</strong>
+        <input type="number" id="sistemaDietas" value="0" min="0"
+               oninput="calcular('dietas')"
+               style="width:110px; padding:4px; border:1px solid #ccd6e0; border-radius:5px;">
+      </div>
+      <div><strong>Diferencia:</strong>
+        <span id="diferenciaDietas">$0</span>
+      </div>
+    </div>
+
+    <textarea class="obs" id="obsDietas" placeholder="Observaciones..."></textarea>
+
+    <div class="firmas">
+      <div class="firma">
+        <div class="linea"></div>
+        <div class="rol">Responsable</div>
+        <div class="nombre" id="firmaRespDietas">Elieser Duarte Lopez</div>
+        <div class="cargo">Especialista B Gestion Economica</div>
+      </div>
+      <div class="firma">
+        <div class="linea"></div>
+        <div class="rol">Contrapartida</div>
+        <div class="nombre" id="firmaContraDietas">Especialista Principal</div>
+        <div class="cargo">Especialista Principal</div>
+      </div>
+    </div>
+
+    <div class="acciones no-print">
+      <button class="btn btn-secondary" onclick="limpiar('dietas')">Limpiar</button>
+      <button class="btn btn-success" onclick="guardar('dietas')">Guardar</button>
+      <button class="btn btn-primary" onclick="imprimir()">Imprimir</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ VALES DE DIETA ============ -->
+<div id="valesDieta" class="seccion">
+  <div class="card">
+    <h2>Vales de Salida - Dieta</h2>
+
+    <div class="encabezado">
+      <div><strong>Entidad:</strong> AGESP</div>
+      <div>
+        <strong>Fecha:</strong>
+        <input type="date" id="fechaInputValesDieta" class="campo-editable">
+      </div>
+      <div>
+        <strong>Responsable:</strong>
+        <input type="text" id="responsableValesDieta" class="campo-editable"
+               value="Elieser Duarte Lopez" oninput="actualizarFirmaVales('ValesDieta')">
+      </div>
+      <div>
+        <strong>Contrapartida:</strong>
+        <input type="text" id="contrapartidaValesDieta" class="campo-editable"
+               value="Especialista Principal" oninput="actualizarFirmaVales('ValesDieta')">
+      </div>
+    </div>
+
+    <table class="tabla-vales">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>No. Vale</th>
+          <th>Nombre</th>
+          <th>Descripcion</th>
+          <th>Deposito</th>
+          <th>Retiro</th>
+          <th>Existencia</th>
+          <th class="no-print">X</th>
+        </tr>
+      </thead>
+      <tbody id="tablaValesDieta"></tbody>
+      <tfoot>
+        <tr class="total-row">
+          <td colspan="4">TOTALES</td>
+          <td id="totDepValesDieta">$0</td>
+          <td id="totRetValesDieta">$0</td>
+          <td id="totExistValesDieta">$0</td>
+          <td class="no-print"></td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <div class="resumen">
+      <div><strong>Saldo inicial en caja:</strong>
+        <input type="number" id="saldoInicialValesDieta" value="0" min="0"
+               oninput="recalcularVales('ValesDieta')"
+               style="width:120px; padding:4px; border:1px solid #ccd6e0; border-radius:5px;">
+      </div>
+      <div><strong>Existencia final:</strong>
+        <span id="existFinalValesDieta">$0</span>
+      </div>
+    </div>
+
+    <textarea class="obs" id="obsValesDieta" placeholder="Observaciones..."></textarea>
+
+    <div class="acciones no-print">
+      <button class="btn btn-info" onclick="agregarFilaVales('ValesDieta')">Agregar fila</button>
+      <button class="btn btn-secondary" onclick="limpiarVales('ValesDieta')">Limpiar</button>
+      <button class="btn btn-success" onclick="guardarVales('ValesDieta')">Guardar</button>
+      <button class="btn btn-primary" onclick="imprimir()">Imprimir</button>
+    </div>
+
+    <div class="firmas">
+      <div class="firma">
+        <div class="linea"></div>
+        <div class="rol">Responsable</div>
+        <div class="nombre" id="firmaRespValesDieta">Elieser Duarte Lopez</div>
+        <div class="cargo">Especialista B Gestion Economica</div>
+      </div>
+      <div class="firma">
+        <div class="linea"></div>
+        <div class="rol">Contrapartida</div>
+        <div class="nombre" id="firmaContraValesDieta">Especialista Principal</div>
+        <div class="cargo">Especialista Principal</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ VALES DE PAGOS MENORES ============ -->
+<div id="valesPagos" class="seccion">
+  <div class="card">
+    <h2>Vales de Salida - Pagos Menores</h2>
+
+    <div class="encabezado">
+      <div><strong>Entidad:</strong> AGESP</div>
+      <div>
+        <strong>Fecha:</strong>
+        <input type="date" id="fechaInputValesPagos" class="campo-editable">
+      </div>
+      <div>
+        <strong>Responsable:</strong>
+        <input type="text" id="responsableValesPagos" class="campo-editable"
+               value="Elieser Duarte Lopez" oninput="actualizarFirmaVales('ValesPagos')">
+      </div>
+      <div>
+        <strong>Contrapartida:</strong>
+        <input type="text" id="contrapartidaValesPagos" class="campo-editable"
+               value="Especialista Principal" oninput="actualizarFirmaVales('ValesPagos')">
+      </div>
+    </div>
+
+    <table class="tabla-vales">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>No. Vale</th>
+          <th>Nombre</th>
+          <th>Descripcion</th>
+          <th>Deposito</th>
+          <th>Retiro</th>
+          <th>Existencia</th>
+          <th class="no-print">X</th>
+        </tr>
+      </thead>
+      <tbody id="tablaValesPagos"></tbody>
+      <tfoot>
+        <tr class="total-row">
+          <td colspan="4">TOTALES</td>
+          <td id="totDepValesPagos">$0</td>
+          <td id="totRetValesPagos">$0</td>
+          <td id="totExistValesPagos">$0</td>
+          <td class="no-print"></td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <div class="resumen">
+      <div><strong>Saldo inicial en caja:</strong>
+        <input type="number" id="saldoInicialValesPagos" value="0" min="0"
+               oninput="recalcularVales('ValesPagos')"
+               style="width:120px; padding:4px; border:1px solid #ccd6e0; border-radius:5px;">
+      </div>
+      <div><strong>Existencia final:</strong>
+        <span id="existFinalValesPagos">$0</span>
+      </div>
+    </div>
+
+    <textarea class="obs" id="obsValesPagos" placeholder="Observaciones..."></textarea>
+
+    <div class="acciones no-print">
+      <button class="btn btn-info" onclick="agregarFilaVales('ValesPagos')">Agregar fila</button>
+      <button class="btn btn-secondary" onclick="limpiarVales('ValesPagos')">Limpiar</button>
+      <button class="btn btn-success" onclick="guardarVales('ValesPagos')">Guardar</button>
+      <button class="btn btn-primary" onclick="imprimir()">Imprimir</button>
+    </div>
+
+    <div class="firmas">
+      <div class="firma">
+        <div class="linea"></div>
+        <div class="rol">Responsable</div>
+        <div class="nombre" id="firmaRespValesPagos">Elieser Duarte Lopez</div>
+        <div class="cargo">Especialista B Gestion Economica</div>
+      </div>
+      <div class="firma">
+        <div class="linea"></div>
+        <div class="rol">Contrapartida</div>
+        <div class="nombre" id="firmaContraValesPagos">Especialista Principal</div>
+        <div class="cargo">Especialista Principal</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HISTORIAL ============ -->
+<div id="historial" class="seccion">
+  <div class="card">
+    <h2>Historial de Arqueos</h2>
+
+    <div class="acciones no-print" style="justify-content: flex-start; margin-bottom: 12px;">
+      <button class="btn btn-info" onclick="exportarRespaldo()">Exportar respaldo</button>
+      <button class="btn btn-info" onclick="document.getElementById('archivoImportar').click()">Importar respaldo</button>
+      <input type="file" id="archivoImportar" accept=".json,application/json"
+             style="display:none" onchange="importarRespaldo(this)">
+      <button class="btn btn-danger" onclick="borrarHistorial()">Borrar todo</button>
+    </div>
+
+    <div id="listaHistorial"></div>
+  </div>
+</div>
+
+<script>
+/* ==========================================================
+   AGESP - Control de Caja
+   Codigo compatible con navegadores antiguos (ES5 puro)
+========================================================== */
+
+var denominaciones = [2000, 1000, 500, 200, 100, 50, 20, 10, 5];
+var CLAVE_HISTORIAL = 'agesp_historial_v3';
+var CLAVE_TEMA = 'agesp_tema';
+
+/* --- Utilidades --- */
+function formatoMoneda(n) {
+  var num = Math.round(Number(n) || 0);
+  var signo = num < 0 ? '-' : '';
+  var abs = Math.abs(num).toString();
+  return signo + '$' + abs.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+}
+
+function pad2(n) {
+  var s = String(n);
+  return s.length < 2 ? '0' + s : s;
+}
+
+function hoyISO() {
+  var d = new Date();
+  return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+}
+
+function formatearFecha(iso) {
+  if (!iso) return '';
+  var partes = iso.split('-');
+  if (partes.length !== 3) return iso;
+  return partes[2] + '/' + partes[1] + '/' + partes[0];
+}
+
+function fechaHoraGuardado() {
+  var d = new Date();
+  return pad2(d.getDate()) + '/' + pad2(d.getMonth() + 1) + '/' + d.getFullYear() +
+         ' ' + pad2(d.getHours()) + ':' + pad2(d.getMinutes());
+}
+
+/* --- Inicializar fechas --- */
+document.getElementById('fechaInputPagos').value = hoyISO();
+document.getElementById('fechaInputDietas').value = hoyISO();
+document.getElementById('fechaInputValesDieta').value = hoyISO();
+document.getElementById('fechaInputValesPagos').value = hoyISO();
+
+/* ==========================================================
+   ARQUEO
+========================================================== */
+function construirTabla(idTabla, tipo) {
+  var tbody = document.getElementById(idTabla);
+  tbody.innerHTML = '';
+  for (var i = 0; i < denominaciones.length; i++) {
+    var d = denominaciones[i];
+    var fila = document.createElement('tr');
+    fila.innerHTML =
+      '<td>' + formatoMoneda(d) + '</td>' +
+      '<td><input type="number" min="0" value="0" ' +
+      'oninput="calcular(\'' + tipo + '\')" ' +
+      'data-denom="' + d + '" ' +
+      'class="input-' + tipo + '"></td>' +
+      '<td class="subtotal-' + tipo + '" data-denom="' + d + '">$0</td>';
+    tbody.appendChild(fila);
+  }
+}
+
+function actualizarFirma(tipo) {
+  var cap = tipo.charAt(0).toUpperCase() + tipo.slice(1);
+  var resp = document.getElementById('responsable' + cap).value;
+  var contra = document.getElementById('contrapartida' + cap).value;
+  if (resp === '') resp = '-';
+  if (contra === '') contra = '-';
+  document.getElementById('firmaResp' + cap).textContent = resp;
+  document.getElementById('firmaContra' + cap).textContent = contra;
+}
+
+function calcular(tipo) {
+  var inputs = document.querySelectorAll('.input-' + tipo);
+  var total = 0;
+  for (var i = 0; i < inputs.length; i++) {
+    var inp = inputs[i];
+    var denom = parseInt(inp.getAttribute('data-denom'), 10);
+    var cant = parseInt(inp.value, 10) || 0;
+    var sub = denom * cant;
+    total += sub;
+    var celda = document.querySelector('.subtotal-' + tipo + '[data-denom="' + denom + '"]');
+    if (celda) celda.textContent = formatoMoneda(sub);
+  }
+  var cap = tipo.charAt(0).toUpperCase() + tipo.slice(1);
+  document.getElementById('total' + cap).textContent = formatoMoneda(total);
+  var sistema = parseInt(document.getElementById('sistema' + cap).value, 10) || 0;
+  var diferencia = total - sistema;
+  var elDif = document.getElementById('diferencia' + cap);
+  elDif.textContent = formatoMoneda(diferencia);
+  elDif.style.color = diferencia === 0 ? '#27ae60' : (diferencia > 0 ? '#2980b9' : '#c0392b');
+  return total;
+}
+
+function limpiar(tipo) {
+  var cap = tipo.charAt(0).toUpperCase() + tipo.slice(1);
+  var inputs = document.querySelectorAll('.input-' + tipo);
+  for (var i = 0; i < inputs.length; i++) inputs[i].value = 0;
+  document.getElementById('sistema' + cap).value = 0;
+  document.getElementById('obs' + cap).value = '';
+  calcular(tipo);
+}
+
+function guardar(tipo) {
+  var total = calcular(tipo);
+  var cap = tipo.charAt(0).toUpperCase() + tipo.slice(1);
+  var sistema = parseInt(document.getElementById('sistema' + cap).value, 10) || 0;
+  var diferencia = total - sistema;
+  var fechaISO = document.getElementById('fechaInput' + cap).value;
+  var responsable = document.getElementById('responsable' + cap).value;
+  var contrapartida = document.getElementById('contrapartida' + cap).value;
+
+  var detalles = {};
+  var inputs = document.querySelectorAll('.input-' + tipo);
+  for (var i = 0; i < inputs.length; i++) {
+    detalles[inputs[i].getAttribute('data-denom')] = parseInt(inputs[i].value, 10) || 0;
+  }
+
+  var registro = {
+    id: String(Date.now()) + String(Math.random()),
+    categoria: 'arqueo',
+    tipo: tipo === 'pagos' ? 'Arqueo - Pagos Menores' : 'Arqueo - Dietas',
+    entidad: 'AGESP',
+    fechaArqueo: fechaISO,
+    fechaArqueoTexto: formatearFecha(fechaISO),
+    fechaGuardado: fechaHoraGuardado(),
+    responsable: responsable,
+    cargoResponsable: 'Especialista B Gestion Economica',
+    contrapartida: contrapartida,
+    cargoContrapartida: 'Especialista Principal',
+    detalles: detalles,
+    total: total,
+    sistema: sistema,
+    diferencia: diferencia,
+    observaciones: document.getElementById('obs' + cap).value
+  };
+
+  var historial = obtenerHistorial();
+  historial.unshift(registro);
+  guardarHistorial(historial);
+  alert('Arqueo guardado en el historial.');
+}
+
+/* ==========================================================
+   VALES
+========================================================== */
+function crearFilaVales(tipo, datos) {
+  if (!datos) datos = {};
+  var tbody = document.getElementById('tabla' + tipo);
+  var tr = document.createElement('tr');
+  var fechaVal = datos.fecha ? datos.fecha : hoyISO();
+  var valeVal = datos.vale ? datos.vale : '';
+  var nombreVal = datos.nombre ? datos.nombre : '';
+  var descVal = datos.desc ? datos.desc : '';
+  var depVal = datos.dep ? datos.dep : 0;
+  var retVal = datos.ret ? datos.ret : 0;
+
+  tr.innerHTML =
+    '<td><input type="date" value="' + fechaVal + '" ' +
+    'onchange="recalcularVales(\'' + tipo + '\')"></td>' +
+    '<td><input type="text" value="' + valeVal + '"></td>' +
+    '<td><input type="text" value="' + nombreVal + '"></td>' +
+    '<td><input type="text" value="' + descVal + '"></td>' +
+    '<td><input type="number" class="num" min="0" value="' + depVal + '" ' +
+    'oninput="recalcularVales(\'' + tipo + '\')"></td>' +
+    '<td><input type="number" class="num" min="0" value="' + retVal + '" ' +
+    'oninput="recalcularVales(\'' + tipo + '\')"></td>' +
+    '<td class="exist-cell">$0</td>' +
+    '<td class="no-print"><button class="btn-eliminar-fila" ' +
+    'onclick="eliminarFilaVales(this, \'' + tipo + '\')">X</button></td>';
+  tbody.appendChild(tr);
+}
+
+function agregarFilaVales(tipo) {
+  crearFilaVales(tipo);
+  recalcularVales(tipo);
+}
+
+function eliminarFilaVales(btn, tipo) {
+  var tr = btn.parentNode.parentNode;
+  tr.parentNode.removeChild(tr);
+  recalcularVales(tipo);
+}
+
+function recalcularVales(tipo) {
+  var tbody = document.getElementById('tabla' + tipo);
+  var filas = tbody.querySelectorAll('tr');
+  var saldoInicial = parseFloat(document.getElementById('saldoInicial' + tipo).value) || 0;
+
+  var existencia = saldoInicial;
+  var totalDep = 0;
+  var totalRet = 0;
+
+  for (var i = 0; i < filas.length; i++) {
+    var tr = filas[i];
+    var inputs = tr.querySelectorAll('input');
+    var dep = parseFloat(inputs[4].value) || 0;
+    var ret = parseFloat(inputs[5].value) || 0;
+    existencia = existencia + dep - ret;
+    totalDep += dep;
+    totalRet += ret;
+    var celda = tr.querySelector('.exist-cell');
+    if (celda) celda.textContent = formatoMoneda(existencia);
+  }
+
+  document.getElementById('totDep' + tipo).textContent = formatoMoneda(totalDep);
+  document.getElementById('totRet' + tipo).textContent = formatoMoneda(totalRet);
+  document.getElementById('totExist' + tipo).textContent = formatoMoneda(existencia);
+  document.getElementById('existFinal' + tipo).textContent = formatoMoneda(existencia);
+}
+
+function limpiarVales(tipo) {
+  document.getElementById('tabla' + tipo).innerHTML = '';
+  document.getElementById('saldoInicial' + tipo).value = 0;
+  document.getElementById('obs' + tipo).value = '';
+  for (var i = 0; i < 5; i++) crearFilaVales(tipo);
+  recalcularVales(tipo);
+}
+
+function actualizarFirmaVales(tipo) {
+  var resp = document.getElementById('responsable' + tipo).value;
+  var contra = document.getElementById('contrapartida' + tipo).value;
+  if (resp === '') resp = '-';
+  if (contra === '') contra = '-';
+  document.getElementById('firmaResp' + tipo).textContent = resp;
+  document.getElementById('firmaContra' + tipo).textContent = contra;
+}
+
+function guardarVales(tipo) {
+  var tbody = document.getElementById('tabla' + tipo);
+  var filasDOM = tbody.querySelectorAll('tr');
+  var filas = [];
+
+  for (var i = 0; i < filasDOM.length; i++) {
+    var inputs = filasDOM[i].querySelectorAll('input');
+    var reg = {
+      fecha: inputs[0].value,
+      vale: inputs[1].value,
+      nombre: inputs[2].value,
+      desc: inputs[3].value,
+      dep: parseFloat(inputs[4].value) || 0,
+      ret: parseFloat(inputs[5].value) || 0
+    };
+    if (reg.vale || reg.nombre || reg.desc || reg.dep || reg.ret) {
+      filas.push(reg);
+    }
+  }
+
+  if (filas.length === 0) {
+    alert('No hay filas con datos para guardar.');
+    return;
+  }
+
+  var saldoInicial = parseFloat(document.getElementById('saldoInicial' + tipo).value) || 0;
+  var totalDep = 0, totalRet = 0;
+  for (var j = 0; j < filas.length; j++) {
+    totalDep += filas[j].dep;
+    totalRet += filas[j].ret;
+  }
+  var existFinal = saldoInicial + totalDep - totalRet;
+
+  var registro = {
+    id: String(Date.now()) + String(Math.random()),
+    categoria: 'vales',
+    tipo: tipo === 'ValesDieta' ? 'Vales - Dieta' : 'Vales - Pagos Menores',
+    entidad: 'AGESP',
+    fechaVales: document.getElementById('fechaInput' + tipo).value,
+    fechaValesTexto: formatearFecha(document.getElementById('fechaInput' + tipo).value),
+    fechaGuardado: fechaHoraGuardado(),
+    responsable: document.getElementById('responsable' + tipo).value,
+    cargoResponsable: 'Especialista B Gestion Economica',
+    contrapartida: document.getElementById('contrapartida' + tipo).value,
+    cargoContrapartida: 'Especialista Principal',
+    saldoInicial: saldoInicial,
+    filas: filas,
+    totalDep: totalDep,
+    totalRet: totalRet,
+    existFinal: existFinal,
+    observaciones: document.getElementById('obs' + tipo).value
+  };
+
+  var historial = obtenerHistorial();
+  historial.unshift(registro);
+  guardarHistorial(historial);
+  alert('Vales guardados en el historial.');
+}
+
+/* ==========================================================
+   NAVEGACION
+========================================================== */
+function mostrarSeccion(id) {
+  var secciones = document.querySelectorAll('.seccion');
+  for (var i = 0; i < secciones.length; i++) secciones[i].classList.remove('active');
+  var botones = document.querySelectorAll('.tabs button');
+  for (var j = 0; j < botones.length; j++) botones[j].classList.remove('active');
+  document.getElementById(id).classList.add('active');
+  var mapa = {
+    pagos: 'btnPagos',
+    dietas: 'btnDietas',
+    valesDieta: 'btnValesDieta',
+    valesPagos: 'btnValesPagos',
+    historial: 'btnHistorial'
+  };
+  if (mapa[id]) document.getElementById(mapa[id]).classList.add('active');
+  if (id === 'historial') renderHistorial();
+}
+
+function imprimir() { window.print(); }
+
+/* ==========================================================
+   HISTORIAL
+========================================================== */
+function obtenerHistorial() {
+  try {
+    return JSON.parse(localStorage.getItem(CLAVE_HISTORIAL) || '[]');
+  } catch (e) {
+    return [];
+  }
+}
+function guardarHistorial(arr) {
+  localStorage.setItem(CLAVE_HISTORIAL, JSON.stringify(arr));
+}
+
+function renderHistorial() {
+  var cont = document.getElementById('listaHistorial');
+  var historial = obtenerHistorial();
+  if (historial.length === 0) {
+    cont.innerHTML = '<p style="text-align:center; color:#888;">No hay registros guardados.</p>';
+    return;
+  }
+  var html = '';
+  for (var i = 0; i < historial.length; i++) {
+    var r = historial[i];
+    if (r.categoria === 'arqueo') {
+      var colorDif = r.diferencia === 0 ? '#27ae60' : (r.diferencia > 0 ? '#2980b9' : '#c0392b');
+      html += '<div class="item-historial">' +
+        '<div class="info">' +
+          '<strong>' + r.tipo + '</strong> - Fecha: ' + r.fechaArqueoTexto + '<br>' +
+          'Total contado: <strong>' + formatoMoneda(r.total) + '</strong> - ' +
+          'Sistema: ' + formatoMoneda(r.sistema) + ' - ' +
+          'Diferencia: <span style="color:' + colorDif + '">' + formatoMoneda(r.diferencia) + '</span><br>' +
+          'Responsable: ' + r.responsable + ' - Contrapartida: ' + r.contrapartida + '<br>' +
+          '<em style="color:#999;">Guardado: ' + r.fechaGuardado + '</em>' +
+        '</div>' +
+        '<div><button class="btn btn-danger" onclick="eliminarRegistro(\'' + r.id + '\')">Eliminar</button></div>' +
+      '</div>';
+    } else {
+      html += '<div class="item-historial">' +
+        '<div class="info">' +
+          '<strong>' + r.tipo + '</strong> - Fecha: ' + r.fechaValesTexto + '<br>' +
+          'Saldo inicial: ' + formatoMoneda(r.saldoInicial) + ' - ' +
+          'Depositos: <strong>' + formatoMoneda(r.totalDep) + '</strong> - ' +
+          'Retiros: <strong>' + formatoMoneda(r.totalRet) + '</strong> - ' +
+          'Existencia final: <strong>' + formatoMoneda(r.existFinal) + '</strong><br>' +
+          r.filas.length + ' movimiento(s) - Responsable: ' + r.responsable + '<br>' +
+          '<em style="color:#999;">Guardado: ' + r.fechaGuardado + '</em>' +
+        '</div>' +
+        '<div><button class="btn btn-danger" onclick="eliminarRegistro(\'' + r.id + '\')">Eliminar</button></div>' +
+      '</div>';
+    }
+  }
+  cont.innerHTML = html;
+}
+
+function eliminarRegistro(id) {
+  if (!confirm('Eliminar este registro del historial?')) return;
+  var historial = obtenerHistorial();
+  var nuevo = [];
+  for (var i = 0; i < historial.length; i++) {
+    if (String(historial[i].id) !== String(id)) nuevo.push(historial[i]);
+  }
+  guardarHistorial(nuevo);
+  renderHistorial();
+}
+
+function borrarHistorial() {
+  if (!confirm('Borrar TODO el historial? Esta accion no se puede deshacer.')) return;
+  localStorage.removeItem(CLAVE_HISTORIAL);
+  renderHistorial();
+}
+
+/* ==========================================================
+   RESPALDO / RESTAURACION
+========================================================== */
+function exportarRespaldo() {
+  var historial = obtenerHistorial();
+  var datos = {
+    app: 'AGESP - Control de Caja',
+    version: 1,
+    fechaExportacion: fechaHoraGuardado(),
+    totalRegistros: historial.length,
+    temaGuardado: localStorage.getItem(CLAVE_TEMA) || 'claro',
+    historial: historial
+  };
+
+  var texto = JSON.stringify(datos, null, 2);
+  var nombreArchivo = 'respaldo_agesp_' + hoyISO() + '.json';
+
+  try {
+    var blob = new Blob([texto], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = nombreArchivo;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
+    alert('Respaldo exportado: ' + nombreArchivo + '\n\nRegistros: ' + historial.length);
+  } catch (e) {
+    alert('No se pudo exportar el respaldo.\n' + e.message);
+  }
+}
+
+function importarRespaldo(input) {
+  if (!input.files || input.files.length === 0) return;
+  var archivo = input.files[0];
+  var lector = new FileReader();
+
+  lector.onload = function(evento) {
+    try {
+      var datos = JSON.parse(evento.target.result);
+
+      var historialNuevo = null;
+      var temaNuevo = null;
+
+      if (datos && datos.historial && datos.historial.length !== undefined) {
+        historialNuevo = datos.historial;
+        temaNuevo = datos.temaGuardado || null;
+      } else if (datos && datos.length !== undefined) {
+        historialNuevo = datos;
+      }
+
+      if (!historialNuevo) {
+        alert('El archivo no tiene un formato valido de respaldo.');
+        input.value = '';
+        return;
+      }
+
+      var opcion = confirm(
+        'Se encontraron ' + historialNuevo.length + ' registros en el archivo.\n\n' +
+        'Aceptar = REEMPLAZAR todo el historial actual\n' +
+        'Cancelar = CANCELAR la importacion'
+      );
+
+      if (!opcion) {
+        input.value = '';
+        return;
+      }
+
+      guardarHistorial(historialNuevo);
+
+      if (temaNuevo === 'oscuro' || temaNuevo === 'claro') {
+        localStorage.setItem(CLAVE_TEMA, temaNuevo);
+        aplicarTema(temaNuevo);
+      }
+
+      renderHistorial();
+      alert('Respaldo importado correctamente.\nRegistros: ' + historialNuevo.length);
+    } catch (e) {
+      alert('El archivo no es un JSON valido.\n' + e.message);
+    }
+    input.value = '';
+  };
+
+  lector.onerror = function() {
+    alert('No se pudo leer el archivo.');
+    input.value = '';
+  };
+
+  lector.readAsText(archivo);
+}
+
+/* ==========================================================
+   MODO CLARO / OSCURO
+========================================================== */
+function aplicarTema(tema) {
+  var body = document.body;
+  var btn = document.getElementById('btnTema');
+  if (tema === 'oscuro') {
+    body.classList.add('tema-oscuro');
+    if (btn) btn.innerHTML = 'Claro';
+  } else {
+    body.classList.remove('tema-oscuro');
+    if (btn) btn.innerHTML = 'Oscuro';
+  }
+}
+
+function alternarTema() {
+  var actual = localStorage.getItem(CLAVE_TEMA) || 'claro';
+  var nuevo = actual === 'oscuro' ? 'claro' : 'oscuro';
+  localStorage.setItem(CLAVE_TEMA, nuevo);
+  aplicarTema(nuevo);
+}
+
+/* Aplicar tema al cargar */
+(function() {
+  var guardado = localStorage.getItem(CLAVE_TEMA) || 'claro';
+  aplicarTema(guardado);
+})();
+
+/* ==========================================================
+   INICIALIZACION
+========================================================== */
+construirTabla('tablaPagos', 'pagos');
+construirTabla('tablaDietas', 'dietas');
+actualizarFirma('pagos');
+actualizarFirma('dietas');
+
+for (var k = 0; k < 5; k++) {
+  crearFilaVales('ValesDieta');
+  crearFilaVales('ValesPagos');
+}
+recalcularVales('ValesDieta');
+recalcularVales('ValesPagos');
+</script>
+</body>
+</html>
