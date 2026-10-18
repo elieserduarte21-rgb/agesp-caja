@@ -58,12 +58,6 @@
   .total-row td { font-weight: bold; background: #f0f4f8; font-size: 0.85rem; }
 
   .tabla-vales th, .tabla-vales td { padding: 3px 2px; font-size: 0.75rem; }
-  .tabla-vales td input { padding: 3px 2px; font-size: 0.75rem; }
-
-  .btn-eliminar-fila {
-    background: #c0392b; color: #fff; border: none;
-    border-radius: 4px; padding: 2px 6px; cursor: pointer; font-size: 0.7rem;
-  }
 
   .resumen {
     display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px;
@@ -130,7 +124,6 @@
   .status-msg.err { background: #f8d7da; color: #721c24; display: block; }
   .status-msg.info { background: #d1ecf1; color: #0c5460; display: block; }
 
-  /* [NUEVO] estilos para el formulario de alta de vales y estados */
   .form-vale {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -176,7 +169,6 @@
   .panel-saldo strong { color: #1e3a5f; }
   .panel-saldo .monto { font-size: 1.1rem; font-weight: bold; color: #27ae60; }
 
-  /* Modo oscuro */
   body.tema-oscuro { background: #1a1e26; color: #e6eaf0; }
   body.tema-oscuro header h1 { color: #7fb3ff; }
   body.tema-oscuro header p { color: #a8b0bd; }
@@ -229,7 +221,6 @@
     .seccion.active { display: block !important; }
     textarea { border: none; background: transparent; }
     .campo-editable { border: none; background: transparent; padding: 0; font-weight: bold; color: #1e3a5f; }
-    .tabla-vales td input { border: none; background: transparent; padding: 0; }
     .tabla-vales th, .tabla-vales td { border: 1px solid #999; padding: 2px; }
     .btn-eliminar-fila { display: none !important; }
     body.tema-oscuro { background: #fff; color: #000; }
@@ -265,7 +256,6 @@
   <div class="card">
     <h2>Arqueo - Pagos Menores</h2>
 
-    <!-- [NUEVO] panel de saldo según libros -->
     <div class="panel-saldo">
       <div><strong>Saldo según libros (vales):</strong><br><span class="monto" id="saldoLibrosPagos">$0</span></div>
       <div><strong>Fecha de cálculo:</strong><br><span id="fechaCalcPagos">-</span></div>
@@ -393,7 +383,7 @@
   </div>
 </div>
 
-<!-- ============ VALES DE DIETA (REDISEÑADO) ============ -->
+<!-- ============ VALES DE DIETA ============ -->
 <div id="valesDieta" class="seccion">
   <div class="card">
     <h2>Libro de Vales - Dieta</h2>
@@ -412,7 +402,6 @@
       </div>
     </div>
 
-    <!-- Filtro de fechas -->
     <div class="filtro-rango no-print">
       <div class="campo"><label>Desde</label><input type="date" id="filtroDesdeValesDieta"></div>
       <div class="campo"><label>Hasta</label><input type="date" id="filtroHastaValesDieta"></div>
@@ -420,7 +409,6 @@
       <button class="btn btn-secondary btn-sm" onclick="resetFiltroVales('Dieta')">Año actual</button>
     </div>
 
-    <!-- Formulario de alta -->
     <div class="form-vale no-print">
       <div class="campo"><label>Fecha</label><input type="date" id="nuevoFechaValesDieta"></div>
       <div class="campo"><label>No. Vale</label><input type="text" id="nuevoNoValeValesDieta"></div>
@@ -476,7 +464,7 @@
   </div>
 </div>
 
-<!-- ============ VALES DE PAGOS MENORES (REDISEÑADO) ============ -->
+<!-- ============ VALES DE PAGOS MENORES ============ -->
 <div id="valesPagos" class="seccion">
   <div class="card">
     <h2>Libro de Vales - Pagos Menores</h2>
@@ -619,13 +607,23 @@
   </div>
 </div>
 
+<!-- PRIMERO la librería de Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- DESPUÉS tu script -->
 <script>
 /* ==========================================================
    AGESP - Control de Caja (versión Supabase + Libro de Vales)
 ========================================================== */
-const SUPABASE_URL = 'https://psxeegtwzspcxrasuxka.supabase.co';   // <-- Reemplaza
-const SUPABASE_KEY = 'sb_publishable_2GdEMLwwDr1BJ1tLxsLgwA_4AgG4hCF';                 // <-- Reemplaza
+const SUPABASE_URL = 'https://psxeegtwzspcxrasuxka.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_2GdEMLwwDr1BJ1tLxsLgwA_4AgG4hCF';
+
+/* Verificar que la librería de Supabase se cargó */
+if (typeof supabase === 'undefined') {
+  alert('Error: no se pudo cargar la librería de Supabase. Revisa tu conexión a internet.');
+  throw new Error('Supabase JS no cargado');
+}
+
 const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
@@ -768,7 +766,6 @@ async function guardarConfig() {
   configActual = cfg;
   aplicarConfigAUI(cfg);
   mostrarStatus('Configuración guardada.', 'ok');
-  // recargar los saldos por si cambiaron los valores iniciales
   cargarVales('Dieta');
   cargarVales('PagosMenores');
 }
@@ -817,6 +814,15 @@ function actualizarFirma(tipo) {
   document.getElementById('cargoContra' + cap).textContent = configActual.contraCargo;
 }
 
+function actualizarFirmaVales(tipo) {
+  var resp = document.getElementById('responsable' + tipo).value || '-';
+  var contra = document.getElementById('contrapartida' + tipo).value || '-';
+  document.getElementById('firmaResp' + tipo).textContent = resp;
+  document.getElementById('firmaContra' + tipo).textContent = contra;
+  document.getElementById('cargoResp' + tipo).textContent = configActual.respCargo;
+  document.getElementById('cargoContra' + tipo).textContent = configActual.contraCargo;
+}
+
 function calcular(tipo) {
   var inputs = document.querySelectorAll('.input-' + tipo);
   var total = 0;
@@ -847,7 +853,6 @@ function limpiar(tipo) {
   calcular(tipo);
 }
 
-/* [NUEVO] Consulta la existencia final según vales hasta la fecha del arqueo */
 async function actualizarSaldoLibrosArqueo(tipo) {
   var esPagos = (tipo === 'pagos');
   var tipoVales = esPagos ? 'PagosMenores' : 'Dieta';
@@ -862,7 +867,6 @@ async function actualizarSaldoLibrosArqueo(tipo) {
   calcular(tipo);
 }
 
-/* Suma todos los depósitos - retiros hasta una fecha, respetando anulaciones */
 async function calcularExistenciaHasta(tipoVales, fechaHasta) {
   try {
     var { data, error } = await db.from('agesp_vales')
@@ -873,7 +877,6 @@ async function calcularExistenciaHasta(tipoVales, fechaHasta) {
       .order('created_at', { ascending: true });
     if (error) throw error;
 
-    // Calcular anulados
     var anulados = {};
     for (var i = 0; i < data.length; i++) {
       if (data[i].anula_a) anulados[data[i].anula_a] = true;
@@ -882,7 +885,7 @@ async function calcularExistenciaHasta(tipoVales, fechaHasta) {
     var saldo = 0, vigentes = 0;
     for (var j = 0; j < data.length; j++) {
       var m = data[j];
-      if (anulados[m.id]) continue; // el vale anulado no suma
+      if (anulados[m.id]) continue;
       saldo += (parseFloat(m.deposito) || 0) - (parseFloat(m.retiro) || 0);
       if (!m.anula_a) vigentes++;
     }
@@ -935,7 +938,7 @@ async function guardar(tipo) {
 }
 
 /* ==========================================================
-   LIBRO DE VALES (nuevo)
+   LIBRO DE VALES
 ========================================================== */
 async function cargarVales(tipoVales) {
   var esDieta = (tipoVales === 'Dieta');
@@ -945,7 +948,6 @@ async function cargarVales(tipoVales) {
   if (!desde) desde = primerDiaAnio();
   if (!hasta) hasta = hoyISO();
 
-  // Traer todos los movimientos hasta 'hasta' para calcular saldo inicial correcto
   var todos = [];
   try {
     var { data, error } = await db.from('agesp_vales')
@@ -961,13 +963,11 @@ async function cargarVales(tipoVales) {
     return;
   }
 
-  // Marcar anulados
   var anulados = {};
   for (var i = 0; i < todos.length; i++) {
     if (todos[i].anula_a) anulados[todos[i].anula_a] = true;
   }
 
-  // Saldo inicial del período (todo lo anterior a 'desde')
   var saldoIni = 0;
   for (var a = 0; a < todos.length; a++) {
     var m0 = todos[a];
@@ -977,7 +977,6 @@ async function cargarVales(tipoVales) {
     }
   }
 
-  // Filtrar el rango visible y calcular existencia corrida
   var visibles = [];
   var existencia = saldoIni;
   var totalDep = 0, totalRet = 0;
@@ -993,7 +992,6 @@ async function cargarVales(tipoVales) {
     visibles.push({ mov: m, existencia: existencia, anulado: esAnulado });
   }
 
-  // Render
   var tbody = document.getElementById('tablaVales' + sufijo);
   var html = '';
   if (visibles.length === 0) {
@@ -1001,21 +999,21 @@ async function cargarVales(tipoVales) {
   } else {
     for (var v = 0; v < visibles.length; v++) {
       var item = visibles[v];
-      var m = item.mov;
+      var m2 = item.mov;
       var clase = item.anulado ? ' class="fila-anulada"' : '';
       var estadoHtml = item.anulado
         ? '<span class="badge-anulado">ANULADO</span>'
-        : (m.anula_a ? '<span class="badge-anulado">CONTRAMOV.</span>' : '<span class="badge-vigente">VIGENTE</span>');
-      var accionHtml = (!item.anulado && !m.anula_a)
-        ? '<button class="btn btn-danger btn-sm no-print" onclick="anularVale(\'' + tipoVales + '\', \'' + m.id + '\')">Anular</button>'
+        : (m2.anula_a ? '<span class="badge-anulado">CONTRAMOV.</span>' : '<span class="badge-vigente">VIGENTE</span>');
+      var accionHtml = (!item.anulado && !m2.anula_a)
+        ? '<button class="btn btn-danger btn-sm no-print" onclick="anularVale(\'' + tipoVales + '\', \'' + m2.id + '\')">Anular</button>'
         : '';
       html += '<tr' + clase + '>' +
-        '<td>' + formatearFecha(m.fecha) + '</td>' +
-        '<td>' + (m.no_vale || '') + '</td>' +
-        '<td>' + (m.nombre || '') + '</td>' +
-        '<td>' + (m.descripcion || '') + '</td>' +
-        '<td>' + formatoMoneda(m.deposito) + '</td>' +
-        '<td>' + formatoMoneda(m.retiro) + '</td>' +
+        '<td>' + formatearFecha(m2.fecha) + '</td>' +
+        '<td>' + (m2.no_vale || '') + '</td>' +
+        '<td>' + (m2.nombre || '') + '</td>' +
+        '<td>' + (m2.descripcion || '') + '</td>' +
+        '<td>' + formatoMoneda(m2.deposito) + '</td>' +
+        '<td>' + formatoMoneda(m2.retiro) + '</td>' +
         '<td>' + formatoMoneda(item.existencia) + '</td>' +
         '<td class="estado">' + estadoHtml + '</td>' +
         '<td class="no-print">' + accionHtml + '</td>' +
@@ -1056,7 +1054,6 @@ async function registrarVale(tipoVales) {
     });
     if (error) throw error;
 
-    // limpiar formulario
     document.getElementById('nuevoNoValeVales' + sufijo).value = '';
     document.getElementById('nuevoNombreVales' + sufijo).value = '';
     document.getElementById('nuevoDescVales' + sufijo).value = '';
@@ -1066,7 +1063,6 @@ async function registrarVale(tipoVales) {
 
     mostrarStatus('Vale registrado.', 'ok');
     cargarVales(tipoVales);
-    // actualizar el panel del arqueo correspondiente
     actualizarSaldoLibrosArqueo(esDieta ? 'dietas' : 'pagos');
   } catch (e) {
     mostrarStatus('Error al registrar vale: ' + e.message, 'err');
@@ -1076,7 +1072,6 @@ async function registrarVale(tipoVales) {
 async function anularVale(tipoVales, idVale) {
   if (!confirm('¿Anular este vale? Se generará un contramovimiento con el signo contrario.')) return;
 
-  // Traer el vale original
   var original = null;
   try {
     var { data, error } = await db.from('agesp_vales').select('*').eq('id', idVale).maybeSingle();
@@ -1096,8 +1091,8 @@ async function anularVale(tipoVales, idVale) {
     no_vale: original.no_vale,
     nombre: original.nombre,
     descripcion: 'ANULACIÓN de vale ' + (original.no_vale || original.id),
-    deposito: parseFloat(original.retiro) || 0,  // invierte
-    retiro: parseFloat(original.deposito) || 0, // invierte
+    deposito: parseFloat(original.retiro) || 0,
+    retiro: parseFloat(original.deposito) || 0,
     anula_a: original.id,
     observaciones: 'Contramovimiento generado automáticamente'
   };
@@ -1232,15 +1227,6 @@ function aplicarTema(tema) {
   await actualizarSaldoLibrosArqueo('pagos');
   await actualizarSaldoLibrosArqueo('dietas');
 })();
-
-function actualizarFirmaVales(tipo) {
-  var resp = document.getElementById('responsable' + tipo).value || '-';
-  var contra = document.getElementById('contrapartida' + tipo).value || '-';
-  document.getElementById('firmaResp' + tipo).textContent = resp;
-  document.getElementById('firmaContra' + tipo).textContent = contra;
-  document.getElementById('cargoResp' + tipo).textContent = configActual.respCargo;
-  document.getElementById('cargoContra' + tipo).textContent = configActual.contraCargo;
-}
 </script>
 </body>
 </html>
