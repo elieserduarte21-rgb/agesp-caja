@@ -5,26 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Arqueo de Caja - AGESP</title>
 <style>
-  /* ====== Estilos: mantienen tu diseño original + pequeños añadidos ====== */
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f4f6f9;
-    color: #2c3e50;
-    padding: 15px;
-  }
+  body { font-family: Arial, Helvetica, sans-serif; background: #f4f6f9; color: #2c3e50; padding: 15px; }
   header { text-align: center; margin-bottom: 15px; }
   header h1 { color: #1e3a5f; font-size: 1.5rem; }
   header p { color: #666; font-size: 0.85rem; }
 
-  .tabs {
-    display: flex; justify-content: center; gap: 6px;
-    margin-bottom: 15px; flex-wrap: wrap;
-  }
+  .tabs { display: flex; justify-content: center; gap: 6px; margin-bottom: 15px; flex-wrap: wrap; }
   .tabs button {
-    padding: 9px 14px; border: none; background: #dbe4ee;
-    color: #1e3a5f; font-weight: bold; border-radius: 8px;
-    cursor: pointer; font-size: 0.8rem;
+    padding: 9px 14px; border: none; background: #dbe4ee; color: #1e3a5f;
+    font-weight: bold; border-radius: 8px; cursor: pointer; font-size: 0.8rem;
   }
   .tabs button.active { background: #1e3a5f; color: #fff; }
 
@@ -34,17 +24,14 @@
   .card {
     background: #fff; border-radius: 10px; padding: 15px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    max-width: 1100px; margin: 0 auto 15px auto;
+    max-width: 1200px; margin: 0 auto 15px auto;
   }
   .card h2 {
     color: #1e3a5f; margin-bottom: 12px; text-align: center;
     border-bottom: 2px solid #dbe4ee; padding-bottom: 8px; font-size: 1.1rem;
   }
 
-  .encabezado {
-    display: flex; flex-wrap: wrap; gap: 8px 15px;
-    margin-bottom: 12px; font-size: 0.85rem;
-  }
+  .encabezado { display: flex; flex-wrap: wrap; gap: 8px 15px; margin-bottom: 12px; font-size: 0.85rem; }
   .encabezado > div { flex: 1 1 45%; padding: 4px 0; }
   .encabezado strong { color: #1e3a5f; }
 
@@ -90,23 +77,14 @@
     margin-top: 8px; resize: vertical; min-height: 50px;
   }
 
-  .firmas {
-    display: flex; justify-content: space-between; gap: 30px;
-    margin-top: 40px; padding-top: 8px;
-  }
+  .firmas { display: flex; justify-content: space-between; gap: 30px; margin-top: 40px; padding-top: 8px; }
   .firma { flex: 1; text-align: center; font-size: 0.8rem; }
   .firma .linea { border-top: 1.5px solid #1e3a5f; margin-bottom: 5px; height: 35px; }
   .firma .nombre { font-weight: bold; color: #1e3a5f; font-size: 0.9rem; }
   .firma .cargo { color: #555; font-size: 0.75rem; margin-top: 2px; }
-  .firma .rol {
-    font-size: 0.7rem; color: #888; text-transform: uppercase;
-    letter-spacing: 1px; margin-bottom: 3px;
-  }
+  .firma .rol { font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
 
-  .acciones {
-    display: flex; justify-content: flex-end; gap: 8px;
-    margin-top: 12px; flex-wrap: wrap;
-  }
+  .acciones { display: flex; justify-content: flex-end; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
   .btn {
     padding: 9px 14px; border: none; border-radius: 6px;
     font-weight: bold; cursor: pointer; font-size: 0.8rem;
@@ -116,6 +94,7 @@
   .btn-secondary { background: #95a5a6; color: #fff; }
   .btn-danger { background: #c0392b; color: #fff; }
   .btn-info { background: #2980b9; color: #fff; }
+  .btn-sm { padding: 4px 8px; font-size: 0.72rem; }
 
   .item-historial {
     border: 1px solid #e0e6ed; border-radius: 6px; padding: 10px;
@@ -134,22 +113,14 @@
     color: #1e3a5f; font-size: 0.95rem; margin-bottom: 10px;
     border-bottom: 1px solid #dbe4ee; padding-bottom: 5px;
   }
-  .config-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 10px;
-  }
-  .config-campo label {
-    display: block; font-size: 0.78rem; font-weight: bold;
-    color: #1e3a5f; margin-bottom: 3px;
-  }
+  .config-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+  .config-campo label { display: block; font-size: 0.78rem; font-weight: bold; color: #1e3a5f; margin-bottom: 3px; }
   .config-campo input, .config-campo select {
     width: 100%; padding: 6px 8px; border: 1px solid #ccd6e0;
     border-radius: 5px; font-size: 0.85rem; font-family: inherit;
     color: #2c3e50; background: #fff;
   }
-  .config-campo input:focus, .config-campo select:focus {
-    outline: none; border-color: #1e3a5f;
-  }
+  .config-campo input:focus, .config-campo select:focus { outline: none; border-color: #1e3a5f; }
 
   .status-msg {
     text-align: center; padding: 8px; font-size: 0.85rem;
@@ -158,6 +129,52 @@
   .status-msg.ok { background: #d4edda; color: #155724; display: block; }
   .status-msg.err { background: #f8d7da; color: #721c24; display: block; }
   .status-msg.info { background: #d1ecf1; color: #0c5460; display: block; }
+
+  /* [NUEVO] estilos para el formulario de alta de vales y estados */
+  .form-vale {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 8px;
+    margin-bottom: 12px;
+    padding: 10px;
+    background: #f0f4f8;
+    border-radius: 6px;
+    align-items: end;
+  }
+  .form-vale .campo label {
+    display: block; font-size: 0.72rem; font-weight: bold; color: #1e3a5f; margin-bottom: 3px;
+  }
+  .form-vale .campo input {
+    width: 100%; padding: 5px 6px; border: 1px solid #ccd6e0;
+    border-radius: 5px; font-size: 0.8rem; font-family: inherit;
+  }
+  .form-vale .campo input:focus { outline: none; border-color: #1e3a5f; }
+
+  .fila-anulada td { opacity: 0.55; text-decoration: line-through; }
+  .fila-anulada td.estado { text-decoration: none; }
+  .badge-anulado { color: #c0392b; font-weight: bold; font-size: 0.7rem; }
+  .badge-vigente { color: #27ae60; font-weight: bold; font-size: 0.7rem; }
+
+  .filtro-rango {
+    display: flex; flex-wrap: wrap; gap: 8px; align-items: end;
+    margin-bottom: 10px; padding: 10px; background: #f0f4f8; border-radius: 6px;
+  }
+  .filtro-rango .campo label {
+    display: block; font-size: 0.72rem; font-weight: bold; color: #1e3a5f; margin-bottom: 3px;
+  }
+  .filtro-rango .campo input {
+    padding: 5px 6px; border: 1px solid #ccd6e0; border-radius: 5px;
+    font-size: 0.8rem; font-family: inherit;
+  }
+
+  .panel-saldo {
+    display: flex; flex-wrap: wrap; gap: 15px;
+    padding: 10px; background: #e8f4fd; border-radius: 6px;
+    border: 1px solid #b8d8f0; margin-bottom: 12px; font-size: 0.85rem;
+  }
+  .panel-saldo > div { flex: 1 1 30%; }
+  .panel-saldo strong { color: #1e3a5f; }
+  .panel-saldo .monto { font-size: 1.1rem; font-weight: bold; color: #27ae60; }
 
   /* Modo oscuro */
   body.tema-oscuro { background: #1a1e26; color: #e6eaf0; }
@@ -168,8 +185,7 @@
   body.tema-oscuro .card { background: #232a36; box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
   body.tema-oscuro .card h2 { color: #7fb3ff; border-bottom-color: #2a3140; }
   body.tema-oscuro .encabezado strong { color: #7fb3ff; }
-  body.tema-oscuro .encabezado input,
-  body.tema-oscuro .campo-editable {
+  body.tema-oscuro .encabezado input, body.tema-oscuro .campo-editable {
     background: #2a3140; border-color: #3a4252; color: #e6eaf0;
   }
   body.tema-oscuro .campo-editable:focus { border-color: #7fb3ff; background: #2f3849; }
@@ -190,38 +206,39 @@
   body.tema-oscuro .config-grupo { background: #2a3140; border-color: #3a4252; }
   body.tema-oscuro .config-grupo h3 { color: #7fb3ff; border-bottom-color: #3a4252; }
   body.tema-oscuro .config-campo label { color: #7fb3ff; }
-  body.tema-oscuro .config-campo input,
-  body.tema-oscuro .config-campo select {
+  body.tema-oscuro .config-campo input, body.tema-oscuro .config-campo select {
     background: #232a36; border-color: #3a4252; color: #e6eaf0;
   }
   body.tema-oscuro .status-msg.ok { background: #1e3a2a; color: #7fdb9a; }
   body.tema-oscuro .status-msg.err { background: #3a1e1e; color: #f7a8a8; }
   body.tema-oscuro .status-msg.info { background: #1e2a3a; color: #a8d0f0; }
+  body.tema-oscuro .form-vale { background: #2a3140; }
+  body.tema-oscuro .form-vale .campo label { color: #7fb3ff; }
+  body.tema-oscuro .form-vale .campo input { background: #232a36; border-color: #3a4252; color: #e6eaf0; }
+  body.tema-oscuro .filtro-rango { background: #2a3140; }
+  body.tema-oscuro .filtro-rango .campo label { color: #7fb3ff; }
+  body.tema-oscuro .filtro-rango .campo input { background: #232a36; border-color: #3a4252; color: #e6eaf0; }
+  body.tema-oscuro .panel-saldo { background: #1e2a3a; border-color: #3a4252; color: #c7d2e0; }
+  body.tema-oscuro .panel-saldo strong { color: #7fb3ff; }
 
   @media print {
     body { background: #fff; padding: 0; }
-    .tabs, .acciones, header p, .no-print, .status-msg { display: none !important; }
+    .tabs, .acciones, header p, .no-print, .status-msg, .form-vale, .filtro-rango { display: none !important; }
     .card { box-shadow: none; max-width: 100%; page-break-inside: avoid; padding: 8px; }
     .seccion { display: none !important; }
     .seccion.active { display: block !important; }
     textarea { border: none; background: transparent; }
-    .campo-editable {
-      border: none; background: transparent; padding: 0;
-      font-weight: bold; color: #1e3a5f;
-    }
+    .campo-editable { border: none; background: transparent; padding: 0; font-weight: bold; color: #1e3a5f; }
     .tabla-vales td input { border: none; background: transparent; padding: 0; }
     .tabla-vales th, .tabla-vales td { border: 1px solid #999; padding: 2px; }
     .btn-eliminar-fila { display: none !important; }
     body.tema-oscuro { background: #fff; color: #000; }
     body.tema-oscuro .card { background: #fff; }
     body.tema-oscuro table th { background: #1e3a5f; color: #fff; }
-    body.tema-oscuro td input,
-    body.tema-oscuro .campo-editable {
+    body.tema-oscuro td input, body.tema-oscuro .campo-editable {
       background: transparent; color: #000; border: none;
     }
-    body.tema-oscuro .encabezado strong,
-    body.tema-oscuro .card h2,
-    body.tema-oscuro .firma .nombre { color: #1e3a5f; }
+    body.tema-oscuro .encabezado strong, body.tema-oscuro .card h2, body.tema-oscuro .firma .nombre { color: #1e3a5f; }
   }
 </style>
 </head>
@@ -237,7 +254,7 @@
   <button id="btnDietas" onclick="mostrarSeccion('dietas')">Arqueo Dietas</button>
   <button id="btnValesDieta" onclick="mostrarSeccion('valesDieta')">Vales Dieta</button>
   <button id="btnValesPagos" onclick="mostrarSeccion('valesPagos')">Vales Pagos Menores</button>
-  <button id="btnHistorial" onclick="mostrarSeccion('historial')">Historial</button>
+  <button id="btnHistorial" onclick="mostrarSeccion('historial')">Historial Arqueos</button>
   <button id="btnConfig" onclick="mostrarSeccion('configuracion')">⚙️ Configuración</button>
 </div>
 
@@ -248,65 +265,55 @@
   <div class="card">
     <h2>Arqueo - Pagos Menores</h2>
 
+    <!-- [NUEVO] panel de saldo según libros -->
+    <div class="panel-saldo">
+      <div><strong>Saldo según libros (vales):</strong><br><span class="monto" id="saldoLibrosPagos">$0</span></div>
+      <div><strong>Fecha de cálculo:</strong><br><span id="fechaCalcPagos">-</span></div>
+      <div><strong>Movimientos vigentes:</strong><br><span id="movVigentesPagos">0</span></div>
+    </div>
+
     <div class="encabezado">
       <div><strong>Entidad:</strong> <span class="entidad-nombre">AGESP</span></div>
       <div><strong>NIT:</strong> <span class="entidad-nit">-</span></div>
       <div><strong>REEUP:</strong> <span class="entidad-reeup">-</span></div>
       <div>
         <strong>Fecha del arqueo:</strong>
-        <input type="date" id="fechaInputPagos" class="campo-editable"
-               oninput="actualizarFirma('pagos')">
+        <input type="date" id="fechaInputPagos" class="campo-editable" oninput="actualizarFirma('pagos'); actualizarSaldoLibrosArqueo('pagos')">
       </div>
       <div>
         <strong>Responsable:</strong>
-        <input type="text" id="responsablePagos" class="campo-editable"
-               value="Elieser Duarte Lopez"
-               oninput="actualizarFirma('pagos')">
+        <input type="text" id="responsablePagos" class="campo-editable" value="Elieser Duarte Lopez" oninput="actualizarFirma('pagos')">
       </div>
       <div>
         <strong>Contrapartida:</strong>
-        <input type="text" id="contrapartidaPagos" class="campo-editable"
-               value="Especialista Principal"
-               oninput="actualizarFirma('pagos')">
+        <input type="text" id="contrapartidaPagos" class="campo-editable" value="Especialista Principal" oninput="actualizarFirma('pagos')">
       </div>
     </div>
 
     <table>
-      <thead>
-        <tr><th>Denominacion</th><th>Cantidad</th><th>Subtotal</th></tr>
-      </thead>
+      <thead><tr><th>Denominacion</th><th>Cantidad</th><th>Subtotal</th></tr></thead>
       <tbody id="tablaPagos"></tbody>
-      <tfoot>
-        <tr class="total-row">
-          <td colspan="2">TOTAL CONTADO</td>
-          <td id="totalPagos">$0</td>
-        </tr>
-      </tfoot>
+      <tfoot><tr class="total-row"><td colspan="2">TOTAL CONTADO</td><td id="totalPagos">$0</td></tr></tfoot>
     </table>
 
     <div class="resumen">
       <div><strong>Efectivo sistema:</strong>
-        <input type="number" id="sistemaPagos" value="0" min="0"
-               oninput="calcular('pagos')"
-               style="width:110px; padding:4px; border:1px solid #ccd6e0; border-radius:5px;">
+        <input type="number" id="sistemaPagos" value="0" min="0" oninput="calcular('pagos')"
+               style="width:120px; padding:4px; border:1px solid #ccd6e0; border-radius:5px;">
       </div>
-      <div><strong>Diferencia:</strong>
-        <span id="diferenciaPagos">$0</span>
-      </div>
+      <div><strong>Diferencia:</strong> <span id="diferenciaPagos">$0</span></div>
     </div>
 
     <textarea class="obs" id="obsPagos" placeholder="Observaciones..."></textarea>
 
     <div class="firmas">
       <div class="firma">
-        <div class="linea"></div>
-        <div class="rol">Responsable</div>
+        <div class="linea"></div><div class="rol">Responsable</div>
         <div class="nombre" id="firmaRespPagos">Elieser Duarte Lopez</div>
         <div class="cargo" id="cargoRespPagos">Especialista B Gestion Economica</div>
       </div>
       <div class="firma">
-        <div class="linea"></div>
-        <div class="rol">Contrapartida</div>
+        <div class="linea"></div><div class="rol">Contrapartida</div>
         <div class="nombre" id="firmaContraPagos">Especialista Principal</div>
         <div class="cargo" id="cargoContraPagos">Especialista Principal</div>
       </div>
@@ -325,65 +332,54 @@
   <div class="card">
     <h2>Arqueo - Dietas</h2>
 
+    <div class="panel-saldo">
+      <div><strong>Saldo según libros (vales):</strong><br><span class="monto" id="saldoLibrosDietas">$0</span></div>
+      <div><strong>Fecha de cálculo:</strong><br><span id="fechaCalcDietas">-</span></div>
+      <div><strong>Movimientos vigentes:</strong><br><span id="movVigentesDietas">0</span></div>
+    </div>
+
     <div class="encabezado">
       <div><strong>Entidad:</strong> <span class="entidad-nombre">AGESP</span></div>
       <div><strong>NIT:</strong> <span class="entidad-nit">-</span></div>
       <div><strong>REEUP:</strong> <span class="entidad-reeup">-</span></div>
       <div>
         <strong>Fecha del arqueo:</strong>
-        <input type="date" id="fechaInputDietas" class="campo-editable"
-               oninput="actualizarFirma('dietas')">
+        <input type="date" id="fechaInputDietas" class="campo-editable" oninput="actualizarFirma('dietas'); actualizarSaldoLibrosArqueo('dietas')">
       </div>
       <div>
         <strong>Responsable:</strong>
-        <input type="text" id="responsableDietas" class="campo-editable"
-               value="Elieser Duarte Lopez"
-               oninput="actualizarFirma('dietas')">
+        <input type="text" id="responsableDietas" class="campo-editable" value="Elieser Duarte Lopez" oninput="actualizarFirma('dietas')">
       </div>
       <div>
         <strong>Contrapartida:</strong>
-        <input type="text" id="contrapartidaDietas" class="campo-editable"
-               value="Especialista Principal"
-               oninput="actualizarFirma('dietas')">
+        <input type="text" id="contrapartidaDietas" class="campo-editable" value="Especialista Principal" oninput="actualizarFirma('dietas')">
       </div>
     </div>
 
     <table>
-      <thead>
-        <tr><th>Denominacion</th><th>Cantidad</th><th>Subtotal</th></tr>
-      </thead>
+      <thead><tr><th>Denominacion</th><th>Cantidad</th><th>Subtotal</th></tr></thead>
       <tbody id="tablaDietas"></tbody>
-      <tfoot>
-        <tr class="total-row">
-          <td colspan="2">TOTAL CONTADO</td>
-          <td id="totalDietas">$0</td>
-        </tr>
-      </tfoot>
+      <tfoot><tr class="total-row"><td colspan="2">TOTAL CONTADO</td><td id="totalDietas">$0</td></tr></tfoot>
     </table>
 
     <div class="resumen">
       <div><strong>Efectivo sistema:</strong>
-        <input type="number" id="sistemaDietas" value="0" min="0"
-               oninput="calcular('dietas')"
-               style="width:110px; padding:4px; border:1px solid #ccd6e0; border-radius:5px;">
+        <input type="number" id="sistemaDietas" value="0" min="0" oninput="calcular('dietas')"
+               style="width:120px; padding:4px; border:1px solid #ccd6e0; border-radius:5px;">
       </div>
-      <div><strong>Diferencia:</strong>
-        <span id="diferenciaDietas">$0</span>
-      </div>
+      <div><strong>Diferencia:</strong> <span id="diferenciaDietas">$0</span></div>
     </div>
 
     <textarea class="obs" id="obsDietas" placeholder="Observaciones..."></textarea>
 
     <div class="firmas">
       <div class="firma">
-        <div class="linea"></div>
-        <div class="rol">Responsable</div>
+        <div class="linea"></div><div class="rol">Responsable</div>
         <div class="nombre" id="firmaRespDietas">Elieser Duarte Lopez</div>
         <div class="cargo" id="cargoRespDietas">Especialista B Gestion Economica</div>
       </div>
       <div class="firma">
-        <div class="linea"></div>
-        <div class="rol">Contrapartida</div>
+        <div class="linea"></div><div class="rol">Contrapartida</div>
         <div class="nombre" id="firmaContraDietas">Especialista Principal</div>
         <div class="cargo" id="cargoContraDietas">Especialista Principal</div>
       </div>
@@ -397,37 +393,56 @@
   </div>
 </div>
 
-<!-- ============ VALES DE DIETA ============ -->
+<!-- ============ VALES DE DIETA (REDISEÑADO) ============ -->
 <div id="valesDieta" class="seccion">
   <div class="card">
-    <h2>Vales de Salida - Dieta</h2>
+    <h2>Libro de Vales - Dieta</h2>
 
     <div class="encabezado">
       <div><strong>Entidad:</strong> <span class="entidad-nombre">AGESP</span></div>
       <div><strong>NIT:</strong> <span class="entidad-nit">-</span></div>
       <div><strong>REEUP:</strong> <span class="entidad-reeup">-</span></div>
       <div>
-        <strong>Fecha:</strong>
-        <input type="date" id="fechaInputValesDieta" class="campo-editable">
-      </div>
-      <div>
         <strong>Responsable:</strong>
-        <input type="text" id="responsableValesDieta" class="campo-editable"
-               value="Elieser Duarte Lopez" oninput="actualizarFirmaVales('ValesDieta')">
+        <input type="text" id="responsableValesDieta" class="campo-editable" value="Elieser Duarte Lopez" oninput="actualizarFirmaVales('ValesDieta')">
       </div>
       <div>
         <strong>Contrapartida:</strong>
-        <input type="text" id="contrapartidaValesDieta" class="campo-editable"
-               value="Especialista Principal" oninput="actualizarFirmaVales('ValesDieta')">
+        <input type="text" id="contrapartidaValesDieta" class="campo-editable" value="Especialista Principal" oninput="actualizarFirmaVales('ValesDieta')">
       </div>
+    </div>
+
+    <!-- Filtro de fechas -->
+    <div class="filtro-rango no-print">
+      <div class="campo"><label>Desde</label><input type="date" id="filtroDesdeValesDieta"></div>
+      <div class="campo"><label>Hasta</label><input type="date" id="filtroHastaValesDieta"></div>
+      <button class="btn btn-info btn-sm" onclick="cargarVales('Dieta')">Aplicar filtro</button>
+      <button class="btn btn-secondary btn-sm" onclick="resetFiltroVales('Dieta')">Año actual</button>
+    </div>
+
+    <!-- Formulario de alta -->
+    <div class="form-vale no-print">
+      <div class="campo"><label>Fecha</label><input type="date" id="nuevoFechaValesDieta"></div>
+      <div class="campo"><label>No. Vale</label><input type="text" id="nuevoNoValeValesDieta"></div>
+      <div class="campo"><label>Nombre</label><input type="text" id="nuevoNombreValesDieta"></div>
+      <div class="campo"><label>Descripción</label><input type="text" id="nuevoDescValesDieta"></div>
+      <div class="campo"><label>Depósito</label><input type="number" min="0" value="0" id="nuevoDepValesDieta"></div>
+      <div class="campo"><label>Retiro</label><input type="number" min="0" value="0" id="nuevoRetValesDieta"></div>
+      <button class="btn btn-success" onclick="registrarVale('Dieta')">Registrar vale</button>
+    </div>
+
+    <div class="panel-saldo">
+      <div><strong>Saldo inicial del período:</strong><br><span id="saldoIniDieta">$0</span></div>
+      <div><strong>Existencia final:</strong><br><span class="monto" id="saldoFinDieta">$0</span></div>
+      <div><strong>Movimientos mostrados:</strong><br><span id="numMovDieta">0</span></div>
     </div>
 
     <table class="tabla-vales">
       <thead>
         <tr>
-          <th>Fecha</th><th>No. Vale</th><th>Nombre</th><th>Descripcion</th>
-          <th>Deposito</th><th>Retiro</th><th>Existencia</th>
-          <th class="no-print">X</th>
+          <th>Fecha</th><th>No. Vale</th><th>Nombre</th><th>Descripción</th>
+          <th>Depósito</th><th>Retiro</th><th>Existencia</th><th>Estado</th>
+          <th class="no-print">Acción</th>
         </tr>
       </thead>
       <tbody id="tablaValesDieta"></tbody>
@@ -437,41 +452,23 @@
           <td id="totDepValesDieta">$0</td>
           <td id="totRetValesDieta">$0</td>
           <td id="totExistValesDieta">$0</td>
-          <td class="no-print"></td>
+          <td></td><td class="no-print"></td>
         </tr>
       </tfoot>
     </table>
 
-    <div class="resumen">
-      <div><strong>Saldo inicial en caja:</strong>
-        <input type="number" id="saldoInicialValesDieta" value="0" min="0"
-               oninput="recalcularVales('ValesDieta')"
-               style="width:120px; padding:4px; border:1px solid #ccd6e0; border-radius:5px;">
-      </div>
-      <div><strong>Existencia final:</strong>
-        <span id="existFinalValesDieta">$0</span>
-      </div>
-    </div>
-
-    <textarea class="obs" id="obsValesDieta" placeholder="Observaciones..."></textarea>
-
     <div class="acciones no-print">
-      <button class="btn btn-info" onclick="agregarFilaVales('ValesDieta')">Agregar fila</button>
-      <button class="btn btn-secondary" onclick="limpiarVales('ValesDieta')">Limpiar</button>
-      <button class="btn btn-success" onclick="guardarVales('ValesDieta')">Guardar</button>
       <button class="btn btn-primary" onclick="imprimir()">Imprimir</button>
     </div>
 
     <div class="firmas">
       <div class="firma">
-        <div class="linea"></div>
-        <div class="rol">Responsable</div>
+        <div class="linea"></div><div class="rol">Responsable</div>
         <div class="nombre" id="firmaRespValesDieta">Elieser Duarte Lopez</div>
         <div class="cargo" id="cargoRespValesDieta">Especialista B Gestion Economica</div>
       </div>
       <div class="firma">
-        <div class="linea"></div>
-        <div class="rol">Contrapartida</div>
+        <div class="linea"></div><div class="rol">Contrapartida</div>
         <div class="nombre" id="firmaContraValesDieta">Especialista Principal</div>
         <div class="cargo" id="cargoContraValesDieta">Especialista Principal</div>
       </div>
@@ -479,37 +476,54 @@
   </div>
 </div>
 
-<!-- ============ VALES DE PAGOS MENORES ============ -->
+<!-- ============ VALES DE PAGOS MENORES (REDISEÑADO) ============ -->
 <div id="valesPagos" class="seccion">
   <div class="card">
-    <h2>Vales de Salida - Pagos Menores</h2>
+    <h2>Libro de Vales - Pagos Menores</h2>
 
     <div class="encabezado">
       <div><strong>Entidad:</strong> <span class="entidad-nombre">AGESP</span></div>
       <div><strong>NIT:</strong> <span class="entidad-nit">-</span></div>
       <div><strong>REEUP:</strong> <span class="entidad-reeup">-</span></div>
       <div>
-        <strong>Fecha:</strong>
-        <input type="date" id="fechaInputValesPagos" class="campo-editable">
-      </div>
-      <div>
         <strong>Responsable:</strong>
-        <input type="text" id="responsableValesPagos" class="campo-editable"
-               value="Elieser Duarte Lopez" oninput="actualizarFirmaVales('ValesPagos')">
+        <input type="text" id="responsableValesPagos" class="campo-editable" value="Elieser Duarte Lopez" oninput="actualizarFirmaVales('ValesPagos')">
       </div>
       <div>
         <strong>Contrapartida:</strong>
-        <input type="text" id="contrapartidaValesPagos" class="campo-editable"
-               value="Especialista Principal" oninput="actualizarFirmaVales('ValesPagos')">
+        <input type="text" id="contrapartidaValesPagos" class="campo-editable" value="Especialista Principal" oninput="actualizarFirmaVales('ValesPagos')">
       </div>
+    </div>
+
+    <div class="filtro-rango no-print">
+      <div class="campo"><label>Desde</label><input type="date" id="filtroDesdeValesPagos"></div>
+      <div class="campo"><label>Hasta</label><input type="date" id="filtroHastaValesPagos"></div>
+      <button class="btn btn-info btn-sm" onclick="cargarVales('PagosMenores')">Aplicar filtro</button>
+      <button class="btn btn-secondary btn-sm" onclick="resetFiltroVales('PagosMenores')">Año actual</button>
+    </div>
+
+    <div class="form-vale no-print">
+      <div class="campo"><label>Fecha</label><input type="date" id="nuevoFechaValesPagos"></div>
+      <div class="campo"><label>No. Vale</label><input type="text" id="nuevoNoValeValesPagos"></div>
+      <div class="campo"><label>Nombre</label><input type="text" id="nuevoNombreValesPagos"></div>
+      <div class="campo"><label>Descripción</label><input type="text" id="nuevoDescValesPagos"></div>
+      <div class="campo"><label>Depósito</label><input type="number" min="0" value="0" id="nuevoDepValesPagos"></div>
+      <div class="campo"><label>Retiro</label><input type="number" min="0" value="0" id="nuevoRetValesPagos"></div>
+      <button class="btn btn-success" onclick="registrarVale('PagosMenores')">Registrar vale</button>
+    </div>
+
+    <div class="panel-saldo">
+      <div><strong>Saldo inicial del período:</strong><br><span id="saldoIniPagos">$0</span></div>
+      <div><strong>Existencia final:</strong><br><span class="monto" id="saldoFinPagos">$0</span></div>
+      <div><strong>Movimientos mostrados:</strong><br><span id="numMovPagos">0</span></div>
     </div>
 
     <table class="tabla-vales">
       <thead>
         <tr>
-          <th>Fecha</th><th>No. Vale</th><th>Nombre</th><th>Descripcion</th>
-          <th>Deposito</th><th>Retiro</th><th>Existencia</th>
-          <th class="no-print">X</th>
+          <th>Fecha</th><th>No. Vale</th><th>Nombre</th><th>Descripción</th>
+          <th>Depósito</th><th>Retiro</th><th>Existencia</th><th>Estado</th>
+          <th class="no-print">Acción</th>
         </tr>
       </thead>
       <tbody id="tablaValesPagos"></tbody>
@@ -519,41 +533,23 @@
           <td id="totDepValesPagos">$0</td>
           <td id="totRetValesPagos">$0</td>
           <td id="totExistValesPagos">$0</td>
-          <td class="no-print"></td>
+          <td></td><td class="no-print"></td>
         </tr>
       </tfoot>
     </table>
 
-    <div class="resumen">
-      <div><strong>Saldo inicial en caja:</strong>
-        <input type="number" id="saldoInicialValesPagos" value="0" min="0"
-               oninput="recalcularVales('ValesPagos')"
-               style="width:120px; padding:4px; border:1px solid #ccd6e0; border-radius:5px;">
-      </div>
-      <div><strong>Existencia final:</strong>
-        <span id="existFinalValesPagos">$0</span>
-      </div>
-    </div>
-
-    <textarea class="obs" id="obsValesPagos" placeholder="Observaciones..."></textarea>
-
     <div class="acciones no-print">
-      <button class="btn btn-info" onclick="agregarFilaVales('ValesPagos')">Agregar fila</button>
-      <button class="btn btn-secondary" onclick="limpiarVales('ValesPagos')">Limpiar</button>
-      <button class="btn btn-success" onclick="guardarVales('ValesPagos')">Guardar</button>
       <button class="btn btn-primary" onclick="imprimir()">Imprimir</button>
     </div>
 
     <div class="firmas">
       <div class="firma">
-        <div class="linea"></div>
-        <div class="rol">Responsable</div>
+        <div class="linea"></div><div class="rol">Responsable</div>
         <div class="nombre" id="firmaRespValesPagos">Elieser Duarte Lopez</div>
         <div class="cargo" id="cargoRespValesPagos">Especialista B Gestion Economica</div>
       </div>
       <div class="firma">
-        <div class="linea"></div>
-        <div class="rol">Contrapartida</div>
+        <div class="linea"></div><div class="rol">Contrapartida</div>
         <div class="nombre" id="firmaContraValesPagos">Especialista Principal</div>
         <div class="cargo" id="cargoContraValesPagos">Especialista Principal</div>
       </div>
@@ -561,19 +557,13 @@
   </div>
 </div>
 
-<!-- ============ HISTORIAL ============ -->
+<!-- ============ HISTORIAL ARQUEOS ============ -->
 <div id="historial" class="seccion">
   <div class="card">
     <h2>Historial de Arqueos</h2>
-
     <div class="acciones no-print" style="justify-content: flex-start; margin-bottom: 12px;">
-      <button class="btn btn-info" onclick="exportarRespaldo()">Exportar respaldo</button>
-      <button class="btn btn-info" onclick="document.getElementById('archivoImportar').click()">Importar respaldo</button>
-      <input type="file" id="archivoImportar" accept=".json,application/json"
-             style="display:none" onchange="importarRespaldo(this)">
       <button class="btn btn-danger" onclick="borrarHistorial()">Borrar todo</button>
     </div>
-
     <div id="listaHistorial"></div>
   </div>
 </div>
@@ -586,62 +576,29 @@
     <div class="config-grupo">
       <h3>Datos de la Entidad</h3>
       <div class="config-grid">
-        <div class="config-campo">
-          <label for="cfgEntidad">Nombre de la entidad</label>
-          <input type="text" id="cfgEntidad" value="AGESP">
-        </div>
-        <div class="config-campo">
-          <label for="cfgNit">NIT</label>
-          <input type="text" id="cfgNit" value="">
-        </div>
-        <div class="config-campo">
-          <label for="cfgReeup">REEUP</label>
-          <input type="text" id="cfgReeup" value="">
-        </div>
+        <div class="config-campo"><label for="cfgEntidad">Nombre de la entidad</label><input type="text" id="cfgEntidad"></div>
+        <div class="config-campo"><label for="cfgNit">NIT</label><input type="text" id="cfgNit"></div>
+        <div class="config-campo"><label for="cfgReeup">REEUP</label><input type="text" id="cfgReeup"></div>
       </div>
     </div>
 
     <div class="config-grupo">
       <h3>Firmantes</h3>
       <div class="config-grid">
-        <div class="config-campo">
-          <label for="cfgRespNombre">Nombre del Responsable</label>
-          <input type="text" id="cfgRespNombre" value="Elieser Duarte Lopez">
-        </div>
-        <div class="config-campo">
-          <label for="cfgRespCargo">Cargo del Responsable</label>
-          <input type="text" id="cfgRespCargo" value="Especialista B Gestion Economica">
-        </div>
-        <div class="config-campo">
-          <label for="cfgContraNombre">Nombre de la Contrapartida</label>
-          <input type="text" id="cfgContraNombre" value="Especialista Principal">
-        </div>
-        <div class="config-campo">
-          <label for="cfgContraCargo">Cargo de la Contrapartida</label>
-          <input type="text" id="cfgContraCargo" value="Especialista Principal">
-        </div>
+        <div class="config-campo"><label for="cfgRespNombre">Nombre del Responsable</label><input type="text" id="cfgRespNombre"></div>
+        <div class="config-campo"><label for="cfgRespCargo">Cargo del Responsable</label><input type="text" id="cfgRespCargo"></div>
+        <div class="config-campo"><label for="cfgContraNombre">Nombre de la Contrapartida</label><input type="text" id="cfgContraNombre"></div>
+        <div class="config-campo"><label for="cfgContraCargo">Cargo de la Contrapartida</label><input type="text" id="cfgContraCargo"></div>
       </div>
     </div>
 
     <div class="config-grupo">
       <h3>Importes por Defecto</h3>
       <div class="config-grid">
-        <div class="config-campo">
-          <label for="cfgEfectivoPagos">Efectivo sistema por defecto - Arqueo Pagos</label>
-          <input type="number" id="cfgEfectivoPagos" value="0" min="0">
-        </div>
-        <div class="config-campo">
-          <label for="cfgEfectivoDietas">Efectivo sistema por defecto - Arqueo Dietas</label>
-          <input type="number" id="cfgEfectivoDietas" value="0" min="0">
-        </div>
-        <div class="config-campo">
-          <label for="cfgSaldoValesDieta">Saldo inicial por defecto - Vales Dieta</label>
-          <input type="number" id="cfgSaldoValesDieta" value="0" min="0">
-        </div>
-        <div class="config-campo">
-          <label for="cfgSaldoValesPagos">Saldo inicial por defecto - Vales Pagos Menores</label>
-          <input type="number" id="cfgSaldoValesPagos" value="0" min="0">
-        </div>
+        <div class="config-campo"><label for="cfgEfectivoPagos">Efectivo sistema por defecto - Arqueo Pagos</label><input type="number" id="cfgEfectivoPagos" min="0"></div>
+        <div class="config-campo"><label for="cfgEfectivoDietas">Efectivo sistema por defecto - Arqueo Dietas</label><input type="number" id="cfgEfectivoDietas" min="0"></div>
+        <div class="config-campo"><label for="cfgSaldoValesDieta">Saldo inicial por defecto - Vales Dieta</label><input type="number" id="cfgSaldoValesDieta" min="0"></div>
+        <div class="config-campo"><label for="cfgSaldoValesPagos">Saldo inicial por defecto - Vales Pagos Menores</label><input type="number" id="cfgSaldoValesPagos" min="0"></div>
       </div>
     </div>
 
@@ -650,10 +607,7 @@
       <div class="config-grid">
         <div class="config-campo">
           <label for="cfgTema">Tema</label>
-          <select id="cfgTema">
-            <option value="claro">Claro</option>
-            <option value="oscuro">Oscuro</option>
-          </select>
+          <select id="cfgTema"><option value="claro">Claro</option><option value="oscuro">Oscuro</option></select>
         </div>
       </div>
     </div>
@@ -668,20 +622,13 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 /* ==========================================================
-   AGESP - Control de Caja (versión Supabase)
-   ==========================================================
-   ⚠️  IMPORTANTE: Reemplaza SUPABASE_URL y SUPABASE_KEY
-   con los valores reales de tu proyecto Supabase.
-   La clave publishable/anon es segura para el frontend,
-   pero asegúrate de haber configurado las políticas RLS.
+   AGESP - Control de Caja (versión Supabase + Libro de Vales)
 ========================================================== */
-const SUPABASE_URL = 'https://psxeegtwzspcxrasuxka.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_2GdEMLwwDr1BJ1tLxsLgwA_4AgG4hCF'; // o tu anon key
-
+const SUPABASE_URL = 'https://TU-PROYECTO.supabase.co';   // <-- Reemplaza
+const SUPABASE_KEY = 'sb_publishable_...';                 // <-- Reemplaza
 const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-/* --- Variables globales --- */
 var denominaciones = [2000, 1000, 500, 200, 100, 50, 20, 10, 5];
 var configActual = null;
 
@@ -699,7 +646,7 @@ function hoyISO() {
 }
 function formatearFecha(iso) {
   if (!iso) return '';
-  var p = iso.split('-');
+  var p = String(iso).split('T')[0].split('-');
   if (p.length !== 3) return iso;
   return p[2] + '/' + p[1] + '/' + p[0];
 }
@@ -712,11 +659,13 @@ function mostrarStatus(msg, tipo) {
   var el = document.getElementById('statusMsg');
   el.textContent = msg;
   el.className = 'status-msg ' + (tipo || 'info');
-  setTimeout(function() { el.className = 'status-msg'; }, 4000);
+  setTimeout(function() { el.className = 'status-msg'; }, 4500);
 }
+function anioActual() { return new Date().getFullYear(); }
+function primerDiaAnio() { return anioActual() + '-01-01'; }
 
 /* ==========================================================
-   CONFIGURACIÓN (Supabase)
+   CONFIGURACIÓN
 ========================================================== */
 var CONFIG_DEFECTO = {
   entidad: 'AGESP', nit: '', reeup: '',
@@ -733,24 +682,18 @@ async function cargarConfigDesdeSupabase() {
   var cfg = Object.assign({}, CONFIG_DEFECTO);
   try {
     var { data, error } = await db.from('agesp_config').select('data').eq('id', 1).maybeSingle();
-    if (error && error.code !== 'PGRST116') throw error; // PGRST116 = sin filas
+    if (error && error.code !== 'PGRST116') throw error;
     if (data && data.data) {
-      for (var k in CONFIG_DEFECTO) {
-        if (data.data[k] !== undefined) cfg[k] = data.data[k];
-      }
+      for (var k in CONFIG_DEFECTO) if (data.data[k] !== undefined) cfg[k] = data.data[k];
     }
-  } catch (e) {
-    console.warn('No se pudo cargar config remota:', e.message);
-  }
+  } catch (e) { console.warn('No se pudo cargar config:', e.message); }
   return cfg;
 }
 
 async function guardarConfigEnSupabase(cfg) {
   try {
     var { error } = await db.from('agesp_config').upsert({
-      id: 1,
-      data: cfg,
-      updated_at: new Date().toISOString()
+      id: 1, data: cfg, updated_at: new Date().toISOString()
     });
     if (error) throw error;
     return true;
@@ -772,14 +715,10 @@ function aplicarConfigAUI(cfg) {
   var caps = ['Pagos', 'Dietas', 'ValesDieta', 'ValesPagos'];
   for (var c = 0; c < caps.length; c++) {
     var cap = caps[c];
-    var fResp = document.getElementById('firmaResp' + cap);
-    var fContra = document.getElementById('firmaContra' + cap);
-    var cResp = document.getElementById('cargoResp' + cap);
-    var cContra = document.getElementById('cargoContra' + cap);
-    if (fResp) fResp.textContent = cfg.respNombre || '-';
-    if (fContra) fContra.textContent = cfg.contraNombre || '-';
-    if (cResp) cResp.textContent = cfg.respCargo || '-';
-    if (cContra) cContra.textContent = cfg.contraCargo || '-';
+    var el1 = document.getElementById('firmaResp' + cap); if (el1) el1.textContent = cfg.respNombre || '-';
+    var el2 = document.getElementById('firmaContra' + cap); if (el2) el2.textContent = cfg.contraNombre || '-';
+    var el3 = document.getElementById('cargoResp' + cap); if (el3) el3.textContent = cfg.respCargo || '-';
+    var el4 = document.getElementById('cargoContra' + cap); if (el4) el4.textContent = cfg.contraCargo || '-';
   }
 
   document.getElementById('responsablePagos').value = cfg.respNombre;
@@ -824,14 +763,14 @@ async function guardarConfig() {
     saldoValesPagos: parseFloat(document.getElementById('cfgSaldoValesPagos').value) || 0,
     tema: document.getElementById('cfgTema').value || 'claro'
   };
-
   var ok = await guardarConfigEnSupabase(cfg);
   if (!ok) return;
-
   configActual = cfg;
   aplicarConfigAUI(cfg);
-  aplicarValoresPorDefectoInmediato(cfg);
-  mostrarStatus('Configuración guardada en Supabase.', 'ok');
+  mostrarStatus('Configuración guardada.', 'ok');
+  // recargar los saldos por si cambiaron los valores iniciales
+  cargarVales('Dieta');
+  cargarVales('PagosMenores');
 }
 
 async function restaurarConfig() {
@@ -842,40 +781,17 @@ async function restaurarConfig() {
   configActual = cfg;
   poblarFormularioConfig(cfg);
   aplicarConfigAUI(cfg);
-  aplicarValoresPorDefectoInmediato(cfg);
   mostrarStatus('Configuración restaurada.', 'info');
 }
 
-function aplicarValoresPorDefectoInmediato(cfg) {
-  var sp = document.getElementById('sistemaPagos');
-  var sd = document.getElementById('sistemaDietas');
-  var svd = document.getElementById('saldoInicialValesDieta');
-  var svp = document.getElementById('saldoInicialValesPagos');
-  if (!sp.value || Number(sp.value) === 0) sp.value = cfg.efectivoPagos;
-  if (!sd.value || Number(sd.value) === 0) sd.value = cfg.efectivoDietas;
-  if (!svd.value || Number(svd.value) === 0) svd.value = cfg.saldoValesDieta;
-  if (!svp.value || Number(svp.value) === 0) svp.value = cfg.saldoValesPagos;
-  calcular('pagos'); calcular('dietas');
-  recalcularVales('ValesDieta'); recalcularVales('ValesPagos');
-}
-
-function aplicarValoresPorDefectoForzado(cfg) {
-  document.getElementById('sistemaPagos').value = cfg.efectivoPagos;
-  document.getElementById('sistemaDietas').value = cfg.efectivoDietas;
-  document.getElementById('saldoInicialValesDieta').value = cfg.saldoValesDieta;
-  document.getElementById('saldoInicialValesPagos').value = cfg.saldoValesPagos;
-  calcular('pagos'); calcular('dietas');
-  recalcularVales('ValesDieta'); recalcularVales('ValesPagos');
-}
-
-/* --- Fechas iniciales --- */
+/* Fechas iniciales */
 document.getElementById('fechaInputPagos').value = hoyISO();
 document.getElementById('fechaInputDietas').value = hoyISO();
-document.getElementById('fechaInputValesDieta').value = hoyISO();
-document.getElementById('fechaInputValesPagos').value = hoyISO();
+document.getElementById('nuevoFechaValesDieta').value = hoyISO();
+document.getElementById('nuevoFechaValesPagos').value = hoyISO();
 
 /* ==========================================================
-   ARQUEO (misma lógica, solo cambia el guardado)
+   ARQUEO
 ========================================================== */
 function construirTabla(idTabla, tipo) {
   var tbody = document.getElementById(idTabla);
@@ -885,9 +801,7 @@ function construirTabla(idTabla, tipo) {
     var fila = document.createElement('tr');
     fila.innerHTML =
       '<td>' + formatoMoneda(d) + '</td>' +
-      '<td><input type="number" min="0" value="0" ' +
-      'oninput="calcular(\'' + tipo + '\')" ' +
-      'data-denom="' + d + '" class="input-' + tipo + '"></td>' +
+      '<td><input type="number" min="0" value="0" oninput="calcular(\'' + tipo + '\')" data-denom="' + d + '" class="input-' + tipo + '"></td>' +
       '<td class="subtotal-' + tipo + '" data-denom="' + d + '">$0</td>';
     tbody.appendChild(fila);
   }
@@ -929,10 +843,54 @@ function limpiar(tipo) {
   var cap = tipo.charAt(0).toUpperCase() + tipo.slice(1);
   var inputs = document.querySelectorAll('.input-' + tipo);
   for (var i = 0; i < inputs.length; i++) inputs[i].value = 0;
-  document.getElementById('sistema' + cap).value = (tipo === 'pagos')
-    ? configActual.efectivoPagos : configActual.efectivoDietas;
   document.getElementById('obs' + cap).value = '';
   calcular(tipo);
+}
+
+/* [NUEVO] Consulta la existencia final según vales hasta la fecha del arqueo */
+async function actualizarSaldoLibrosArqueo(tipo) {
+  var esPagos = (tipo === 'pagos');
+  var tipoVales = esPagos ? 'PagosMenores' : 'Dieta';
+  var cap = esPagos ? 'Pagos' : 'Dietas';
+  var fechaISO = document.getElementById('fechaInput' + cap).value;
+  if (!fechaISO) return;
+
+  var saldo = await calcularExistenciaHasta(tipoVales, fechaISO);
+  document.getElementById('saldoLibros' + cap).textContent = formatoMoneda(saldo);
+  document.getElementById('fechaCalc' + cap).textContent = formatearFecha(fechaISO);
+  document.getElementById('sistema' + cap).value = saldo;
+  calcular(tipo);
+}
+
+/* Suma todos los depósitos - retiros hasta una fecha, respetando anulaciones */
+async function calcularExistenciaHasta(tipoVales, fechaHasta) {
+  try {
+    var { data, error } = await db.from('agesp_vales')
+      .select('*')
+      .eq('tipo', tipoVales)
+      .lte('fecha', fechaHasta)
+      .order('fecha', { ascending: true })
+      .order('created_at', { ascending: true });
+    if (error) throw error;
+
+    // Calcular anulados
+    var anulados = {};
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].anula_a) anulados[data[i].anula_a] = true;
+    }
+
+    var saldo = 0, vigentes = 0;
+    for (var j = 0; j < data.length; j++) {
+      var m = data[j];
+      if (anulados[m.id]) continue; // el vale anulado no suma
+      saldo += (parseFloat(m.deposito) || 0) - (parseFloat(m.retiro) || 0);
+      if (!m.anula_a) vigentes++;
+    }
+    return saldo;
+  } catch (e) {
+    console.warn('Error al calcular existencia:', e.message);
+    return 0;
+  }
 }
 
 async function guardar(tipo) {
@@ -954,148 +912,13 @@ async function guardar(tipo) {
     id: String(Date.now()) + String(Math.random()),
     categoria: 'arqueo',
     tipo: tipo === 'pagos' ? 'Arqueo - Pagos Menores' : 'Arqueo - Dietas',
-    entidad: configActual.entidad,
-    nit: configActual.nit,
-    reeup: configActual.reeup,
-    fechaArqueo: fechaISO,
-    fechaArqueoTexto: formatearFecha(fechaISO),
-    fechaGuardado: fechaHoraGuardado(),
-    responsable: responsable,
-    cargoResponsable: configActual.respCargo,
-    contrapartida: contrapartida,
-    cargoContrapartida: configActual.contraCargo,
-    detalles: detalles,
-    total: total,
-    sistema: sistema,
-    diferencia: diferencia,
-    observaciones: document.getElementById('obs' + cap).value
-  };
-
-  try {
-    var { error } = await db.from('agesp_historial').insert({
-      id: registro.id,
-      categoria: registro.categoria,
-      tipo: registro.tipo,
-      entidad: registro.entidad,
-      nit: registro.nit,
-      reeup: registro.reeup,
-      fecha_guardado: registro.fechaGuardado,
-      data: registro
-    });
-    if (error) throw error;
-    mostrarStatus('Arqueo guardado en Supabase.', 'ok');
-  } catch (e) {
-    mostrarStatus('Error al guardar: ' + e.message, 'err');
-  }
-}
-
-/* ==========================================================
-   VALES
-========================================================== */
-function crearFilaVales(tipo, datos) {
-  if (!datos) datos = {};
-  var tbody = document.getElementById('tabla' + tipo);
-  var tr = document.createElement('tr');
-  var fechaVal = datos.fecha || hoyISO();
-  var valeVal = datos.vale || '';
-  var nombreVal = datos.nombre || '';
-  var descVal = datos.desc || '';
-  var depVal = datos.dep || 0;
-  var retVal = datos.ret || 0;
-
-  tr.innerHTML =
-    '<td><input type="date" value="' + fechaVal + '" onchange="recalcularVales(\'' + tipo + '\')"></td>' +
-    '<td><input type="text" value="' + valeVal + '"></td>' +
-    '<td><input type="text" value="' + nombreVal + '"></td>' +
-    '<td><input type="text" value="' + descVal + '"></td>' +
-    '<td><input type="number" class="num" min="0" value="' + depVal + '" oninput="recalcularVales(\'' + tipo + '\')"></td>' +
-    '<td><input type="number" class="num" min="0" value="' + retVal + '" oninput="recalcularVales(\'' + tipo + '\')"></td>' +
-    '<td class="exist-cell">$0</td>' +
-    '<td class="no-print"><button class="btn-eliminar-fila" onclick="eliminarFilaVales(this, \'' + tipo + '\')">X</button></td>';
-  tbody.appendChild(tr);
-}
-
-function agregarFilaVales(tipo) { crearFilaVales(tipo); recalcularVales(tipo); }
-
-function eliminarFilaVales(btn, tipo) {
-  var tr = btn.parentNode.parentNode;
-  tr.parentNode.removeChild(tr);
-  recalcularVales(tipo);
-}
-
-function recalcularVales(tipo) {
-  var tbody = document.getElementById('tabla' + tipo);
-  var filas = tbody.querySelectorAll('tr');
-  var saldoInicial = parseFloat(document.getElementById('saldoInicial' + tipo).value) || 0;
-  var existencia = saldoInicial, totalDep = 0, totalRet = 0;
-  for (var i = 0; i < filas.length; i++) {
-    var inputs = filas[i].querySelectorAll('input');
-    var dep = parseFloat(inputs[4].value) || 0;
-    var ret = parseFloat(inputs[5].value) || 0;
-    existencia += dep - ret;
-    totalDep += dep; totalRet += ret;
-    var celda = filas[i].querySelector('.exist-cell');
-    if (celda) celda.textContent = formatoMoneda(existencia);
-  }
-  document.getElementById('totDep' + tipo).textContent = formatoMoneda(totalDep);
-  document.getElementById('totRet' + tipo).textContent = formatoMoneda(totalRet);
-  document.getElementById('totExist' + tipo).textContent = formatoMoneda(existencia);
-  document.getElementById('existFinal' + tipo).textContent = formatoMoneda(existencia);
-}
-
-function limpiarVales(tipo) {
-  document.getElementById('tabla' + tipo).innerHTML = '';
-  document.getElementById('saldoInicial' + tipo).value =
-    (tipo === 'ValesDieta') ? configActual.saldoValesDieta : configActual.saldoValesPagos;
-  document.getElementById('obs' + tipo).value = '';
-  for (var i = 0; i < 5; i++) crearFilaVales(tipo);
-  recalcularVales(tipo);
-}
-
-function actualizarFirmaVales(tipo) {
-  var resp = document.getElementById('responsable' + tipo).value || '-';
-  var contra = document.getElementById('contrapartida' + tipo).value || '-';
-  document.getElementById('firmaResp' + tipo).textContent = resp;
-  document.getElementById('firmaContra' + tipo).textContent = contra;
-  document.getElementById('cargoResp' + tipo).textContent = configActual.respCargo;
-  document.getElementById('cargoContra' + tipo).textContent = configActual.contraCargo;
-}
-
-async function guardarVales(tipo) {
-  var tbody = document.getElementById('tabla' + tipo);
-  var filasDOM = tbody.querySelectorAll('tr');
-  var filas = [];
-  for (var i = 0; i < filasDOM.length; i++) {
-    var inputs = filasDOM[i].querySelectorAll('input');
-    var reg = {
-      fecha: inputs[0].value, vale: inputs[1].value, nombre: inputs[2].value,
-      desc: inputs[3].value, dep: parseFloat(inputs[4].value) || 0,
-      ret: parseFloat(inputs[5].value) || 0
-    };
-    if (reg.vale || reg.nombre || reg.desc || reg.dep || reg.ret) filas.push(reg);
-  }
-  if (filas.length === 0) { mostrarStatus('No hay filas con datos para guardar.', 'info'); return; }
-
-  var saldoInicial = parseFloat(document.getElementById('saldoInicial' + tipo).value) || 0;
-  var totalDep = 0, totalRet = 0;
-  for (var j = 0; j < filas.length; j++) { totalDep += filas[j].dep; totalRet += filas[j].ret; }
-  var existFinal = saldoInicial + totalDep - totalRet;
-
-  var registro = {
-    id: String(Date.now()) + String(Math.random()),
-    categoria: 'vales',
-    tipo: tipo === 'ValesDieta' ? 'Vales - Dieta' : 'Vales - Pagos Menores',
     entidad: configActual.entidad, nit: configActual.nit, reeup: configActual.reeup,
-    fechaVales: document.getElementById('fechaInput' + tipo).value,
-    fechaValesTexto: formatearFecha(document.getElementById('fechaInput' + tipo).value),
+    fechaArqueo: fechaISO, fechaArqueoTexto: formatearFecha(fechaISO),
     fechaGuardado: fechaHoraGuardado(),
-    responsable: document.getElementById('responsable' + tipo).value,
-    cargoResponsable: configActual.respCargo,
-    contrapartida: document.getElementById('contrapartida' + tipo).value,
-    cargoContrapartida: configActual.contraCargo,
-    saldoInicial: saldoInicial, filas: filas,
-    totalDep: totalDep, totalRet: totalRet, existFinal: existFinal,
-    observaciones: document.getElementById('obs' + tipo).value
+    responsable: responsable, cargoResponsable: configActual.respCargo,
+    contrapartida: contrapartida, cargoContrapartida: configActual.contraCargo,
+    detalles: detalles, total: total, sistema: sistema, diferencia: diferencia,
+    observaciones: document.getElementById('obs' + cap).value
   };
 
   try {
@@ -1105,14 +928,200 @@ async function guardarVales(tipo) {
       fecha_guardado: registro.fechaGuardado, data: registro
     });
     if (error) throw error;
-    mostrarStatus('Vales guardados en Supabase.', 'ok');
+    mostrarStatus('Arqueo guardado.', 'ok');
   } catch (e) {
-    mostrarStatus('Error al guardar vales: ' + e.message, 'err');
+    mostrarStatus('Error al guardar: ' + e.message, 'err');
   }
 }
 
 /* ==========================================================
-   NAVEGACIÓN / HISTORIAL / RESPALDO / TEMA
+   LIBRO DE VALES (nuevo)
+========================================================== */
+async function cargarVales(tipoVales) {
+  var esDieta = (tipoVales === 'Dieta');
+  var sufijo = esDieta ? 'Dieta' : 'Pagos';
+  var desde = document.getElementById('filtroDesdeVales' + sufijo).value;
+  var hasta = document.getElementById('filtroHastaVales' + sufijo).value;
+  if (!desde) desde = primerDiaAnio();
+  if (!hasta) hasta = hoyISO();
+
+  // Traer todos los movimientos hasta 'hasta' para calcular saldo inicial correcto
+  var todos = [];
+  try {
+    var { data, error } = await db.from('agesp_vales')
+      .select('*')
+      .eq('tipo', tipoVales)
+      .lte('fecha', hasta)
+      .order('fecha', { ascending: true })
+      .order('created_at', { ascending: true });
+    if (error) throw error;
+    todos = data || [];
+  } catch (e) {
+    mostrarStatus('Error al cargar vales: ' + e.message, 'err');
+    return;
+  }
+
+  // Marcar anulados
+  var anulados = {};
+  for (var i = 0; i < todos.length; i++) {
+    if (todos[i].anula_a) anulados[todos[i].anula_a] = true;
+  }
+
+  // Saldo inicial del período (todo lo anterior a 'desde')
+  var saldoIni = 0;
+  for (var a = 0; a < todos.length; a++) {
+    var m0 = todos[a];
+    if (m0.fecha < desde) {
+      if (anulados[m0.id]) continue;
+      saldoIni += (parseFloat(m0.deposito) || 0) - (parseFloat(m0.retiro) || 0);
+    }
+  }
+
+  // Filtrar el rango visible y calcular existencia corrida
+  var visibles = [];
+  var existencia = saldoIni;
+  var totalDep = 0, totalRet = 0;
+  for (var b = 0; b < todos.length; b++) {
+    var m = todos[b];
+    if (m.fecha < desde) continue;
+    var esAnulado = anulados[m.id] ? true : false;
+    if (!esAnulado) {
+      existencia += (parseFloat(m.deposito) || 0) - (parseFloat(m.retiro) || 0);
+      totalDep += (parseFloat(m.deposito) || 0);
+      totalRet += (parseFloat(m.retiro) || 0);
+    }
+    visibles.push({ mov: m, existencia: existencia, anulado: esAnulado });
+  }
+
+  // Render
+  var tbody = document.getElementById('tablaVales' + sufijo);
+  var html = '';
+  if (visibles.length === 0) {
+    html = '<tr><td colspan="9" style="text-align:center;color:#888;">Sin movimientos en el rango.</td></tr>';
+  } else {
+    for (var v = 0; v < visibles.length; v++) {
+      var item = visibles[v];
+      var m = item.mov;
+      var clase = item.anulado ? ' class="fila-anulada"' : '';
+      var estadoHtml = item.anulado
+        ? '<span class="badge-anulado">ANULADO</span>'
+        : (m.anula_a ? '<span class="badge-anulado">CONTRAMOV.</span>' : '<span class="badge-vigente">VIGENTE</span>');
+      var accionHtml = (!item.anulado && !m.anula_a)
+        ? '<button class="btn btn-danger btn-sm no-print" onclick="anularVale(\'' + tipoVales + '\', \'' + m.id + '\')">Anular</button>'
+        : '';
+      html += '<tr' + clase + '>' +
+        '<td>' + formatearFecha(m.fecha) + '</td>' +
+        '<td>' + (m.no_vale || '') + '</td>' +
+        '<td>' + (m.nombre || '') + '</td>' +
+        '<td>' + (m.descripcion || '') + '</td>' +
+        '<td>' + formatoMoneda(m.deposito) + '</td>' +
+        '<td>' + formatoMoneda(m.retiro) + '</td>' +
+        '<td>' + formatoMoneda(item.existencia) + '</td>' +
+        '<td class="estado">' + estadoHtml + '</td>' +
+        '<td class="no-print">' + accionHtml + '</td>' +
+      '</tr>';
+    }
+  }
+  tbody.innerHTML = html;
+
+  document.getElementById('totDepVales' + sufijo).textContent = formatoMoneda(totalDep);
+  document.getElementById('totRetVales' + sufijo).textContent = formatoMoneda(totalRet);
+  document.getElementById('totExistVales' + sufijo).textContent = formatoMoneda(existencia);
+
+  document.getElementById('saldoIni' + sufijo).textContent = formatoMoneda(saldoIni);
+  document.getElementById('saldoFin' + sufijo).textContent = formatoMoneda(existencia);
+  document.getElementById('numMov' + sufijo).textContent = visibles.length;
+}
+
+async function registrarVale(tipoVales) {
+  var esDieta = (tipoVales === 'Dieta');
+  var sufijo = esDieta ? 'Dieta' : 'Pagos';
+  var fecha = document.getElementById('nuevoFechaVales' + sufijo).value;
+  var noVale = document.getElementById('nuevoNoValeVales' + sufijo).value;
+  var nombre = document.getElementById('nuevoNombreVales' + sufijo).value;
+  var desc = document.getElementById('nuevoDescVales' + sufijo).value;
+  var dep = parseFloat(document.getElementById('nuevoDepVales' + sufijo).value) || 0;
+  var ret = parseFloat(document.getElementById('nuevoRetVales' + sufijo).value) || 0;
+
+  if (!fecha) { mostrarStatus('Falta la fecha del vale.', 'err'); return; }
+  if (dep === 0 && ret === 0) { mostrarStatus('Debe indicar depósito o retiro.', 'err'); return; }
+  if (dep > 0 && ret > 0) { mostrarStatus('Un vale no puede tener depósito y retiro a la vez.', 'err'); return; }
+
+  var id = String(Date.now()) + String(Math.random());
+  try {
+    var { error } = await db.from('agesp_vales').insert({
+      id: id, tipo: tipoVales, fecha: fecha,
+      no_vale: noVale, nombre: nombre, descripcion: desc,
+      deposito: dep, retiro: ret, anula_a: null, observaciones: null
+    });
+    if (error) throw error;
+
+    // limpiar formulario
+    document.getElementById('nuevoNoValeVales' + sufijo).value = '';
+    document.getElementById('nuevoNombreVales' + sufijo).value = '';
+    document.getElementById('nuevoDescVales' + sufijo).value = '';
+    document.getElementById('nuevoDepVales' + sufijo).value = 0;
+    document.getElementById('nuevoRetVales' + sufijo).value = 0;
+    document.getElementById('nuevoFechaVales' + sufijo).value = hoyISO();
+
+    mostrarStatus('Vale registrado.', 'ok');
+    cargarVales(tipoVales);
+    // actualizar el panel del arqueo correspondiente
+    actualizarSaldoLibrosArqueo(esDieta ? 'dietas' : 'pagos');
+  } catch (e) {
+    mostrarStatus('Error al registrar vale: ' + e.message, 'err');
+  }
+}
+
+async function anularVale(tipoVales, idVale) {
+  if (!confirm('¿Anular este vale? Se generará un contramovimiento con el signo contrario.')) return;
+
+  // Traer el vale original
+  var original = null;
+  try {
+    var { data, error } = await db.from('agesp_vales').select('*').eq('id', idVale).maybeSingle();
+    if (error) throw error;
+    original = data;
+  } catch (e) {
+    mostrarStatus('Error al buscar vale: ' + e.message, 'err');
+    return;
+  }
+  if (!original) { mostrarStatus('Vale no encontrado.', 'err'); return; }
+
+  var nuevoId = String(Date.now()) + String(Math.random());
+  var contra = {
+    id: nuevoId,
+    tipo: original.tipo,
+    fecha: hoyISO(),
+    no_vale: original.no_vale,
+    nombre: original.nombre,
+    descripcion: 'ANULACIÓN de vale ' + (original.no_vale || original.id),
+    deposito: parseFloat(original.retiro) || 0,  // invierte
+    retiro: parseFloat(original.deposito) || 0, // invierte
+    anula_a: original.id,
+    observaciones: 'Contramovimiento generado automáticamente'
+  };
+
+  try {
+    var { error } = await db.from('agesp_vales').insert(contra);
+    if (error) throw error;
+    mostrarStatus('Vale anulado con contramovimiento.', 'ok');
+    cargarVales(tipoVales);
+    actualizarSaldoLibrosArqueo(tipoVales === 'Dieta' ? 'dietas' : 'pagos');
+  } catch (e) {
+    mostrarStatus('Error al anular: ' + e.message, 'err');
+  }
+}
+
+function resetFiltroVales(tipoVales) {
+  var sufijo = (tipoVales === 'Dieta') ? 'Dieta' : 'Pagos';
+  document.getElementById('filtroDesdeVales' + sufijo).value = primerDiaAnio();
+  document.getElementById('filtroHastaVales' + sufijo).value = hoyISO();
+  cargarVales(tipoVales);
+}
+
+/* ==========================================================
+   NAVEGACIÓN / HISTORIAL / TEMA
 ========================================================== */
 function mostrarSeccion(id) {
   var secciones = document.querySelectorAll('.seccion');
@@ -1125,8 +1134,19 @@ function mostrarSeccion(id) {
     valesPagos: 'btnValesPagos', historial: 'btnHistorial', configuracion: 'btnConfig'
   };
   if (mapa[id]) document.getElementById(mapa[id]).classList.add('active');
+
   if (id === 'historial') renderHistorial();
   if (id === 'configuracion') poblarFormularioConfig(configActual);
+  if (id === 'pagos') actualizarSaldoLibrosArqueo('pagos');
+  if (id === 'dietas') actualizarSaldoLibrosArqueo('dietas');
+  if (id === 'valesDieta') {
+    if (!document.getElementById('filtroDesdeValesDieta').value) resetFiltroVales('Dieta');
+    else cargarVales('Dieta');
+  }
+  if (id === 'valesPagos') {
+    if (!document.getElementById('filtroDesdeValesPagos').value) resetFiltroVales('PagosMenores');
+    else cargarVales('PagosMenores');
+  }
 }
 
 function imprimir() { window.print(); }
@@ -1134,155 +1154,61 @@ function imprimir() { window.print(); }
 async function obtenerHistorial() {
   try {
     var { data, error } = await db.from('agesp_historial')
-      .select('data')
-      .order('created_at', { ascending: false });
+      .select('data').order('created_at', { ascending: false });
     if (error) throw error;
     return data.map(function(row) { return row.data; });
-  } catch (e) {
-    console.warn('Error al cargar historial:', e.message);
-    return [];
-  }
+  } catch (e) { console.warn('Error historial:', e.message); return []; }
 }
 
 async function renderHistorial() {
   var cont = document.getElementById('listaHistorial');
-  cont.innerHTML = '<p style="text-align:center;color:#888;">Cargando historial...</p>';
+  cont.innerHTML = '<p style="text-align:center;color:#888;">Cargando...</p>';
   var historial = await obtenerHistorial();
   if (historial.length === 0) {
-    cont.innerHTML = '<p style="text-align:center; color:#888;">No hay registros guardados.</p>';
+    cont.innerHTML = '<p style="text-align:center;color:#888;">No hay arqueos guardados.</p>';
     return;
   }
   var html = '';
   for (var i = 0; i < historial.length; i++) {
     var r = historial[i];
-    if (r.categoria === 'arqueo') {
-      var colorDif = r.diferencia === 0 ? '#27ae60' : (r.diferencia > 0 ? '#2980b9' : '#c0392b');
-      html += '<div class="item-historial"><div class="info">' +
-        '<strong>' + r.tipo + '</strong> - Fecha: ' + r.fechaArqueoTexto + '<br>' +
-        'Entidad: <strong>' + (r.entidad || '-') + '</strong>' +
-        ' - NIT: ' + (r.nit || '-') + ' - REEUP: ' + (r.reeup || '-') + '<br>' +
-        'Total contado: <strong>' + formatoMoneda(r.total) + '</strong> - ' +
-        'Sistema: ' + formatoMoneda(r.sistema) + ' - ' +
-        'Diferencia: <span style="color:' + colorDif + '">' + formatoMoneda(r.diferencia) + '</span><br>' +
-        'Responsable: ' + r.responsable + ' - Contrapartida: ' + r.contrapartida + '<br>' +
-        '<em style="color:#999;">Guardado: ' + r.fechaGuardado + '</em></div>' +
-        '<div><button class="btn btn-danger" onclick="eliminarRegistro(\'' + r.id + '\')">Eliminar</button></div></div>';
-    } else {
-      html += '<div class="item-historial"><div class="info">' +
-        '<strong>' + r.tipo + '</strong> - Fecha: ' + r.fechaValesTexto + '<br>' +
-        'Entidad: <strong>' + (r.entidad || '-') + '</strong>' +
-        ' - NIT: ' + (r.nit || '-') + ' - REEUP: ' + (r.reeup || '-') + '<br>' +
-        'Saldo inicial: ' + formatoMoneda(r.saldoInicial) + ' - ' +
-        'Depositos: <strong>' + formatoMoneda(r.totalDep) + '</strong> - ' +
-        'Retiros: <strong>' + formatoMoneda(r.totalRet) + '</strong> - ' +
-        'Existencia final: <strong>' + formatoMoneda(r.existFinal) + '</strong><br>' +
-        r.filas.length + ' movimiento(s) - Responsable: ' + r.responsable + '<br>' +
-        '<em style="color:#999;">Guardado: ' + r.fechaGuardado + '</em></div>' +
-        '<div><button class="btn btn-danger" onclick="eliminarRegistro(\'' + r.id + '\')">Eliminar</button></div></div>';
-    }
+    var colorDif = r.diferencia === 0 ? '#27ae60' : (r.diferencia > 0 ? '#2980b9' : '#c0392b');
+    html += '<div class="item-historial"><div class="info">' +
+      '<strong>' + r.tipo + '</strong> - Fecha: ' + r.fechaArqueoTexto + '<br>' +
+      'Entidad: <strong>' + (r.entidad || '-') + '</strong> - NIT: ' + (r.nit || '-') + ' - REEUP: ' + (r.reeup || '-') + '<br>' +
+      'Total contado: <strong>' + formatoMoneda(r.total) + '</strong> - ' +
+      'Sistema: ' + formatoMoneda(r.sistema) + ' - ' +
+      'Diferencia: <span style="color:' + colorDif + '">' + formatoMoneda(r.diferencia) + '</span><br>' +
+      'Responsable: ' + r.responsable + ' - Contrapartida: ' + r.contrapartida + '<br>' +
+      '<em style="color:#999;">Guardado: ' + r.fechaGuardado + '</em></div>' +
+      '<div><button class="btn btn-danger" onclick="eliminarRegistro(\'' + r.id + '\')">Eliminar</button></div></div>';
   }
   cont.innerHTML = html;
 }
 
 async function eliminarRegistro(id) {
-  if (!confirm('Eliminar este registro del historial?')) return;
+  if (!confirm('¿Eliminar este arqueo del historial?')) return;
   try {
     var { error } = await db.from('agesp_historial').delete().eq('id', String(id));
     if (error) throw error;
     mostrarStatus('Registro eliminado.', 'ok');
     renderHistorial();
-  } catch (e) {
-    mostrarStatus('Error al eliminar: ' + e.message, 'err');
-  }
+  } catch (e) { mostrarStatus('Error: ' + e.message, 'err'); }
 }
 
 async function borrarHistorial() {
-  if (!confirm('Borrar TODO el historial? Esta accion no se puede deshacer.')) return;
+  if (!confirm('¿Borrar TODO el historial de arqueos? (los vales NO se borran)')) return;
   try {
     var { error } = await db.from('agesp_historial').delete().neq('id', '');
     if (error) throw error;
     mostrarStatus('Historial borrado.', 'ok');
     renderHistorial();
-  } catch (e) {
-    mostrarStatus('Error al borrar: ' + e.message, 'err');
-  }
-}
-
-async function exportarRespaldo() {
-  var historial = await obtenerHistorial();
-  var datos = {
-    app: 'AGESP - Control de Caja', version: 3,
-    fechaExportacion: fechaHoraGuardado(),
-    totalRegistros: historial.length,
-    configuracion: configActual,
-    historial: historial
-  };
-  var texto = JSON.stringify(datos, null, 2);
-  var nombreArchivo = 'respaldo_agesp_' + hoyISO() + '.json';
-  try {
-    var blob = new Blob([texto], { type: 'application/json' });
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement('a');
-    a.href = url; a.download = nombreArchivo;
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
-    mostrarStatus('Respaldo exportado: ' + nombreArchivo, 'ok');
-  } catch (e) {
-    mostrarStatus('No se pudo exportar el respaldo.', 'err');
-  }
-}
-
-function importarRespaldo(input) {
-  if (!input.files || input.files.length === 0) return;
-  var archivo = input.files[0];
-  var lector = new FileReader();
-  lector.onload = async function(evento) {
-    try {
-      var datos = JSON.parse(evento.target.result);
-      var historialNuevo = datos.historial || datos;
-      if (!historialNuevo || historialNuevo.length === undefined) {
-        mostrarStatus('El archivo no tiene un formato valido.', 'err');
-        input.value = ''; return;
-      }
-      if (!confirm('Se encontraron ' + historialNuevo.length + ' registros. ¿Reemplazar el historial actual?')) {
-        input.value = ''; return;
-      }
-      // Borrar todo y reinsertar
-      await db.from('agesp_historial').delete().neq('id', '');
-      for (var i = 0; i < historialNuevo.length; i++) {
-        var r = historialNuevo[i];
-        await db.from('agesp_historial').insert({
-          id: r.id || String(Date.now()) + String(Math.random()),
-          categoria: r.categoria || 'arqueo',
-          tipo: r.tipo || '',
-          entidad: r.entidad || '',
-          nit: r.nit || '',
-          reeup: r.reeup || '',
-          fecha_guardado: r.fechaGuardado || '',
-          data: r
-        });
-      }
-      if (datos.configuracion) {
-        configActual = datos.configuracion;
-        await guardarConfigEnSupabase(configActual);
-        poblarFormularioConfig(configActual);
-        aplicarConfigAUI(configActual);
-      }
-      mostrarStatus('Respaldo importado correctamente.', 'ok');
-      renderHistorial();
-    } catch (e) {
-      mostrarStatus('El archivo no es un JSON valido.', 'err');
-    }
-    input.value = '';
-  };
-  lector.onerror = function() { mostrarStatus('No se pudo leer el archivo.', 'err'); input.value = ''; };
-  lector.readAsText(archivo);
+  } catch (e) { mostrarStatus('Error: ' + e.message, 'err'); }
 }
 
 function aplicarTema(tema) {
   document.body.classList.toggle('tema-oscuro', tema === 'oscuro');
   var sel = document.getElementById('cfgTema');
-  if (sel) sel.value = tema === 'oscuro' ? 'oscuro' : 'claro';
+  if (sel) sel.value = (tema === 'oscuro') ? 'oscuro' : 'claro';
 }
 
 /* ==========================================================
@@ -1294,12 +1220,27 @@ function aplicarTema(tema) {
   construirTabla('tablaDietas', 'dietas');
   poblarFormularioConfig(configActual);
   aplicarConfigAUI(configActual);
-  aplicarValoresPorDefectoForzado(configActual);
-  for (var k = 0; k < 5; k++) { crearFilaVales('ValesDieta'); crearFilaVales('ValesPagos'); }
-  recalcularVales('ValesDieta'); recalcularVales('ValesPagos');
+
+  document.getElementById('filtroDesdeValesDieta').value = primerDiaAnio();
+  document.getElementById('filtroHastaValesDieta').value = hoyISO();
+  document.getElementById('filtroDesdeValesPagos').value = primerDiaAnio();
+  document.getElementById('filtroHastaValesPagos').value = hoyISO();
+
   actualizarFirma('pagos'); actualizarFirma('dietas');
   actualizarFirmaVales('ValesDieta'); actualizarFirmaVales('ValesPagos');
+
+  await actualizarSaldoLibrosArqueo('pagos');
+  await actualizarSaldoLibrosArqueo('dietas');
 })();
+
+function actualizarFirmaVales(tipo) {
+  var resp = document.getElementById('responsable' + tipo).value || '-';
+  var contra = document.getElementById('contrapartida' + tipo).value || '-';
+  document.getElementById('firmaResp' + tipo).textContent = resp;
+  document.getElementById('firmaContra' + tipo).textContent = contra;
+  document.getElementById('cargoResp' + tipo).textContent = configActual.respCargo;
+  document.getElementById('cargoContra' + tipo).textContent = configActual.contraCargo;
+}
 </script>
 </body>
 </html>
