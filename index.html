@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Arqueo de Caja - AGESP</title>
 <style>
+  /* ====== Estilos: mantienen tu diseño original + pequeños añadidos ====== */
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: Arial, Helvetica, sans-serif;
@@ -12,29 +13,18 @@
     color: #2c3e50;
     padding: 15px;
   }
-  header {
-    text-align: center;
-    margin-bottom: 15px;
-  }
+  header { text-align: center; margin-bottom: 15px; }
   header h1 { color: #1e3a5f; font-size: 1.5rem; }
   header p { color: #666; font-size: 0.85rem; }
 
   .tabs {
-    display: flex;
-    justify-content: center;
-    gap: 6px;
-    margin-bottom: 15px;
-    flex-wrap: wrap;
+    display: flex; justify-content: center; gap: 6px;
+    margin-bottom: 15px; flex-wrap: wrap;
   }
   .tabs button {
-    padding: 9px 14px;
-    border: none;
-    background: #dbe4ee;
-    color: #1e3a5f;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.8rem;
+    padding: 9px 14px; border: none; background: #dbe4ee;
+    color: #1e3a5f; font-weight: bold; border-radius: 8px;
+    cursor: pointer; font-size: 0.8rem;
   }
   .tabs button.active { background: #1e3a5f; color: #fff; }
 
@@ -42,61 +32,38 @@
   .seccion.active { display: block; }
 
   .card {
-    background: #fff;
-    border-radius: 10px;
-    padding: 15px;
+    background: #fff; border-radius: 10px; padding: 15px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    max-width: 1100px;
-    margin: 0 auto 15px auto;
+    max-width: 1100px; margin: 0 auto 15px auto;
   }
   .card h2 {
-    color: #1e3a5f;
-    margin-bottom: 12px;
-    text-align: center;
-    border-bottom: 2px solid #dbe4ee;
-    padding-bottom: 8px;
-    font-size: 1.1rem;
+    color: #1e3a5f; margin-bottom: 12px; text-align: center;
+    border-bottom: 2px solid #dbe4ee; padding-bottom: 8px; font-size: 1.1rem;
   }
 
   .encabezado {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 15px;
-    margin-bottom: 12px;
-    font-size: 0.85rem;
+    display: flex; flex-wrap: wrap; gap: 8px 15px;
+    margin-bottom: 12px; font-size: 0.85rem;
   }
   .encabezado > div { flex: 1 1 45%; padding: 4px 0; }
   .encabezado strong { color: #1e3a5f; }
 
   .campo-editable {
-    width: 100%;
-    padding: 5px 6px;
-    border: 1px solid #ccd6e0;
-    border-radius: 5px;
-    font-size: 0.85rem;
-    font-family: inherit;
-    color: #2c3e50;
-    background: #fafbfd;
-    margin-top: 2px;
+    width: 100%; padding: 5px 6px; border: 1px solid #ccd6e0;
+    border-radius: 5px; font-size: 0.85rem; font-family: inherit;
+    color: #2c3e50; background: #fafbfd; margin-top: 2px;
   }
   .campo-editable:focus { outline: none; border-color: #1e3a5f; background: #fff; }
 
   table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
   th, td {
-    padding: 5px 3px;
-    text-align: center;
-    border-bottom: 1px solid #eaeef3;
-    font-size: 0.82rem;
+    padding: 5px 3px; text-align: center;
+    border-bottom: 1px solid #eaeef3; font-size: 0.82rem;
   }
   th { background: #1e3a5f; color: #fff; font-size: 0.75rem; }
   td input {
-    width: 100%;
-    padding: 4px 3px;
-    border: 1px solid #ccd6e0;
-    border-radius: 4px;
-    text-align: center;
-    font-size: 0.8rem;
-    font-family: inherit;
+    width: 100%; padding: 4px 3px; border: 1px solid #ccd6e0;
+    border-radius: 4px; text-align: center; font-size: 0.8rem; font-family: inherit;
   }
   td input:focus { outline: none; border-color: #1e3a5f; }
   td input.num { text-align: right; }
@@ -107,76 +74,42 @@
   .tabla-vales td input { padding: 3px 2px; font-size: 0.75rem; }
 
   .btn-eliminar-fila {
-    background: #c0392b;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    padding: 2px 6px;
-    cursor: pointer;
-    font-size: 0.7rem;
+    background: #c0392b; color: #fff; border: none;
+    border-radius: 4px; padding: 2px 6px; cursor: pointer; font-size: 0.7rem;
   }
 
   .resumen {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 8px;
-    padding: 10px;
-    background: #f0f4f8;
-    border-radius: 6px;
-    font-size: 0.85rem;
+    display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px;
+    padding: 10px; background: #f0f4f8; border-radius: 6px; font-size: 0.85rem;
   }
   .resumen > div { flex: 1 1 45%; padding: 3px 0; }
 
   .obs {
-    width: 100%;
-    padding: 7px;
-    border: 1px solid #ccd6e0;
-    border-radius: 5px;
-    font-family: inherit;
-    font-size: 0.85rem;
-    margin-top: 8px;
-    resize: vertical;
-    min-height: 50px;
+    width: 100%; padding: 7px; border: 1px solid #ccd6e0;
+    border-radius: 5px; font-family: inherit; font-size: 0.85rem;
+    margin-top: 8px; resize: vertical; min-height: 50px;
   }
 
   .firmas {
-    display: flex;
-    justify-content: space-between;
-    gap: 30px;
-    margin-top: 40px;
-    padding-top: 8px;
+    display: flex; justify-content: space-between; gap: 30px;
+    margin-top: 40px; padding-top: 8px;
   }
   .firma { flex: 1; text-align: center; font-size: 0.8rem; }
-  .firma .linea {
-    border-top: 1.5px solid #1e3a5f;
-    margin-bottom: 5px;
-    height: 35px;
-  }
+  .firma .linea { border-top: 1.5px solid #1e3a5f; margin-bottom: 5px; height: 35px; }
   .firma .nombre { font-weight: bold; color: #1e3a5f; font-size: 0.9rem; }
   .firma .cargo { color: #555; font-size: 0.75rem; margin-top: 2px; }
   .firma .rol {
-    font-size: 0.7rem;
-    color: #888;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 3px;
+    font-size: 0.7rem; color: #888; text-transform: uppercase;
+    letter-spacing: 1px; margin-bottom: 3px;
   }
 
   .acciones {
-    display: flex;
-    justify-content: flex-end;
-    gap: 8px;
-    margin-top: 12px;
-    flex-wrap: wrap;
+    display: flex; justify-content: flex-end; gap: 8px;
+    margin-top: 12px; flex-wrap: wrap;
   }
   .btn {
-    padding: 9px 14px;
-    border: none;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 0.8rem;
+    padding: 9px 14px; border: none; border-radius: 6px;
+    font-weight: bold; cursor: pointer; font-size: 0.8rem;
   }
   .btn-primary { background: #1e3a5f; color: #fff; }
   .btn-success { background: #27ae60; color: #fff; }
@@ -185,104 +118,89 @@
   .btn-info { background: #2980b9; color: #fff; }
 
   .item-historial {
-    border: 1px solid #e0e6ed;
-    border-radius: 6px;
-    padding: 10px;
-    margin-bottom: 8px;
-    background: #fafbfd;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 6px;
+    border: 1px solid #e0e6ed; border-radius: 6px; padding: 10px;
+    margin-bottom: 8px; background: #fafbfd;
+    display: flex; justify-content: space-between;
+    align-items: center; flex-wrap: wrap; gap: 6px;
   }
   .item-historial .info { font-size: 0.8rem; color: #555; }
   .item-historial .info strong { color: #1e3a5f; }
 
-  /* ================= MODO OSCURO ================= */
-  body.tema-oscuro {
-    background: #1a1e26;
-    color: #e6eaf0;
+  .config-grupo {
+    border: 1px solid #dbe4ee; border-radius: 8px;
+    padding: 12px; margin-bottom: 12px; background: #fafbfd;
   }
+  .config-grupo h3 {
+    color: #1e3a5f; font-size: 0.95rem; margin-bottom: 10px;
+    border-bottom: 1px solid #dbe4ee; padding-bottom: 5px;
+  }
+  .config-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+  }
+  .config-campo label {
+    display: block; font-size: 0.78rem; font-weight: bold;
+    color: #1e3a5f; margin-bottom: 3px;
+  }
+  .config-campo input, .config-campo select {
+    width: 100%; padding: 6px 8px; border: 1px solid #ccd6e0;
+    border-radius: 5px; font-size: 0.85rem; font-family: inherit;
+    color: #2c3e50; background: #fff;
+  }
+  .config-campo input:focus, .config-campo select:focus {
+    outline: none; border-color: #1e3a5f;
+  }
+
+  .status-msg {
+    text-align: center; padding: 8px; font-size: 0.85rem;
+    border-radius: 6px; margin-bottom: 12px; display: none;
+  }
+  .status-msg.ok { background: #d4edda; color: #155724; display: block; }
+  .status-msg.err { background: #f8d7da; color: #721c24; display: block; }
+  .status-msg.info { background: #d1ecf1; color: #0c5460; display: block; }
+
+  /* Modo oscuro */
+  body.tema-oscuro { background: #1a1e26; color: #e6eaf0; }
   body.tema-oscuro header h1 { color: #7fb3ff; }
   body.tema-oscuro header p { color: #a8b0bd; }
-
-  body.tema-oscuro .tabs button {
-    background: #2a3140;
-    color: #c7d2e0;
-  }
-  body.tema-oscuro .tabs button.active {
-    background: #7fb3ff;
-    color: #10151c;
-  }
-  body.tema-oscuro #btnTema {
-    background: #ffd479;
-    color: #10151c;
-  }
-
-  body.tema-oscuro .card {
-    background: #232a36;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-  }
-  body.tema-oscuro .card h2 {
-    color: #7fb3ff;
-    border-bottom-color: #2a3140;
-  }
+  body.tema-oscuro .tabs button { background: #2a3140; color: #c7d2e0; }
+  body.tema-oscuro .tabs button.active { background: #7fb3ff; color: #10151c; }
+  body.tema-oscuro .card { background: #232a36; box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
+  body.tema-oscuro .card h2 { color: #7fb3ff; border-bottom-color: #2a3140; }
   body.tema-oscuro .encabezado strong { color: #7fb3ff; }
   body.tema-oscuro .encabezado input,
   body.tema-oscuro .campo-editable {
-    background: #2a3140;
-    border-color: #3a4252;
-    color: #e6eaf0;
+    background: #2a3140; border-color: #3a4252; color: #e6eaf0;
   }
-  body.tema-oscuro .campo-editable:focus {
-    border-color: #7fb3ff;
-    background: #2f3849;
-  }
-
-  body.tema-oscuro table th {
-    background: #10151c;
-    color: #c7d2e0;
-  }
-  body.tema-oscuro table td {
-    border-bottom-color: #2a3140;
-    color: #e6eaf0;
-  }
-  body.tema-oscuro td input {
-    background: #2a3140;
-    border-color: #3a4252;
-    color: #e6eaf0;
-  }
+  body.tema-oscuro .campo-editable:focus { border-color: #7fb3ff; background: #2f3849; }
+  body.tema-oscuro table th { background: #10151c; color: #c7d2e0; }
+  body.tema-oscuro table td { border-bottom-color: #2a3140; color: #e6eaf0; }
+  body.tema-oscuro td input { background: #2a3140; border-color: #3a4252; color: #e6eaf0; }
   body.tema-oscuro td input:focus { border-color: #7fb3ff; }
-
-  body.tema-oscuro .total-row td {
-    background: #2a3140;
-    color: #7fb3ff;
-  }
-  body.tema-oscuro .resumen {
-    background: #2a3140;
-    color: #c7d2e0;
-  }
-  body.tema-oscuro .obs {
-    background: #2a3140;
-    border-color: #3a4252;
-    color: #e6eaf0;
-  }
+  body.tema-oscuro .total-row td { background: #2a3140; color: #7fb3ff; }
+  body.tema-oscuro .resumen { background: #2a3140; color: #c7d2e0; }
+  body.tema-oscuro .obs { background: #2a3140; border-color: #3a4252; color: #e6eaf0; }
   body.tema-oscuro .firma .linea { border-top-color: #7fb3ff; }
   body.tema-oscuro .firma .nombre { color: #7fb3ff; }
   body.tema-oscuro .firma .cargo { color: #a8b0bd; }
   body.tema-oscuro .firma .rol { color: #7a8494; }
-
-  body.tema-oscuro .item-historial {
-    background: #2a3140;
-    border-color: #3a4252;
-  }
+  body.tema-oscuro .item-historial { background: #2a3140; border-color: #3a4252; }
   body.tema-oscuro .item-historial .info { color: #c7d2e0; }
   body.tema-oscuro .item-historial .info strong { color: #7fb3ff; }
+  body.tema-oscuro .config-grupo { background: #2a3140; border-color: #3a4252; }
+  body.tema-oscuro .config-grupo h3 { color: #7fb3ff; border-bottom-color: #3a4252; }
+  body.tema-oscuro .config-campo label { color: #7fb3ff; }
+  body.tema-oscuro .config-campo input,
+  body.tema-oscuro .config-campo select {
+    background: #232a36; border-color: #3a4252; color: #e6eaf0;
+  }
+  body.tema-oscuro .status-msg.ok { background: #1e3a2a; color: #7fdb9a; }
+  body.tema-oscuro .status-msg.err { background: #3a1e1e; color: #f7a8a8; }
+  body.tema-oscuro .status-msg.info { background: #1e2a3a; color: #a8d0f0; }
 
   @media print {
     body { background: #fff; padding: 0; }
-    .tabs, .acciones, header p, .no-print { display: none !important; }
+    .tabs, .acciones, header p, .no-print, .status-msg { display: none !important; }
     .card { box-shadow: none; max-width: 100%; page-break-inside: avoid; padding: 8px; }
     .seccion { display: none !important; }
     .seccion.active { display: block !important; }
@@ -291,9 +209,7 @@
       border: none; background: transparent; padding: 0;
       font-weight: bold; color: #1e3a5f;
     }
-    .tabla-vales td input {
-      border: none; background: transparent; padding: 0;
-    }
+    .tabla-vales td input { border: none; background: transparent; padding: 0; }
     .tabla-vales th, .tabla-vales td { border: 1px solid #999; padding: 2px; }
     .btn-eliminar-fila { display: none !important; }
     body.tema-oscuro { background: #fff; color: #000; }
@@ -312,8 +228,8 @@
 <body>
 
 <header>
-  <h1>AGESP - Control de Caja</h1>
-  <p>Arqueos - Vales de Dieta - Vales de Pagos Menores</p>
+  <h1 id="tituloApp">AGESP - Control de Caja</h1>
+  <p id="subtituloApp">Arqueos - Vales de Dieta - Vales de Pagos Menores</p>
 </header>
 
 <div class="tabs no-print">
@@ -322,8 +238,10 @@
   <button id="btnValesDieta" onclick="mostrarSeccion('valesDieta')">Vales Dieta</button>
   <button id="btnValesPagos" onclick="mostrarSeccion('valesPagos')">Vales Pagos Menores</button>
   <button id="btnHistorial" onclick="mostrarSeccion('historial')">Historial</button>
-  <button id="btnTema" onclick="alternarTema()">Oscuro</button>
+  <button id="btnConfig" onclick="mostrarSeccion('configuracion')">⚙️ Configuración</button>
 </div>
+
+<div id="statusMsg" class="status-msg"></div>
 
 <!-- ============ ARQUEO PAGOS MENORES ============ -->
 <div id="pagos" class="seccion active">
@@ -331,7 +249,9 @@
     <h2>Arqueo - Pagos Menores</h2>
 
     <div class="encabezado">
-      <div><strong>Entidad:</strong> AGESP</div>
+      <div><strong>Entidad:</strong> <span class="entidad-nombre">AGESP</span></div>
+      <div><strong>NIT:</strong> <span class="entidad-nit">-</span></div>
+      <div><strong>REEUP:</strong> <span class="entidad-reeup">-</span></div>
       <div>
         <strong>Fecha del arqueo:</strong>
         <input type="date" id="fechaInputPagos" class="campo-editable"
@@ -382,13 +302,13 @@
         <div class="linea"></div>
         <div class="rol">Responsable</div>
         <div class="nombre" id="firmaRespPagos">Elieser Duarte Lopez</div>
-        <div class="cargo">Especialista B Gestion Economica</div>
+        <div class="cargo" id="cargoRespPagos">Especialista B Gestion Economica</div>
       </div>
       <div class="firma">
         <div class="linea"></div>
         <div class="rol">Contrapartida</div>
         <div class="nombre" id="firmaContraPagos">Especialista Principal</div>
-        <div class="cargo">Especialista Principal</div>
+        <div class="cargo" id="cargoContraPagos">Especialista Principal</div>
       </div>
     </div>
 
@@ -406,7 +326,9 @@
     <h2>Arqueo - Dietas</h2>
 
     <div class="encabezado">
-      <div><strong>Entidad:</strong> AGESP</div>
+      <div><strong>Entidad:</strong> <span class="entidad-nombre">AGESP</span></div>
+      <div><strong>NIT:</strong> <span class="entidad-nit">-</span></div>
+      <div><strong>REEUP:</strong> <span class="entidad-reeup">-</span></div>
       <div>
         <strong>Fecha del arqueo:</strong>
         <input type="date" id="fechaInputDietas" class="campo-editable"
@@ -457,13 +379,13 @@
         <div class="linea"></div>
         <div class="rol">Responsable</div>
         <div class="nombre" id="firmaRespDietas">Elieser Duarte Lopez</div>
-        <div class="cargo">Especialista B Gestion Economica</div>
+        <div class="cargo" id="cargoRespDietas">Especialista B Gestion Economica</div>
       </div>
       <div class="firma">
         <div class="linea"></div>
         <div class="rol">Contrapartida</div>
         <div class="nombre" id="firmaContraDietas">Especialista Principal</div>
-        <div class="cargo">Especialista Principal</div>
+        <div class="cargo" id="cargoContraDietas">Especialista Principal</div>
       </div>
     </div>
 
@@ -481,7 +403,9 @@
     <h2>Vales de Salida - Dieta</h2>
 
     <div class="encabezado">
-      <div><strong>Entidad:</strong> AGESP</div>
+      <div><strong>Entidad:</strong> <span class="entidad-nombre">AGESP</span></div>
+      <div><strong>NIT:</strong> <span class="entidad-nit">-</span></div>
+      <div><strong>REEUP:</strong> <span class="entidad-reeup">-</span></div>
       <div>
         <strong>Fecha:</strong>
         <input type="date" id="fechaInputValesDieta" class="campo-editable">
@@ -501,13 +425,8 @@
     <table class="tabla-vales">
       <thead>
         <tr>
-          <th>Fecha</th>
-          <th>No. Vale</th>
-          <th>Nombre</th>
-          <th>Descripcion</th>
-          <th>Deposito</th>
-          <th>Retiro</th>
-          <th>Existencia</th>
+          <th>Fecha</th><th>No. Vale</th><th>Nombre</th><th>Descripcion</th>
+          <th>Deposito</th><th>Retiro</th><th>Existencia</th>
           <th class="no-print">X</th>
         </tr>
       </thead>
@@ -548,13 +467,13 @@
         <div class="linea"></div>
         <div class="rol">Responsable</div>
         <div class="nombre" id="firmaRespValesDieta">Elieser Duarte Lopez</div>
-        <div class="cargo">Especialista B Gestion Economica</div>
+        <div class="cargo" id="cargoRespValesDieta">Especialista B Gestion Economica</div>
       </div>
       <div class="firma">
         <div class="linea"></div>
         <div class="rol">Contrapartida</div>
         <div class="nombre" id="firmaContraValesDieta">Especialista Principal</div>
-        <div class="cargo">Especialista Principal</div>
+        <div class="cargo" id="cargoContraValesDieta">Especialista Principal</div>
       </div>
     </div>
   </div>
@@ -566,7 +485,9 @@
     <h2>Vales de Salida - Pagos Menores</h2>
 
     <div class="encabezado">
-      <div><strong>Entidad:</strong> AGESP</div>
+      <div><strong>Entidad:</strong> <span class="entidad-nombre">AGESP</span></div>
+      <div><strong>NIT:</strong> <span class="entidad-nit">-</span></div>
+      <div><strong>REEUP:</strong> <span class="entidad-reeup">-</span></div>
       <div>
         <strong>Fecha:</strong>
         <input type="date" id="fechaInputValesPagos" class="campo-editable">
@@ -586,13 +507,8 @@
     <table class="tabla-vales">
       <thead>
         <tr>
-          <th>Fecha</th>
-          <th>No. Vale</th>
-          <th>Nombre</th>
-          <th>Descripcion</th>
-          <th>Deposito</th>
-          <th>Retiro</th>
-          <th>Existencia</th>
+          <th>Fecha</th><th>No. Vale</th><th>Nombre</th><th>Descripcion</th>
+          <th>Deposito</th><th>Retiro</th><th>Existencia</th>
           <th class="no-print">X</th>
         </tr>
       </thead>
@@ -633,13 +549,13 @@
         <div class="linea"></div>
         <div class="rol">Responsable</div>
         <div class="nombre" id="firmaRespValesPagos">Elieser Duarte Lopez</div>
-        <div class="cargo">Especialista B Gestion Economica</div>
+        <div class="cargo" id="cargoRespValesPagos">Especialista B Gestion Economica</div>
       </div>
       <div class="firma">
         <div class="linea"></div>
         <div class="rol">Contrapartida</div>
         <div class="nombre" id="firmaContraValesPagos">Especialista Principal</div>
-        <div class="cargo">Especialista Principal</div>
+        <div class="cargo" id="cargoContraValesPagos">Especialista Principal</div>
       </div>
     </div>
   </div>
@@ -662,15 +578,112 @@
   </div>
 </div>
 
+<!-- ============ CONFIGURACIÓN ============ -->
+<div id="configuracion" class="seccion">
+  <div class="card">
+    <h2>⚙️ Configuración</h2>
+
+    <div class="config-grupo">
+      <h3>Datos de la Entidad</h3>
+      <div class="config-grid">
+        <div class="config-campo">
+          <label for="cfgEntidad">Nombre de la entidad</label>
+          <input type="text" id="cfgEntidad" value="AGESP">
+        </div>
+        <div class="config-campo">
+          <label for="cfgNit">NIT</label>
+          <input type="text" id="cfgNit" value="">
+        </div>
+        <div class="config-campo">
+          <label for="cfgReeup">REEUP</label>
+          <input type="text" id="cfgReeup" value="">
+        </div>
+      </div>
+    </div>
+
+    <div class="config-grupo">
+      <h3>Firmantes</h3>
+      <div class="config-grid">
+        <div class="config-campo">
+          <label for="cfgRespNombre">Nombre del Responsable</label>
+          <input type="text" id="cfgRespNombre" value="Elieser Duarte Lopez">
+        </div>
+        <div class="config-campo">
+          <label for="cfgRespCargo">Cargo del Responsable</label>
+          <input type="text" id="cfgRespCargo" value="Especialista B Gestion Economica">
+        </div>
+        <div class="config-campo">
+          <label for="cfgContraNombre">Nombre de la Contrapartida</label>
+          <input type="text" id="cfgContraNombre" value="Especialista Principal">
+        </div>
+        <div class="config-campo">
+          <label for="cfgContraCargo">Cargo de la Contrapartida</label>
+          <input type="text" id="cfgContraCargo" value="Especialista Principal">
+        </div>
+      </div>
+    </div>
+
+    <div class="config-grupo">
+      <h3>Importes por Defecto</h3>
+      <div class="config-grid">
+        <div class="config-campo">
+          <label for="cfgEfectivoPagos">Efectivo sistema por defecto - Arqueo Pagos</label>
+          <input type="number" id="cfgEfectivoPagos" value="0" min="0">
+        </div>
+        <div class="config-campo">
+          <label for="cfgEfectivoDietas">Efectivo sistema por defecto - Arqueo Dietas</label>
+          <input type="number" id="cfgEfectivoDietas" value="0" min="0">
+        </div>
+        <div class="config-campo">
+          <label for="cfgSaldoValesDieta">Saldo inicial por defecto - Vales Dieta</label>
+          <input type="number" id="cfgSaldoValesDieta" value="0" min="0">
+        </div>
+        <div class="config-campo">
+          <label for="cfgSaldoValesPagos">Saldo inicial por defecto - Vales Pagos Menores</label>
+          <input type="number" id="cfgSaldoValesPagos" value="0" min="0">
+        </div>
+      </div>
+    </div>
+
+    <div class="config-grupo">
+      <h3>Apariencia</h3>
+      <div class="config-grid">
+        <div class="config-campo">
+          <label for="cfgTema">Tema</label>
+          <select id="cfgTema">
+            <option value="claro">Claro</option>
+            <option value="oscuro">Oscuro</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="acciones no-print">
+      <button class="btn btn-secondary" onclick="restaurarConfig()">Restaurar valores</button>
+      <button class="btn btn-success" onclick="guardarConfig()">Guardar configuración</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 /* ==========================================================
-   AGESP - Control de Caja
-   Codigo compatible con navegadores antiguos (ES5 puro)
+   AGESP - Control de Caja (versión Supabase)
+   ==========================================================
+   ⚠️  IMPORTANTE: Reemplaza SUPABASE_URL y SUPABASE_KEY
+   con los valores reales de tu proyecto Supabase.
+   La clave publishable/anon es segura para el frontend,
+   pero asegúrate de haber configurado las políticas RLS.
 ========================================================== */
+const SUPABASE_URL = 'https://TU-PROYECTO.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_...'; // o tu anon key
 
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+/* --- Variables globales --- */
 var denominaciones = [2000, 1000, 500, 200, 100, 50, 20, 10, 5];
-var CLAVE_HISTORIAL = 'agesp_historial_v3';
-var CLAVE_TEMA = 'agesp_tema';
+var configActual = null;
 
 /* --- Utilidades --- */
 function formatoMoneda(n) {
@@ -679,38 +692,190 @@ function formatoMoneda(n) {
   var abs = Math.abs(num).toString();
   return signo + '$' + abs.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 }
-
-function pad2(n) {
-  var s = String(n);
-  return s.length < 2 ? '0' + s : s;
-}
-
+function pad2(n) { var s = String(n); return s.length < 2 ? '0' + s : s; }
 function hoyISO() {
   var d = new Date();
   return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
 }
-
 function formatearFecha(iso) {
   if (!iso) return '';
-  var partes = iso.split('-');
-  if (partes.length !== 3) return iso;
-  return partes[2] + '/' + partes[1] + '/' + partes[0];
+  var p = iso.split('-');
+  if (p.length !== 3) return iso;
+  return p[2] + '/' + p[1] + '/' + p[0];
 }
-
 function fechaHoraGuardado() {
   var d = new Date();
   return pad2(d.getDate()) + '/' + pad2(d.getMonth() + 1) + '/' + d.getFullYear() +
          ' ' + pad2(d.getHours()) + ':' + pad2(d.getMinutes());
 }
+function mostrarStatus(msg, tipo) {
+  var el = document.getElementById('statusMsg');
+  el.textContent = msg;
+  el.className = 'status-msg ' + (tipo || 'info');
+  setTimeout(function() { el.className = 'status-msg'; }, 4000);
+}
 
-/* --- Inicializar fechas --- */
+/* ==========================================================
+   CONFIGURACIÓN (Supabase)
+========================================================== */
+var CONFIG_DEFECTO = {
+  entidad: 'AGESP', nit: '', reeup: '',
+  respNombre: 'Elieser Duarte Lopez',
+  respCargo: 'Especialista B Gestion Economica',
+  contraNombre: 'Especialista Principal',
+  contraCargo: 'Especialista Principal',
+  efectivoPagos: 0, efectivoDietas: 0,
+  saldoValesDieta: 0, saldoValesPagos: 0,
+  tema: 'claro'
+};
+
+async function cargarConfigDesdeSupabase() {
+  var cfg = Object.assign({}, CONFIG_DEFECTO);
+  try {
+    var { data, error } = await db.from('agesp_config').select('data').eq('id', 1).maybeSingle();
+    if (error && error.code !== 'PGRST116') throw error; // PGRST116 = sin filas
+    if (data && data.data) {
+      for (var k in CONFIG_DEFECTO) {
+        if (data.data[k] !== undefined) cfg[k] = data.data[k];
+      }
+    }
+  } catch (e) {
+    console.warn('No se pudo cargar config remota:', e.message);
+  }
+  return cfg;
+}
+
+async function guardarConfigEnSupabase(cfg) {
+  try {
+    var { error } = await db.from('agesp_config').upsert({
+      id: 1,
+      data: cfg,
+      updated_at: new Date().toISOString()
+    });
+    if (error) throw error;
+    return true;
+  } catch (e) {
+    mostrarStatus('Error al guardar configuración: ' + e.message, 'err');
+    return false;
+  }
+}
+
+function aplicarConfigAUI(cfg) {
+  document.getElementById('tituloApp').textContent = cfg.entidad + ' - Control de Caja';
+  var nombres = document.querySelectorAll('.entidad-nombre');
+  for (var i = 0; i < nombres.length; i++) nombres[i].textContent = cfg.entidad || '-';
+  var nits = document.querySelectorAll('.entidad-nit');
+  for (var j = 0; j < nits.length; j++) nits[j].textContent = cfg.nit || '-';
+  var reeups = document.querySelectorAll('.entidad-reeup');
+  for (var r = 0; r < reeups.length; r++) reeups[r].textContent = cfg.reeup || '-';
+
+  var caps = ['Pagos', 'Dietas', 'ValesDieta', 'ValesPagos'];
+  for (var c = 0; c < caps.length; c++) {
+    var cap = caps[c];
+    var fResp = document.getElementById('firmaResp' + cap);
+    var fContra = document.getElementById('firmaContra' + cap);
+    var cResp = document.getElementById('cargoResp' + cap);
+    var cContra = document.getElementById('cargoContra' + cap);
+    if (fResp) fResp.textContent = cfg.respNombre || '-';
+    if (fContra) fContra.textContent = cfg.contraNombre || '-';
+    if (cResp) cResp.textContent = cfg.respCargo || '-';
+    if (cContra) cContra.textContent = cfg.contraCargo || '-';
+  }
+
+  document.getElementById('responsablePagos').value = cfg.respNombre;
+  document.getElementById('responsableDietas').value = cfg.respNombre;
+  document.getElementById('responsableValesDieta').value = cfg.respNombre;
+  document.getElementById('responsableValesPagos').value = cfg.respNombre;
+  document.getElementById('contrapartidaPagos').value = cfg.contraNombre;
+  document.getElementById('contrapartidaDietas').value = cfg.contraNombre;
+  document.getElementById('contrapartidaValesDieta').value = cfg.contraNombre;
+  document.getElementById('contrapartidaValesPagos').value = cfg.contraNombre;
+
+  aplicarTema(cfg.tema);
+}
+
+function poblarFormularioConfig(cfg) {
+  document.getElementById('cfgEntidad').value = cfg.entidad;
+  document.getElementById('cfgNit').value = cfg.nit;
+  document.getElementById('cfgReeup').value = cfg.reeup;
+  document.getElementById('cfgRespNombre').value = cfg.respNombre;
+  document.getElementById('cfgRespCargo').value = cfg.respCargo;
+  document.getElementById('cfgContraNombre').value = cfg.contraNombre;
+  document.getElementById('cfgContraCargo').value = cfg.contraCargo;
+  document.getElementById('cfgEfectivoPagos').value = cfg.efectivoPagos;
+  document.getElementById('cfgEfectivoDietas').value = cfg.efectivoDietas;
+  document.getElementById('cfgSaldoValesDieta').value = cfg.saldoValesDieta;
+  document.getElementById('cfgSaldoValesPagos').value = cfg.saldoValesPagos;
+  document.getElementById('cfgTema').value = cfg.tema;
+}
+
+async function guardarConfig() {
+  var cfg = {
+    entidad: document.getElementById('cfgEntidad').value || 'AGESP',
+    nit: document.getElementById('cfgNit').value || '',
+    reeup: document.getElementById('cfgReeup').value || '',
+    respNombre: document.getElementById('cfgRespNombre').value || '',
+    respCargo: document.getElementById('cfgRespCargo').value || '',
+    contraNombre: document.getElementById('cfgContraNombre').value || '',
+    contraCargo: document.getElementById('cfgContraCargo').value || '',
+    efectivoPagos: parseFloat(document.getElementById('cfgEfectivoPagos').value) || 0,
+    efectivoDietas: parseFloat(document.getElementById('cfgEfectivoDietas').value) || 0,
+    saldoValesDieta: parseFloat(document.getElementById('cfgSaldoValesDieta').value) || 0,
+    saldoValesPagos: parseFloat(document.getElementById('cfgSaldoValesPagos').value) || 0,
+    tema: document.getElementById('cfgTema').value || 'claro'
+  };
+
+  var ok = await guardarConfigEnSupabase(cfg);
+  if (!ok) return;
+
+  configActual = cfg;
+  aplicarConfigAUI(cfg);
+  aplicarValoresPorDefectoInmediato(cfg);
+  mostrarStatus('Configuración guardada en Supabase.', 'ok');
+}
+
+async function restaurarConfig() {
+  if (!confirm('¿Restaurar la configuración a los valores por defecto?')) return;
+  var cfg = Object.assign({}, CONFIG_DEFECTO);
+  var ok = await guardarConfigEnSupabase(cfg);
+  if (!ok) return;
+  configActual = cfg;
+  poblarFormularioConfig(cfg);
+  aplicarConfigAUI(cfg);
+  aplicarValoresPorDefectoInmediato(cfg);
+  mostrarStatus('Configuración restaurada.', 'info');
+}
+
+function aplicarValoresPorDefectoInmediato(cfg) {
+  var sp = document.getElementById('sistemaPagos');
+  var sd = document.getElementById('sistemaDietas');
+  var svd = document.getElementById('saldoInicialValesDieta');
+  var svp = document.getElementById('saldoInicialValesPagos');
+  if (!sp.value || Number(sp.value) === 0) sp.value = cfg.efectivoPagos;
+  if (!sd.value || Number(sd.value) === 0) sd.value = cfg.efectivoDietas;
+  if (!svd.value || Number(svd.value) === 0) svd.value = cfg.saldoValesDieta;
+  if (!svp.value || Number(svp.value) === 0) svp.value = cfg.saldoValesPagos;
+  calcular('pagos'); calcular('dietas');
+  recalcularVales('ValesDieta'); recalcularVales('ValesPagos');
+}
+
+function aplicarValoresPorDefectoForzado(cfg) {
+  document.getElementById('sistemaPagos').value = cfg.efectivoPagos;
+  document.getElementById('sistemaDietas').value = cfg.efectivoDietas;
+  document.getElementById('saldoInicialValesDieta').value = cfg.saldoValesDieta;
+  document.getElementById('saldoInicialValesPagos').value = cfg.saldoValesPagos;
+  calcular('pagos'); calcular('dietas');
+  recalcularVales('ValesDieta'); recalcularVales('ValesPagos');
+}
+
+/* --- Fechas iniciales --- */
 document.getElementById('fechaInputPagos').value = hoyISO();
 document.getElementById('fechaInputDietas').value = hoyISO();
 document.getElementById('fechaInputValesDieta').value = hoyISO();
 document.getElementById('fechaInputValesPagos').value = hoyISO();
 
 /* ==========================================================
-   ARQUEO
+   ARQUEO (misma lógica, solo cambia el guardado)
 ========================================================== */
 function construirTabla(idTabla, tipo) {
   var tbody = document.getElementById(idTabla);
@@ -722,8 +887,7 @@ function construirTabla(idTabla, tipo) {
       '<td>' + formatoMoneda(d) + '</td>' +
       '<td><input type="number" min="0" value="0" ' +
       'oninput="calcular(\'' + tipo + '\')" ' +
-      'data-denom="' + d + '" ' +
-      'class="input-' + tipo + '"></td>' +
+      'data-denom="' + d + '" class="input-' + tipo + '"></td>' +
       '<td class="subtotal-' + tipo + '" data-denom="' + d + '">$0</td>';
     tbody.appendChild(fila);
   }
@@ -731,12 +895,12 @@ function construirTabla(idTabla, tipo) {
 
 function actualizarFirma(tipo) {
   var cap = tipo.charAt(0).toUpperCase() + tipo.slice(1);
-  var resp = document.getElementById('responsable' + cap).value;
-  var contra = document.getElementById('contrapartida' + cap).value;
-  if (resp === '') resp = '-';
-  if (contra === '') contra = '-';
+  var resp = document.getElementById('responsable' + cap).value || '-';
+  var contra = document.getElementById('contrapartida' + cap).value || '-';
   document.getElementById('firmaResp' + cap).textContent = resp;
   document.getElementById('firmaContra' + cap).textContent = contra;
+  document.getElementById('cargoResp' + cap).textContent = configActual.respCargo;
+  document.getElementById('cargoContra' + cap).textContent = configActual.contraCargo;
 }
 
 function calcular(tipo) {
@@ -754,10 +918,10 @@ function calcular(tipo) {
   var cap = tipo.charAt(0).toUpperCase() + tipo.slice(1);
   document.getElementById('total' + cap).textContent = formatoMoneda(total);
   var sistema = parseInt(document.getElementById('sistema' + cap).value, 10) || 0;
-  var diferencia = total - sistema;
+  var dif = total - sistema;
   var elDif = document.getElementById('diferencia' + cap);
-  elDif.textContent = formatoMoneda(diferencia);
-  elDif.style.color = diferencia === 0 ? '#27ae60' : (diferencia > 0 ? '#2980b9' : '#c0392b');
+  elDif.textContent = formatoMoneda(dif);
+  elDif.style.color = dif === 0 ? '#27ae60' : (dif > 0 ? '#2980b9' : '#c0392b');
   return total;
 }
 
@@ -765,12 +929,13 @@ function limpiar(tipo) {
   var cap = tipo.charAt(0).toUpperCase() + tipo.slice(1);
   var inputs = document.querySelectorAll('.input-' + tipo);
   for (var i = 0; i < inputs.length; i++) inputs[i].value = 0;
-  document.getElementById('sistema' + cap).value = 0;
+  document.getElementById('sistema' + cap).value = (tipo === 'pagos')
+    ? configActual.efectivoPagos : configActual.efectivoDietas;
   document.getElementById('obs' + cap).value = '';
   calcular(tipo);
 }
 
-function guardar(tipo) {
+async function guardar(tipo) {
   var total = calcular(tipo);
   var cap = tipo.charAt(0).toUpperCase() + tipo.slice(1);
   var sistema = parseInt(document.getElementById('sistema' + cap).value, 10) || 0;
@@ -789,14 +954,16 @@ function guardar(tipo) {
     id: String(Date.now()) + String(Math.random()),
     categoria: 'arqueo',
     tipo: tipo === 'pagos' ? 'Arqueo - Pagos Menores' : 'Arqueo - Dietas',
-    entidad: 'AGESP',
+    entidad: configActual.entidad,
+    nit: configActual.nit,
+    reeup: configActual.reeup,
     fechaArqueo: fechaISO,
     fechaArqueoTexto: formatearFecha(fechaISO),
     fechaGuardado: fechaHoraGuardado(),
     responsable: responsable,
-    cargoResponsable: 'Especialista B Gestion Economica',
+    cargoResponsable: configActual.respCargo,
     contrapartida: contrapartida,
-    cargoContrapartida: 'Especialista Principal',
+    cargoContrapartida: configActual.contraCargo,
     detalles: detalles,
     total: total,
     sistema: sistema,
@@ -804,10 +971,22 @@ function guardar(tipo) {
     observaciones: document.getElementById('obs' + cap).value
   };
 
-  var historial = obtenerHistorial();
-  historial.unshift(registro);
-  guardarHistorial(historial);
-  alert('Arqueo guardado en el historial.');
+  try {
+    var { error } = await db.from('agesp_historial').insert({
+      id: registro.id,
+      categoria: registro.categoria,
+      tipo: registro.tipo,
+      entidad: registro.entidad,
+      nit: registro.nit,
+      reeup: registro.reeup,
+      fecha_guardado: registro.fechaGuardado,
+      data: registro
+    });
+    if (error) throw error;
+    mostrarStatus('Arqueo guardado en Supabase.', 'ok');
+  } catch (e) {
+    mostrarStatus('Error al guardar: ' + e.message, 'err');
+  }
 }
 
 /* ==========================================================
@@ -817,33 +996,26 @@ function crearFilaVales(tipo, datos) {
   if (!datos) datos = {};
   var tbody = document.getElementById('tabla' + tipo);
   var tr = document.createElement('tr');
-  var fechaVal = datos.fecha ? datos.fecha : hoyISO();
-  var valeVal = datos.vale ? datos.vale : '';
-  var nombreVal = datos.nombre ? datos.nombre : '';
-  var descVal = datos.desc ? datos.desc : '';
-  var depVal = datos.dep ? datos.dep : 0;
-  var retVal = datos.ret ? datos.ret : 0;
+  var fechaVal = datos.fecha || hoyISO();
+  var valeVal = datos.vale || '';
+  var nombreVal = datos.nombre || '';
+  var descVal = datos.desc || '';
+  var depVal = datos.dep || 0;
+  var retVal = datos.ret || 0;
 
   tr.innerHTML =
-    '<td><input type="date" value="' + fechaVal + '" ' +
-    'onchange="recalcularVales(\'' + tipo + '\')"></td>' +
+    '<td><input type="date" value="' + fechaVal + '" onchange="recalcularVales(\'' + tipo + '\')"></td>' +
     '<td><input type="text" value="' + valeVal + '"></td>' +
     '<td><input type="text" value="' + nombreVal + '"></td>' +
     '<td><input type="text" value="' + descVal + '"></td>' +
-    '<td><input type="number" class="num" min="0" value="' + depVal + '" ' +
-    'oninput="recalcularVales(\'' + tipo + '\')"></td>' +
-    '<td><input type="number" class="num" min="0" value="' + retVal + '" ' +
-    'oninput="recalcularVales(\'' + tipo + '\')"></td>' +
+    '<td><input type="number" class="num" min="0" value="' + depVal + '" oninput="recalcularVales(\'' + tipo + '\')"></td>' +
+    '<td><input type="number" class="num" min="0" value="' + retVal + '" oninput="recalcularVales(\'' + tipo + '\')"></td>' +
     '<td class="exist-cell">$0</td>' +
-    '<td class="no-print"><button class="btn-eliminar-fila" ' +
-    'onclick="eliminarFilaVales(this, \'' + tipo + '\')">X</button></td>';
+    '<td class="no-print"><button class="btn-eliminar-fila" onclick="eliminarFilaVales(this, \'' + tipo + '\')">X</button></td>';
   tbody.appendChild(tr);
 }
 
-function agregarFilaVales(tipo) {
-  crearFilaVales(tipo);
-  recalcularVales(tipo);
-}
+function agregarFilaVales(tipo) { crearFilaVales(tipo); recalcularVales(tipo); }
 
 function eliminarFilaVales(btn, tipo) {
   var tr = btn.parentNode.parentNode;
@@ -855,23 +1027,16 @@ function recalcularVales(tipo) {
   var tbody = document.getElementById('tabla' + tipo);
   var filas = tbody.querySelectorAll('tr');
   var saldoInicial = parseFloat(document.getElementById('saldoInicial' + tipo).value) || 0;
-
-  var existencia = saldoInicial;
-  var totalDep = 0;
-  var totalRet = 0;
-
+  var existencia = saldoInicial, totalDep = 0, totalRet = 0;
   for (var i = 0; i < filas.length; i++) {
-    var tr = filas[i];
-    var inputs = tr.querySelectorAll('input');
+    var inputs = filas[i].querySelectorAll('input');
     var dep = parseFloat(inputs[4].value) || 0;
     var ret = parseFloat(inputs[5].value) || 0;
-    existencia = existencia + dep - ret;
-    totalDep += dep;
-    totalRet += ret;
-    var celda = tr.querySelector('.exist-cell');
+    existencia += dep - ret;
+    totalDep += dep; totalRet += ret;
+    var celda = filas[i].querySelector('.exist-cell');
     if (celda) celda.textContent = formatoMoneda(existencia);
   }
-
   document.getElementById('totDep' + tipo).textContent = formatoMoneda(totalDep);
   document.getElementById('totRet' + tipo).textContent = formatoMoneda(totalRet);
   document.getElementById('totExist' + tipo).textContent = formatoMoneda(existencia);
@@ -880,82 +1045,74 @@ function recalcularVales(tipo) {
 
 function limpiarVales(tipo) {
   document.getElementById('tabla' + tipo).innerHTML = '';
-  document.getElementById('saldoInicial' + tipo).value = 0;
+  document.getElementById('saldoInicial' + tipo).value =
+    (tipo === 'ValesDieta') ? configActual.saldoValesDieta : configActual.saldoValesPagos;
   document.getElementById('obs' + tipo).value = '';
   for (var i = 0; i < 5; i++) crearFilaVales(tipo);
   recalcularVales(tipo);
 }
 
 function actualizarFirmaVales(tipo) {
-  var resp = document.getElementById('responsable' + tipo).value;
-  var contra = document.getElementById('contrapartida' + tipo).value;
-  if (resp === '') resp = '-';
-  if (contra === '') contra = '-';
+  var resp = document.getElementById('responsable' + tipo).value || '-';
+  var contra = document.getElementById('contrapartida' + tipo).value || '-';
   document.getElementById('firmaResp' + tipo).textContent = resp;
   document.getElementById('firmaContra' + tipo).textContent = contra;
+  document.getElementById('cargoResp' + tipo).textContent = configActual.respCargo;
+  document.getElementById('cargoContra' + tipo).textContent = configActual.contraCargo;
 }
 
-function guardarVales(tipo) {
+async function guardarVales(tipo) {
   var tbody = document.getElementById('tabla' + tipo);
   var filasDOM = tbody.querySelectorAll('tr');
   var filas = [];
-
   for (var i = 0; i < filasDOM.length; i++) {
     var inputs = filasDOM[i].querySelectorAll('input');
     var reg = {
-      fecha: inputs[0].value,
-      vale: inputs[1].value,
-      nombre: inputs[2].value,
-      desc: inputs[3].value,
-      dep: parseFloat(inputs[4].value) || 0,
+      fecha: inputs[0].value, vale: inputs[1].value, nombre: inputs[2].value,
+      desc: inputs[3].value, dep: parseFloat(inputs[4].value) || 0,
       ret: parseFloat(inputs[5].value) || 0
     };
-    if (reg.vale || reg.nombre || reg.desc || reg.dep || reg.ret) {
-      filas.push(reg);
-    }
+    if (reg.vale || reg.nombre || reg.desc || reg.dep || reg.ret) filas.push(reg);
   }
-
-  if (filas.length === 0) {
-    alert('No hay filas con datos para guardar.');
-    return;
-  }
+  if (filas.length === 0) { mostrarStatus('No hay filas con datos para guardar.', 'info'); return; }
 
   var saldoInicial = parseFloat(document.getElementById('saldoInicial' + tipo).value) || 0;
   var totalDep = 0, totalRet = 0;
-  for (var j = 0; j < filas.length; j++) {
-    totalDep += filas[j].dep;
-    totalRet += filas[j].ret;
-  }
+  for (var j = 0; j < filas.length; j++) { totalDep += filas[j].dep; totalRet += filas[j].ret; }
   var existFinal = saldoInicial + totalDep - totalRet;
 
   var registro = {
     id: String(Date.now()) + String(Math.random()),
     categoria: 'vales',
     tipo: tipo === 'ValesDieta' ? 'Vales - Dieta' : 'Vales - Pagos Menores',
-    entidad: 'AGESP',
+    entidad: configActual.entidad, nit: configActual.nit, reeup: configActual.reeup,
     fechaVales: document.getElementById('fechaInput' + tipo).value,
     fechaValesTexto: formatearFecha(document.getElementById('fechaInput' + tipo).value),
     fechaGuardado: fechaHoraGuardado(),
     responsable: document.getElementById('responsable' + tipo).value,
-    cargoResponsable: 'Especialista B Gestion Economica',
+    cargoResponsable: configActual.respCargo,
     contrapartida: document.getElementById('contrapartida' + tipo).value,
-    cargoContrapartida: 'Especialista Principal',
-    saldoInicial: saldoInicial,
-    filas: filas,
-    totalDep: totalDep,
-    totalRet: totalRet,
-    existFinal: existFinal,
+    cargoContrapartida: configActual.contraCargo,
+    saldoInicial: saldoInicial, filas: filas,
+    totalDep: totalDep, totalRet: totalRet, existFinal: existFinal,
     observaciones: document.getElementById('obs' + tipo).value
   };
 
-  var historial = obtenerHistorial();
-  historial.unshift(registro);
-  guardarHistorial(historial);
-  alert('Vales guardados en el historial.');
+  try {
+    var { error } = await db.from('agesp_historial').insert({
+      id: registro.id, categoria: registro.categoria, tipo: registro.tipo,
+      entidad: registro.entidad, nit: registro.nit, reeup: registro.reeup,
+      fecha_guardado: registro.fechaGuardado, data: registro
+    });
+    if (error) throw error;
+    mostrarStatus('Vales guardados en Supabase.', 'ok');
+  } catch (e) {
+    mostrarStatus('Error al guardar vales: ' + e.message, 'err');
+  }
 }
 
 /* ==========================================================
-   NAVEGACION
+   NAVEGACIÓN / HISTORIAL / RESPALDO / TEMA
 ========================================================== */
 function mostrarSeccion(id) {
   var secciones = document.querySelectorAll('.seccion');
@@ -964,35 +1121,33 @@ function mostrarSeccion(id) {
   for (var j = 0; j < botones.length; j++) botones[j].classList.remove('active');
   document.getElementById(id).classList.add('active');
   var mapa = {
-    pagos: 'btnPagos',
-    dietas: 'btnDietas',
-    valesDieta: 'btnValesDieta',
-    valesPagos: 'btnValesPagos',
-    historial: 'btnHistorial'
+    pagos: 'btnPagos', dietas: 'btnDietas', valesDieta: 'btnValesDieta',
+    valesPagos: 'btnValesPagos', historial: 'btnHistorial', configuracion: 'btnConfig'
   };
   if (mapa[id]) document.getElementById(mapa[id]).classList.add('active');
   if (id === 'historial') renderHistorial();
+  if (id === 'configuracion') poblarFormularioConfig(configActual);
 }
 
 function imprimir() { window.print(); }
 
-/* ==========================================================
-   HISTORIAL
-========================================================== */
-function obtenerHistorial() {
+async function obtenerHistorial() {
   try {
-    return JSON.parse(localStorage.getItem(CLAVE_HISTORIAL) || '[]');
+    var { data, error } = await db.from('agesp_historial')
+      .select('data')
+      .order('created_at', { ascending: false });
+    if (error) throw error;
+    return data.map(function(row) { return row.data; });
   } catch (e) {
+    console.warn('Error al cargar historial:', e.message);
     return [];
   }
 }
-function guardarHistorial(arr) {
-  localStorage.setItem(CLAVE_HISTORIAL, JSON.stringify(arr));
-}
 
-function renderHistorial() {
+async function renderHistorial() {
   var cont = document.getElementById('listaHistorial');
-  var historial = obtenerHistorial();
+  cont.innerHTML = '<p style="text-align:center;color:#888;">Cargando historial...</p>';
+  var historial = await obtenerHistorial();
   if (historial.length === 0) {
     cont.innerHTML = '<p style="text-align:center; color:#888;">No hay registros guardados.</p>';
     return;
@@ -1002,82 +1157,78 @@ function renderHistorial() {
     var r = historial[i];
     if (r.categoria === 'arqueo') {
       var colorDif = r.diferencia === 0 ? '#27ae60' : (r.diferencia > 0 ? '#2980b9' : '#c0392b');
-      html += '<div class="item-historial">' +
-        '<div class="info">' +
-          '<strong>' + r.tipo + '</strong> - Fecha: ' + r.fechaArqueoTexto + '<br>' +
-          'Total contado: <strong>' + formatoMoneda(r.total) + '</strong> - ' +
-          'Sistema: ' + formatoMoneda(r.sistema) + ' - ' +
-          'Diferencia: <span style="color:' + colorDif + '">' + formatoMoneda(r.diferencia) + '</span><br>' +
-          'Responsable: ' + r.responsable + ' - Contrapartida: ' + r.contrapartida + '<br>' +
-          '<em style="color:#999;">Guardado: ' + r.fechaGuardado + '</em>' +
-        '</div>' +
-        '<div><button class="btn btn-danger" onclick="eliminarRegistro(\'' + r.id + '\')">Eliminar</button></div>' +
-      '</div>';
+      html += '<div class="item-historial"><div class="info">' +
+        '<strong>' + r.tipo + '</strong> - Fecha: ' + r.fechaArqueoTexto + '<br>' +
+        'Entidad: <strong>' + (r.entidad || '-') + '</strong>' +
+        ' - NIT: ' + (r.nit || '-') + ' - REEUP: ' + (r.reeup || '-') + '<br>' +
+        'Total contado: <strong>' + formatoMoneda(r.total) + '</strong> - ' +
+        'Sistema: ' + formatoMoneda(r.sistema) + ' - ' +
+        'Diferencia: <span style="color:' + colorDif + '">' + formatoMoneda(r.diferencia) + '</span><br>' +
+        'Responsable: ' + r.responsable + ' - Contrapartida: ' + r.contrapartida + '<br>' +
+        '<em style="color:#999;">Guardado: ' + r.fechaGuardado + '</em></div>' +
+        '<div><button class="btn btn-danger" onclick="eliminarRegistro(\'' + r.id + '\')">Eliminar</button></div></div>';
     } else {
-      html += '<div class="item-historial">' +
-        '<div class="info">' +
-          '<strong>' + r.tipo + '</strong> - Fecha: ' + r.fechaValesTexto + '<br>' +
-          'Saldo inicial: ' + formatoMoneda(r.saldoInicial) + ' - ' +
-          'Depositos: <strong>' + formatoMoneda(r.totalDep) + '</strong> - ' +
-          'Retiros: <strong>' + formatoMoneda(r.totalRet) + '</strong> - ' +
-          'Existencia final: <strong>' + formatoMoneda(r.existFinal) + '</strong><br>' +
-          r.filas.length + ' movimiento(s) - Responsable: ' + r.responsable + '<br>' +
-          '<em style="color:#999;">Guardado: ' + r.fechaGuardado + '</em>' +
-        '</div>' +
-        '<div><button class="btn btn-danger" onclick="eliminarRegistro(\'' + r.id + '\')">Eliminar</button></div>' +
-      '</div>';
+      html += '<div class="item-historial"><div class="info">' +
+        '<strong>' + r.tipo + '</strong> - Fecha: ' + r.fechaValesTexto + '<br>' +
+        'Entidad: <strong>' + (r.entidad || '-') + '</strong>' +
+        ' - NIT: ' + (r.nit || '-') + ' - REEUP: ' + (r.reeup || '-') + '<br>' +
+        'Saldo inicial: ' + formatoMoneda(r.saldoInicial) + ' - ' +
+        'Depositos: <strong>' + formatoMoneda(r.totalDep) + '</strong> - ' +
+        'Retiros: <strong>' + formatoMoneda(r.totalRet) + '</strong> - ' +
+        'Existencia final: <strong>' + formatoMoneda(r.existFinal) + '</strong><br>' +
+        r.filas.length + ' movimiento(s) - Responsable: ' + r.responsable + '<br>' +
+        '<em style="color:#999;">Guardado: ' + r.fechaGuardado + '</em></div>' +
+        '<div><button class="btn btn-danger" onclick="eliminarRegistro(\'' + r.id + '\')">Eliminar</button></div></div>';
     }
   }
   cont.innerHTML = html;
 }
 
-function eliminarRegistro(id) {
+async function eliminarRegistro(id) {
   if (!confirm('Eliminar este registro del historial?')) return;
-  var historial = obtenerHistorial();
-  var nuevo = [];
-  for (var i = 0; i < historial.length; i++) {
-    if (String(historial[i].id) !== String(id)) nuevo.push(historial[i]);
+  try {
+    var { error } = await db.from('agesp_historial').delete().eq('id', String(id));
+    if (error) throw error;
+    mostrarStatus('Registro eliminado.', 'ok');
+    renderHistorial();
+  } catch (e) {
+    mostrarStatus('Error al eliminar: ' + e.message, 'err');
   }
-  guardarHistorial(nuevo);
-  renderHistorial();
 }
 
-function borrarHistorial() {
+async function borrarHistorial() {
   if (!confirm('Borrar TODO el historial? Esta accion no se puede deshacer.')) return;
-  localStorage.removeItem(CLAVE_HISTORIAL);
-  renderHistorial();
+  try {
+    var { error } = await db.from('agesp_historial').delete().neq('id', '');
+    if (error) throw error;
+    mostrarStatus('Historial borrado.', 'ok');
+    renderHistorial();
+  } catch (e) {
+    mostrarStatus('Error al borrar: ' + e.message, 'err');
+  }
 }
 
-/* ==========================================================
-   RESPALDO / RESTAURACION
-========================================================== */
-function exportarRespaldo() {
-  var historial = obtenerHistorial();
+async function exportarRespaldo() {
+  var historial = await obtenerHistorial();
   var datos = {
-    app: 'AGESP - Control de Caja',
-    version: 1,
+    app: 'AGESP - Control de Caja', version: 3,
     fechaExportacion: fechaHoraGuardado(),
     totalRegistros: historial.length,
-    temaGuardado: localStorage.getItem(CLAVE_TEMA) || 'claro',
+    configuracion: configActual,
     historial: historial
   };
-
   var texto = JSON.stringify(datos, null, 2);
   var nombreArchivo = 'respaldo_agesp_' + hoyISO() + '.json';
-
   try {
     var blob = new Blob([texto], { type: 'application/json' });
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
-    a.href = url;
-    a.download = nombreArchivo;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    a.href = url; a.download = nombreArchivo;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
     setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
-    alert('Respaldo exportado: ' + nombreArchivo + '\n\nRegistros: ' + historial.length);
+    mostrarStatus('Respaldo exportado: ' + nombreArchivo, 'ok');
   } catch (e) {
-    alert('No se pudo exportar el respaldo.\n' + e.message);
+    mostrarStatus('No se pudo exportar el respaldo.', 'err');
   }
 }
 
@@ -1085,103 +1236,70 @@ function importarRespaldo(input) {
   if (!input.files || input.files.length === 0) return;
   var archivo = input.files[0];
   var lector = new FileReader();
-
-  lector.onload = function(evento) {
+  lector.onload = async function(evento) {
     try {
       var datos = JSON.parse(evento.target.result);
-
-      var historialNuevo = null;
-      var temaNuevo = null;
-
-      if (datos && datos.historial && datos.historial.length !== undefined) {
-        historialNuevo = datos.historial;
-        temaNuevo = datos.temaGuardado || null;
-      } else if (datos && datos.length !== undefined) {
-        historialNuevo = datos;
+      var historialNuevo = datos.historial || datos;
+      if (!historialNuevo || historialNuevo.length === undefined) {
+        mostrarStatus('El archivo no tiene un formato valido.', 'err');
+        input.value = ''; return;
       }
-
-      if (!historialNuevo) {
-        alert('El archivo no tiene un formato valido de respaldo.');
-        input.value = '';
-        return;
+      if (!confirm('Se encontraron ' + historialNuevo.length + ' registros. ¿Reemplazar el historial actual?')) {
+        input.value = ''; return;
       }
-
-      var opcion = confirm(
-        'Se encontraron ' + historialNuevo.length + ' registros en el archivo.\n\n' +
-        'Aceptar = REEMPLAZAR todo el historial actual\n' +
-        'Cancelar = CANCELAR la importacion'
-      );
-
-      if (!opcion) {
-        input.value = '';
-        return;
+      // Borrar todo y reinsertar
+      await db.from('agesp_historial').delete().neq('id', '');
+      for (var i = 0; i < historialNuevo.length; i++) {
+        var r = historialNuevo[i];
+        await db.from('agesp_historial').insert({
+          id: r.id || String(Date.now()) + String(Math.random()),
+          categoria: r.categoria || 'arqueo',
+          tipo: r.tipo || '',
+          entidad: r.entidad || '',
+          nit: r.nit || '',
+          reeup: r.reeup || '',
+          fecha_guardado: r.fechaGuardado || '',
+          data: r
+        });
       }
-
-      guardarHistorial(historialNuevo);
-
-      if (temaNuevo === 'oscuro' || temaNuevo === 'claro') {
-        localStorage.setItem(CLAVE_TEMA, temaNuevo);
-        aplicarTema(temaNuevo);
+      if (datos.configuracion) {
+        configActual = datos.configuracion;
+        await guardarConfigEnSupabase(configActual);
+        poblarFormularioConfig(configActual);
+        aplicarConfigAUI(configActual);
       }
-
+      mostrarStatus('Respaldo importado correctamente.', 'ok');
       renderHistorial();
-      alert('Respaldo importado correctamente.\nRegistros: ' + historialNuevo.length);
     } catch (e) {
-      alert('El archivo no es un JSON valido.\n' + e.message);
+      mostrarStatus('El archivo no es un JSON valido.', 'err');
     }
     input.value = '';
   };
-
-  lector.onerror = function() {
-    alert('No se pudo leer el archivo.');
-    input.value = '';
-  };
-
+  lector.onerror = function() { mostrarStatus('No se pudo leer el archivo.', 'err'); input.value = ''; };
   lector.readAsText(archivo);
 }
 
-/* ==========================================================
-   MODO CLARO / OSCURO
-========================================================== */
 function aplicarTema(tema) {
-  var body = document.body;
-  var btn = document.getElementById('btnTema');
-  if (tema === 'oscuro') {
-    body.classList.add('tema-oscuro');
-    if (btn) btn.innerHTML = 'Claro';
-  } else {
-    body.classList.remove('tema-oscuro');
-    if (btn) btn.innerHTML = 'Oscuro';
-  }
+  document.body.classList.toggle('tema-oscuro', tema === 'oscuro');
+  var sel = document.getElementById('cfgTema');
+  if (sel) sel.value = tema === 'oscuro' ? 'oscuro' : 'claro';
 }
-
-function alternarTema() {
-  var actual = localStorage.getItem(CLAVE_TEMA) || 'claro';
-  var nuevo = actual === 'oscuro' ? 'claro' : 'oscuro';
-  localStorage.setItem(CLAVE_TEMA, nuevo);
-  aplicarTema(nuevo);
-}
-
-/* Aplicar tema al cargar */
-(function() {
-  var guardado = localStorage.getItem(CLAVE_TEMA) || 'claro';
-  aplicarTema(guardado);
-})();
 
 /* ==========================================================
-   INICIALIZACION
+   INICIALIZACIÓN
 ========================================================== */
-construirTabla('tablaPagos', 'pagos');
-construirTabla('tablaDietas', 'dietas');
-actualizarFirma('pagos');
-actualizarFirma('dietas');
-
-for (var k = 0; k < 5; k++) {
-  crearFilaVales('ValesDieta');
-  crearFilaVales('ValesPagos');
-}
-recalcularVales('ValesDieta');
-recalcularVales('ValesPagos');
+(async function init() {
+  configActual = await cargarConfigDesdeSupabase();
+  construirTabla('tablaPagos', 'pagos');
+  construirTabla('tablaDietas', 'dietas');
+  poblarFormularioConfig(configActual);
+  aplicarConfigAUI(configActual);
+  aplicarValoresPorDefectoForzado(configActual);
+  for (var k = 0; k < 5; k++) { crearFilaVales('ValesDieta'); crearFilaVales('ValesPagos'); }
+  recalcularVales('ValesDieta'); recalcularVales('ValesPagos');
+  actualizarFirma('pagos'); actualizarFirma('dietas');
+  actualizarFirmaVales('ValesDieta'); actualizarFirmaVales('ValesPagos');
+})();
 </script>
 </body>
 </html>
