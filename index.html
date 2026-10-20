@@ -200,7 +200,6 @@
     text-align: center; color: #888; font-style: italic;
   }
 
-  /* SNC-1-11 reducido al tamaño justo de su texto */
   .reembolso-modelo .celda-snc {
     width: 1%;
     white-space: nowrap;
@@ -210,7 +209,6 @@
     padding: 4px 6px;
   }
 
-  /* DÍA / MES / AÑO alineados a la izquierda para dejar espacio de escritura */
   .reembolso-modelo .celda-fecha {
     text-align: left;
     padding-left: 8px;
@@ -220,7 +218,7 @@
   }
 
   /* ============================================================
-     CUADROS EN UNA SOLA FILA: CRÉDITOS | CHEQUE | ANOTADO
+     CUADROS EN UNA SOLA FILA
      ============================================================ */
   .cuadros-reembolso {
     display: flex;
@@ -765,7 +763,6 @@
         </table>
       </div>
 
-      <!-- CUADROS EN UNA SOLA FILA: CRÉDITOS | CHEQUE | ANOTADO -->
       <div class="cuadros-reembolso">
 
         <div class="cuadro-item">
@@ -838,7 +835,6 @@
 
       </div>
 
-      <!-- Escaques de firmas al final -->
       <div class="escaques-reembolso">
         <div class="fila-escaques">
           <div class="escaque">
@@ -959,7 +955,8 @@
 <script>
 /* ==========================================================
    AGESP - Control de Caja (versión Supabase + Libro de Vales)
-   + Pestaña REEMBOLSO con REEUP en el encabezado
+   - Reembolso: solo vales de RETIRO
+   - Vales: contramovimientos NO suman a totales ni al saldo
 ========================================================== */
 const SUPABASE_URL = 'https://psxeegtwzspcxrasuxka.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_2GdEMLwwDr1BJ1tLxsLgwA_4AgG4hCF';
@@ -1217,6 +1214,8 @@ async function actualizarSaldoLibrosArqueo(tipo) {
   calcular(tipo);
 }
 
+/* Existencia según libros hasta una fecha.
+   IMPORTANTE: excluye anulados y contramovimientos (no suman). */
 async function calcularExistenciaHasta(tipoVales, fechaHasta) {
   try {
     var { data, error } = await db.from('agesp_vales')
@@ -1227,6 +1226,7 @@ async function calcularExistenciaHasta(tipoVales, fechaHasta) {
       .order('created_at', { ascending: true });
     if (error) throw error;
 
+    // IDs de vales anulados (tienen un contramovimiento)
     var anulados = {};
     for (var i = 0; i < data.length; i++) {
       if (data[i].anula_a) anulados[data[i].anula_a] = true;
@@ -1235,9 +1235,10 @@ async function calcularExistenciaHasta(tipoVales, fechaHasta) {
     var saldo = 0, vigentes = 0;
     for (var j = 0; j < data.length; j++) {
       var m = data[j];
-      if (anulados[m.id]) continue;
+      if (anulados[m.id]) continue;   // vale anulado: no suma
+      if (m.anula_a) continue;        // contramovimiento: no suma
       saldo += (parseFloat(m.deposito) || 0) - (parseFloat(m.retiro) || 0);
-      if (!m.anula_a) vigentes++;
+      vigentes++;
     }
     return saldo;
   } catch (e) {
@@ -1289,6 +1290,9 @@ async function guardar(tipo) {
 
 /* ==========================================================
    LIBRO DE VALES
+   - Vales vigentes: suman a totalDep, totalRet y existencia.
+   - Vales anulados: se muestran tachados, NO suman.
+   - Contramovimientos: se muestran con marca CONTRAMOV., NO suman.
 ========================================================== */
 async function cargarVales(tipoVales) {
   var esDieta = (tipoVales === 'Dieta');
@@ -1313,16 +1317,19 @@ async function cargarVales(tipoVales) {
     return;
   }
 
+  // IDs de vales anulados (porque existe un contramovimiento que los apunta)
   var anulados = {};
   for (var i = 0; i < todos.length; i++) {
     if (todos[i].anula_a) anulados[todos[i].anula_a] = true;
   }
 
+  // Saldo inicial del período: solo vales vigentes anteriores a 'desde'
   var saldoIni = 0;
   for (var a = 0; a < todos.length; a++) {
     var m0 = todos[a];
     if (m0.fecha < desde) {
-      if (anulados[m0.id]) continue;
+      if (anulados[m0.id]) continue;    // vale anulado: no suma
+      if (m0.anula_a) continue;          // contramovimiento: no suma
       saldoIni += (parseFloat(m0.deposito) || 0) - (parseFloat(m0.retiro) || 0);
     }
   }
@@ -1334,12 +1341,15 @@ async function cargarVales(tipoVales) {
     var m = todos[b];
     if (m.fecha < desde) continue;
     var esAnulado = anulados[m.id] ? true : false;
-    if (!esAnulado) {
+    var esContramov = (m.anula_a !== null && m.anula_a !== undefined && m.anula_a !== '') ? true : false;
+
+    // Solo los vales vigentes afectan al saldo y a los totales
+    if (!esAnulado && !esContramov) {
       existencia += (parseFloat(m.deposito) || 0) - (parseFloat(m.retiro) || 0);
       totalDep += (parseFloat(m.deposito) || 0);
       totalRet += (parseFloat(m.retiro) || 0);
     }
-    visibles.push({ mov: m, existencia: existencia, anulado: esAnulado });
+    visibles.push({ mov: m, existencia: existencia, anulado: esAnulado, contramov: esContramov });
   }
 
   var tbody = document.getElementById('tablaVales' + sufijo);
@@ -1350,11 +1360,12 @@ async function cargarVales(tipoVales) {
     for (var v = 0; v < visibles.length; v++) {
       var item = visibles[v];
       var m2 = item.mov;
-      var clase = item.anulado ? ' class="fila-anulada"' : '';
-      var estadoHtml = item.anulado
-        ? '<span class="badge-anulado">ANULADO</span>'
-        : (m2.anula_a ? '<span class="badge-anulado">CONTRAMOV.</span>' : '<span class="badge-vigente">VIGENTE</span>');
-      var accionHtml = (!item.anulado && !m2.anula_a)
+      var clase = (item.anulado || item.contramov) ? ' class="fila-anulada"' : '';
+      var estadoHtml;
+      if (item.anulado) estadoHtml = '<span class="badge-anulado">ANULADO</span>';
+      else if (item.contramov) estadoHtml = '<span class="badge-anulado">CONTRAMOV.</span>';
+      else estadoHtml = '<span class="badge-vigente">VIGENTE</span>';
+      var accionHtml = (!item.anulado && !item.contramov)
         ? '<button class="btn btn-danger btn-sm no-print" onclick="anularVale(\'' + tipoVales + '\', \'' + m2.id + '\')">Anular</button>'
         : '';
       html += '<tr' + clase + '>' +
@@ -1467,6 +1478,8 @@ function resetFiltroVales(tipoVales) {
 
 /* ==========================================================
    REEMBOLSO
+   - Solo vales de RETIRO (no depósitos)
+   - Excluye vales anulados y contramovimientos
 ========================================================== */
 async function generarReembolso() {
   var tipo = document.getElementById('reembolsoTipo').value;
@@ -1498,6 +1511,7 @@ async function generarReembolso() {
     return;
   }
 
+  // Excluir contramovimientos y vales anulados
   var anulados = {};
   for (var i = 0; i < movimientos.length; i++) {
     if (movimientos[i].anula_a) anulados[movimientos[i].anula_a] = true;
@@ -1505,8 +1519,8 @@ async function generarReembolso() {
   var vigentes = [];
   for (var j = 0; j < movimientos.length; j++) {
     var m = movimientos[j];
-    if (m.anula_a) continue;
-    if (anulados[m.id]) continue;
+    if (m.anula_a) continue;        // contramovimiento
+    if (anulados[m.id]) continue;   // vale anulado
     vigentes.push(m);
   }
 
@@ -1516,19 +1530,18 @@ async function generarReembolso() {
   var items = [];
   for (var k = 0; k < vigentes.length; k++) {
     var v = vigentes[k];
-    var dep = parseFloat(v.deposito) || 0;
     var ret = parseFloat(v.retiro) || 0;
-    var importe = (ret > 0) ? ret : dep;
+    if (ret <= 0) continue;  // SOLO RETIROS
     items.push({
       dia: v.fecha,
       num: v.no_vale || '',
-      importe: importe
+      importe: ret
     });
-    total += importe;
+    total += ret;
   }
 
   if (items.length === 0) {
-    html = '<tr><td colspan="12" class="sin-datos">No hay vales vigentes en el rango seleccionado.</td></tr>';
+    html = '<tr><td colspan="12" class="sin-datos">No hay vales de retiro en el rango seleccionado.</td></tr>';
   } else {
     var filas = Math.ceil(items.length / 4);
     for (var f = 0; f < filas; f++) {
