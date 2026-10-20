@@ -739,7 +739,7 @@
             <td colspan="2" class="celda-fecha">DÍA</td>
             <td colspan="2" class="celda-fecha">MES</td>
             <td colspan="3" class="celda-fecha">AÑO</td>
-            <td colspan="3" style="text-align:left;">COD: 151.0.04897</td>
+            <td colspan="3" style="text-align:left;">REEUP: <span id="remReeup">-</span></td>
             <td colspan="5"></td>
           </tr>
           <tr class="titulo-modelo">
@@ -959,7 +959,7 @@
 <script>
 /* ==========================================================
    AGESP - Control de Caja (versión Supabase + Libro de Vales)
-   + Pestaña REEMBOLSO con DÍA reducido y AÑO ampliado
+   + Pestaña REEMBOLSO con REEUP en el encabezado
 ========================================================== */
 const SUPABASE_URL = 'https://psxeegtwzspcxrasuxka.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_2GdEMLwwDr1BJ1tLxsLgwA_4AgG4hCF';
@@ -1074,6 +1074,7 @@ function aplicarConfigAUI(cfg) {
   document.getElementById('contrapartidaValesPagos').value = cfg.contraNombre;
 
   document.getElementById('remEntidad').textContent = cfg.entidad || 'AGESP';
+  document.getElementById('remReeup').textContent = cfg.reeup || '-';
 
   aplicarTema(cfg.tema);
 }
@@ -1477,6 +1478,7 @@ async function generarReembolso() {
   var tipoTexto = (tipo === 'Dieta') ? 'DIETA' : 'PAGOS MENORES';
   document.getElementById('remTipoTexto').textContent = tipoTexto;
   document.getElementById('remEntidad').textContent = configActual.entidad || 'AGESP';
+  document.getElementById('remReeup').textContent = configActual.reeup || '-';
   document.getElementById('remDel').textContent = formatearFecha(desde);
   document.getElementById('remAl').textContent = formatearFecha(hasta);
 
@@ -1558,6 +1560,7 @@ function resetReembolso() {
   document.getElementById('remTipoTexto').textContent = 'PAGOS MENORES';
   document.getElementById('remDel').textContent = '-';
   document.getElementById('remAl').textContent = '-';
+  document.getElementById('remReeup').textContent = configActual ? (configActual.reeup || '-') : '-';
 }
 
 /* ==========================================================
@@ -1590,6 +1593,7 @@ function mostrarSeccion(id) {
   }
   if (id === 'reembolso') {
     document.getElementById('remEntidad').textContent = configActual.entidad || 'AGESP';
+    document.getElementById('remReeup').textContent = configActual.reeup || '-';
   }
 }
 
