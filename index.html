@@ -214,59 +214,6 @@
     font-style: italic;
   }
 
-  /* Escaques obligatorios inferiores (firmas) */
-  .escaques-reembolso {
-    margin-top: 15px;
-    border: 1px solid #333;
-    padding: 10px;
-  }
-  .escaques-reembolso .fila-escaques {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 10px;
-  }
-  .escaques-reembolso .escaque {
-    flex: 1 1 30%;
-    min-width: 200px;
-    border: 1px solid #333;
-    padding: 8px;
-    min-height: 90px;
-  }
-  .escaques-reembolso .escaque .titulo-escaque {
-    font-weight: bold;
-    font-size: 0.75rem;
-    color: #1e3a5f;
-    text-transform: uppercase;
-    border-bottom: 1px solid #999;
-    padding-bottom: 3px;
-    margin-bottom: 6px;
-  }
-  .escaques-reembolso .escaque .linea-escaque {
-    border-bottom: 1px solid #333;
-    height: 20px;
-    margin-top: 12px;
-  }
-  .escaques-reembolso .escaque .campo-escaque {
-    font-size: 0.72rem;
-    color: #555;
-    margin-top: 2px;
-  }
-  .escaques-reembolso .escaque-obs {
-    border: 1px solid #333;
-    padding: 8px;
-    min-height: 60px;
-  }
-  .escaques-reembolso .escaque-obs .titulo-escaque {
-    font-weight: bold;
-    font-size: 0.75rem;
-    color: #1e3a5f;
-    text-transform: uppercase;
-    border-bottom: 1px solid #999;
-    padding-bottom: 3px;
-    margin-bottom: 6px;
-  }
-
   /* ====== CUADROS CRÉDITOS / CHEQUE / ANOTADO (modelo inferior) ====== */
   .cuadros-reembolso {
     margin-top: 15px;
@@ -309,6 +256,46 @@
     font-weight: bold;
     font-size: 0.75rem;
     background: #f0f0f0;
+  }
+
+  /* ====== ESCAQUES DE FIRMAS (al final, compactos, sin firma ni fecha) ====== */
+  .escaques-reembolso {
+    margin-top: 15px;
+    border: 1px solid #333;
+    padding: 8px;
+  }
+  .escaques-reembolso .fila-escaques {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .escaques-reembolso .fila-escaques:last-child { margin-bottom: 0; }
+  .escaques-reembolso .escaque {
+    flex: 1 1 30%;
+    min-width: 180px;
+    border: 1px solid #333;
+    padding: 6px;
+    min-height: 60px;
+  }
+  .escaques-reembolso .escaque .titulo-escaque {
+    font-weight: bold;
+    font-size: 0.72rem;
+    color: #1e3a5f;
+    text-transform: uppercase;
+    border-bottom: 1px solid #999;
+    padding-bottom: 2px;
+    margin-bottom: 4px;
+  }
+  .escaques-reembolso .escaque .campo-escaque {
+    font-size: 0.7rem;
+    color: #555;
+    margin-top: 2px;
+  }
+  .escaques-reembolso .escaque .linea-escaque {
+    border-bottom: 1px solid #333;
+    height: 16px;
+    margin-top: 6px;
   }
 
   body.tema-oscuro { background: #1a1e26; color: #e6eaf0; }
@@ -360,17 +347,15 @@
   body.tema-oscuro .reembolso-modelo .cabecera-entidad td { background: #2a3140; }
   body.tema-oscuro .reembolso-modelo .titulo-modelo { background: #1e3a5f; color: #7fb3ff; }
   body.tema-oscuro .reembolso-modelo .totales td { background: #2a3140; }
-  body.tema-oscuro .escaques-reembolso { border-color: #3a4252; }
-  body.tema-oscuro .escaques-reembolso .escaque,
-  body.tema-oscuro .escaques-reembolso .escaque-obs { border-color: #3a4252; }
-  body.tema-oscuro .escaques-reembolso .escaque .titulo-escaque,
-  body.tema-oscuro .escaques-reembolso .escaque-obs .titulo-escaque { color: #7fb3ff; border-bottom-color: #3a4252; }
-  body.tema-oscuro .escaques-reembolso .escaque .linea-escaque { border-color: #7a8494; }
   body.tema-oscuro .cuadros-reembolso { border-color: #3a4252; }
   body.tema-oscuro .cuadros-reembolso th, body.tema-oscuro .cuadros-reembolso td { border-color: #3a4252; }
   body.tema-oscuro .cuadros-reembolso th { background: #2a3140; color: #c7d2e0; }
   body.tema-oscuro .cuadros-reembolso .titulo-cuadro { background: #1e3a5f; color: #7fb3ff; }
   body.tema-oscuro .cuadros-reembolso .anotado-label { background: #2a3140; color: #c7d2e0; }
+  body.tema-oscuro .escaques-reembolso { border-color: #3a4252; }
+  body.tema-oscuro .escaques-reembolso .escaque { border-color: #3a4252; }
+  body.tema-oscuro .escaques-reembolso .escaque .titulo-escaque { color: #7fb3ff; border-bottom-color: #3a4252; }
+  body.tema-oscuro .escaques-reembolso .escaque .linea-escaque { border-color: #7a8494; }
 
   @media print {
     body { background: #fff; padding: 0; }
@@ -391,8 +376,8 @@
     body.tema-oscuro .encabezado strong, body.tema-oscuro .card h2, body.tema-oscuro .firma .nombre { color: #1e3a5f; }
     .reembolso-modelo { border-color: #000; }
     .reembolso-modelo th, .reembolso-modelo td { border-color: #000; }
-    .escaques-reembolso, .escaques-reembolso .escaque, .escaques-reembolso .escaque-obs { border-color: #000; }
     .cuadros-reembolso, .cuadros-reembolso th, .cuadros-reembolso td { border-color: #000; }
+    .escaques-reembolso, .escaques-reembolso .escaque { border-color: #000; }
   }
 </style>
 </head>
@@ -762,77 +747,9 @@
       </table>
     </div>
 
-    <!-- ESCAQUES DE FIRMAS (Elaborado / Revisado / Aprobado / Recibido / Contabilizado / Observaciones) -->
-    <div class="escaques-reembolso">
-      <div class="fila-escaques">
-        <div class="escaque">
-          <div class="titulo-escaque">Elaborado por</div>
-          <div class="campo-escaque">Nombre y apellidos:</div>
-          <div class="linea-escaque"></div>
-          <div class="campo-escaque">Cargo:</div>
-          <div class="linea-escaque"></div>
-          <div class="campo-escaque">Firma:</div>
-          <div class="linea-escaque"></div>
-          <div class="campo-escaque">Fecha:</div>
-          <div class="linea-escaque"></div>
-        </div>
-        <div class="escaque">
-          <div class="titulo-escaque">Revisado por</div>
-          <div class="campo-escaque">Nombre y apellidos:</div>
-          <div class="linea-escaque"></div>
-          <div class="campo-escaque">Cargo:</div>
-          <div class="linea-escaque"></div>
-          <div class="campo-escaque">Firma:</div>
-          <div class="linea-escaque"></div>
-          <div class="campo-escaque">Fecha:</div>
-          <div class="linea-escaque"></div>
-        </div>
-        <div class="escaque">
-          <div class="titulo-escaque">Aprobado por</div>
-          <div class="campo-escaque">Nombre y apellidos:</div>
-          <div class="linea-escaque"></div>
-          <div class="campo-escaque">Cargo:</div>
-          <div class="linea-escaque"></div>
-          <div class="campo-escaque">Firma:</div>
-          <div class="linea-escaque"></div>
-          <div class="campo-escaque">Fecha:</div>
-          <div class="linea-escaque"></div>
-        </div>
-      </div>
-      <div class="fila-escaques">
-        <div class="escaque">
-          <div class="titulo-escaque">Recibido por</div>
-          <div class="campo-escaque">Nombre y apellidos:</div>
-          <div class="linea-escaque"></div>
-          <div class="campo-escaque">Cargo:</div>
-          <div class="linea-escaque"></div>
-          <div class="campo-escaque">Firma:</div>
-          <div class="linea-escaque"></div>
-          <div class="campo-escaque">Fecha:</div>
-          <div class="linea-escaque"></div>
-        </div>
-        <div class="escaque">
-          <div class="titulo-escaque">Contabilizado por</div>
-          <div class="campo-escaque">Nombre y apellidos:</div>
-          <div class="linea-escaque"></div>
-          <div class="campo-escaque">Cargo:</div>
-          <div class="linea-escaque"></div>
-          <div class="campo-escaque">Firma:</div>
-          <div class="linea-escaque"></div>
-          <div class="campo-escaque">Fecha:</div>
-          <div class="linea-escaque"></div>
-        </div>
-        <div class="escaque-obs">
-          <div class="titulo-escaque">Observaciones</div>
-          <div style="min-height:60px;"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CUADROS OBLIGATORIOS: CRÉDITOS, CHEQUE NOMINATIVO, ANOTADO, CODIFICADO -->
+    <!-- CUADROS OBLIGATORIOS: CRÉDITOS, CHEQUE NOMINATIVO, ANOTADO/CODIFICADO -->
     <div class="cuadros-reembolso">
 
-      <!-- CRÉDITOS -->
       <table>
         <tr>
           <td colspan="3" class="titulo-cuadro">CRÉDITOS</td>
@@ -859,7 +776,6 @@
         </tr>
       </table>
 
-      <!-- CHEQUE NOMINATIVO -->
       <table>
         <tr>
           <td colspan="6" class="titulo-cuadro">CHEQUE NOMINATIVO</td>
@@ -881,7 +797,6 @@
         </tr>
       </table>
 
-      <!-- ANOTADO / CODIFICADO / NO. -->
       <table class="anotado-table">
         <tr>
           <td colspan="3" class="titulo-cuadro">ANOTADO / CODIFICADO</td>
@@ -903,6 +818,49 @@
         </tr>
       </table>
 
+    </div>
+
+    <!-- ESCAQUES DE FIRMAS AL FINAL (compactos, sin firma ni fecha) -->
+    <div class="escaques-reembolso">
+      <div class="fila-escaques">
+        <div class="escaque">
+          <div class="titulo-escaque">Elaborado por</div>
+          <div class="campo-escaque">Nombre y apellidos:</div>
+          <div class="linea-escaque"></div>
+          <div class="campo-escaque">Cargo:</div>
+          <div class="linea-escaque"></div>
+        </div>
+        <div class="escaque">
+          <div class="titulo-escaque">Revisado por</div>
+          <div class="campo-escaque">Nombre y apellidos:</div>
+          <div class="linea-escaque"></div>
+          <div class="campo-escaque">Cargo:</div>
+          <div class="linea-escaque"></div>
+        </div>
+        <div class="escaque">
+          <div class="titulo-escaque">Aprobado por</div>
+          <div class="campo-escaque">Nombre y apellidos:</div>
+          <div class="linea-escaque"></div>
+          <div class="campo-escaque">Cargo:</div>
+          <div class="linea-escaque"></div>
+        </div>
+      </div>
+      <div class="fila-escaques">
+        <div class="escaque">
+          <div class="titulo-escaque">Recibido por</div>
+          <div class="campo-escaque">Nombre y apellidos:</div>
+          <div class="linea-escaque"></div>
+          <div class="campo-escaque">Cargo:</div>
+          <div class="linea-escaque"></div>
+        </div>
+        <div class="escaque">
+          <div class="titulo-escaque">Contabilizado por</div>
+          <div class="campo-escaque">Nombre y apellidos:</div>
+          <div class="linea-escaque"></div>
+          <div class="campo-escaque">Cargo:</div>
+          <div class="linea-escaque"></div>
+        </div>
+      </div>
     </div>
 
     <div class="acciones no-print">
@@ -981,7 +939,7 @@
 <script>
 /* ==========================================================
    AGESP - Control de Caja (versión Supabase + Libro de Vales)
-   + Pestaña REEMBOLSO con escaques + cuadros CRÉDITOS/CHEQUE/ANOTADO
+   + Pestaña REEMBOLSO ajustada visualmente
 ========================================================== */
 const SUPABASE_URL = 'https://psxeegtwzspcxrasuxka.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_2GdEMLwwDr1BJ1tLxsLgwA_4AgG4hCF';
