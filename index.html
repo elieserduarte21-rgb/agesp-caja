@@ -169,17 +169,28 @@
   .panel-saldo strong { color: #1e3a5f; }
   .panel-saldo .monto { font-size: 1.1rem; font-weight: bold; color: #27ae60; }
 
-  /* ====== ESTILOS MODELO REEMBOLSO ====== */
-  .reembolso-modelo {
+  /* ============================================================
+     MODELO REEMBOLSO — TODO ENCUADRADO A UN MISMO ANCHO
+     ============================================================ */
+  .modelo-reembolso-contenedor {
+    width: 100%;
+    max-width: 780px;      /* ancho común para todo el modelo */
+    margin: 10px auto 0 auto;
     background: #fff;
-    border: 1px solid #999;
-    padding: 10px;
-    margin-top: 10px;
+    border: 1px solid #333;
+    padding: 0;
+  }
+
+  /* Tabla superior de importes */
+  .reembolso-modelo {
+    width: 100%;
+    padding: 0;
+    margin: 0;
   }
   .reembolso-modelo table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 0;
+    margin: 0;
   }
   .reembolso-modelo th, .reembolso-modelo td {
     border: 1px solid #333;
@@ -214,21 +225,24 @@
     font-style: italic;
   }
 
-  /* ====== CUADROS CRÉDITOS / CHEQUE / ANOTADO (modelo inferior) ====== */
+  /* Cuadros inferiores (CRÉDITOS, CHEQUE, ANOTADO) — mismo ancho */
   .cuadros-reembolso {
-    margin-top: 15px;
-    border: 1px solid #333;
-    padding: 10px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid #333;
+    border-left: 1px solid #333;
+    border-right: 1px solid #333;
   }
   .cuadros-reembolso table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 8px;
+    margin: 0;
   }
   .cuadros-reembolso th, .cuadros-reembolso td {
     border: 1px solid #333;
-    padding: 5px 6px;
-    font-size: 0.78rem;
+    padding: 4px 5px;
+    font-size: 0.76rem;
     text-align: center;
     color: #000;
   }
@@ -237,67 +251,69 @@
     font-weight: bold;
     font-size: 0.72rem;
   }
-  .cuadros-reembolso .celda-vacia {
-    height: 22px;
-  }
+  .cuadros-reembolso .celda-vacia { height: 20px; }
   .cuadros-reembolso .titulo-cuadro {
     text-align: left;
     font-weight: bold;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     background: #dbe4ee;
     color: #1e3a5f;
-    padding: 4px 6px;
+    padding: 3px 5px;
   }
-  .cuadros-reembolso .anotado-table td {
-    height: 26px;
-  }
+  .cuadros-reembolso .anotado-table td { height: 22px; }
   .cuadros-reembolso .anotado-label {
     text-align: left;
     font-weight: bold;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     background: #f0f0f0;
   }
 
-  /* ====== ESCAQUES DE FIRMAS (al final, compactos, sin firma ni fecha) ====== */
+  /* Escaques de firmas — alineados al mismo ancho, sin desbordar */
   .escaques-reembolso {
-    margin-top: 15px;
+    width: 100%;
+    margin: 0;
+    padding: 6px;
     border: 1px solid #333;
-    padding: 8px;
+    border-top: 1px solid #333;
   }
   .escaques-reembolso .fila-escaques {
     display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: 8px;
+    gap: 6px;
+    margin-bottom: 6px;
   }
   .escaques-reembolso .fila-escaques:last-child { margin-bottom: 0; }
   .escaques-reembolso .escaque {
-    flex: 1 1 30%;
-    min-width: 180px;
+    flex: 1 1 0;            /* se reparten el ancho por igual */
+    min-width: 0;           /* evita que se desborden */
     border: 1px solid #333;
-    padding: 6px;
-    min-height: 60px;
+    padding: 5px;
+    min-height: 55px;
+    box-sizing: border-box;
   }
   .escaques-reembolso .escaque .titulo-escaque {
     font-weight: bold;
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     color: #1e3a5f;
     text-transform: uppercase;
     border-bottom: 1px solid #999;
     padding-bottom: 2px;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .escaques-reembolso .escaque .campo-escaque {
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     color: #555;
     margin-top: 2px;
   }
   .escaques-reembolso .escaque .linea-escaque {
     border-bottom: 1px solid #333;
-    height: 16px;
-    margin-top: 6px;
+    height: 14px;
+    margin-top: 4px;
   }
 
+  /* Modo oscuro */
   body.tema-oscuro { background: #1a1e26; color: #e6eaf0; }
   body.tema-oscuro header h1 { color: #7fb3ff; }
   body.tema-oscuro header p { color: #a8b0bd; }
@@ -341,7 +357,7 @@
   body.tema-oscuro .filtro-rango .campo input, body.tema-oscuro .filtro-rango .campo select { background: #232a36; border-color: #3a4252; color: #e6eaf0; }
   body.tema-oscuro .panel-saldo { background: #1e2a3a; border-color: #3a4252; color: #c7d2e0; }
   body.tema-oscuro .panel-saldo strong { color: #7fb3ff; }
-  body.tema-oscuro .reembolso-modelo { background: #232a36; border-color: #3a4252; }
+  body.tema-oscuro .modelo-reembolso-contenedor { background: #232a36; border-color: #3a4252; }
   body.tema-oscuro .reembolso-modelo th, body.tema-oscuro .reembolso-modelo td { border-color: #3a4252; }
   body.tema-oscuro .reembolso-modelo th { background: #2a3140; color: #c7d2e0; }
   body.tema-oscuro .reembolso-modelo .cabecera-entidad td { background: #2a3140; }
@@ -374,7 +390,7 @@
       background: transparent; color: #000; border: none;
     }
     body.tema-oscuro .encabezado strong, body.tema-oscuro .card h2, body.tema-oscuro .firma .nombre { color: #1e3a5f; }
-    .reembolso-modelo { border-color: #000; }
+    .modelo-reembolso-contenedor { border-color: #000; max-width: 780px; margin: 0 auto; }
     .reembolso-modelo th, .reembolso-modelo td { border-color: #000; }
     .cuadros-reembolso, .cuadros-reembolso th, .cuadros-reembolso td { border-color: #000; }
     .escaques-reembolso, .escaques-reembolso .escaque { border-color: #000; }
@@ -714,154 +730,160 @@
       <button class="btn btn-primary btn-sm" onclick="imprimir()">Imprimir</button>
     </div>
 
-    <div class="reembolso-modelo" id="reembolsoModelo">
-      <table>
-        <tr class="cabecera-entidad">
-          <td colspan="3" style="text-align:left;">EMP: <span id="remEntidad">AGESP</span></td>
-          <td colspan="6" style="text-align:left;">SNC-1-11</td>
-          <td colspan="3">DÍA</td>
-          <td colspan="2">MES</td>
-          <td colspan="2">AÑO</td>
-          <td colspan="3" style="text-align:left;">COD: 151.0.04897</td>
-        </tr>
-        <tr class="titulo-modelo">
-          <td colspan="19">REEMBOLSO DEL FONDO PARA <span id="remTipoTexto">PAGOS MENORES</span></td>
-        </tr>
-        <tr>
-          <td colspan="3" style="text-align:left;">DEL: <span id="remDel">-</span></td>
-          <td colspan="3" style="text-align:left;">AL: <span id="remAl">-</span></td>
-          <td colspan="13"></td>
-        </tr>
-        <tr>
-          <th>DÍA</th><th>NUM.</th><th>IMPORTE</th>
-          <th>DÍA</th><th>NUM.</th><th>IMPORTE</th>
-          <th>DÍA</th><th>NUM.</th><th>IMPORTE</th>
-          <th>DÍA</th><th>NUM.</th><th>IMPORTE</th>
-        </tr>
-        <tbody id="remFilas"></tbody>
-        <tr class="totales">
-          <td colspan="2" style="text-align:right;">TOTAL</td>
-          <td id="remTotal" colspan="1">$0</td>
-          <td colspan="9"></td>
-        </tr>
-      </table>
-    </div>
+    <!-- CONTENEDOR ÚNICO: encabezado, cuadros y firmas comparten el mismo ancho -->
+    <div class="modelo-reembolso-contenedor">
 
-    <!-- CUADROS OBLIGATORIOS: CRÉDITOS, CHEQUE NOMINATIVO, ANOTADO/CODIFICADO -->
-    <div class="cuadros-reembolso">
+      <!-- Tabla superior -->
+      <div class="reembolso-modelo" id="reembolsoModelo">
+        <table>
+          <tr class="cabecera-entidad">
+            <td colspan="3" style="text-align:left;">EMP: <span id="remEntidad">AGESP</span></td>
+            <td colspan="6" style="text-align:left;">SNC-1-11</td>
+            <td colspan="3">DÍA</td>
+            <td colspan="2">MES</td>
+            <td colspan="2">AÑO</td>
+            <td colspan="3" style="text-align:left;">COD: 151.0.04897</td>
+          </tr>
+          <tr class="titulo-modelo">
+            <td colspan="19">REEMBOLSO DEL FONDO PARA <span id="remTipoTexto">PAGOS MENORES</span></td>
+          </tr>
+          <tr>
+            <td colspan="3" style="text-align:left;">DEL: <span id="remDel">-</span></td>
+            <td colspan="3" style="text-align:left;">AL: <span id="remAl">-</span></td>
+            <td colspan="13"></td>
+          </tr>
+          <tr>
+            <th>DÍA</th><th>NUM.</th><th>IMPORTE</th>
+            <th>DÍA</th><th>NUM.</th><th>IMPORTE</th>
+            <th>DÍA</th><th>NUM.</th><th>IMPORTE</th>
+            <th>DÍA</th><th>NUM.</th><th>IMPORTE</th>
+          </tr>
+          <tbody id="remFilas"></tbody>
+          <tr class="totales">
+            <td colspan="2" style="text-align:right;">TOTAL</td>
+            <td id="remTotal" colspan="1">$0</td>
+            <td colspan="9"></td>
+          </tr>
+        </table>
+      </div>
 
-      <table>
-        <tr>
-          <td colspan="3" class="titulo-cuadro">CRÉDITOS</td>
-        </tr>
-        <tr>
-          <th style="width:20%;">CÓDIGO</th>
-          <th style="width:60%;">CUENTA</th>
-          <th style="width:20%;">IMPORTE</th>
-        </tr>
-        <tr>
-          <td class="celda-vacia"></td>
-          <td class="celda-vacia"></td>
-          <td class="celda-vacia"></td>
-        </tr>
-        <tr>
-          <th style="width:20%;">SUBCUENTA</th>
-          <th style="width:60%;">&nbsp;</th>
-          <th style="width:20%;">&nbsp;</th>
-        </tr>
-        <tr>
-          <td class="celda-vacia"></td>
-          <td class="celda-vacia"></td>
-          <td class="celda-vacia"></td>
-        </tr>
-      </table>
+      <!-- Cuadros inferiores (CRÉDITOS, CHEQUE, ANOTADO) -->
+      <div class="cuadros-reembolso">
 
-      <table>
-        <tr>
-          <td colspan="6" class="titulo-cuadro">CHEQUE NOMINATIVO</td>
-        </tr>
-        <tr>
-          <th style="width:16%;">NÚMERO</th>
-          <th colspan="5" style="width:84%;">FECHA</th>
-        </tr>
-        <tr>
-          <td rowspan="2" class="celda-vacia"></td>
-          <th style="width:28%;">DÍA</th>
-          <th style="width:28%;">MES</th>
-          <th style="width:28%;">AÑO</th>
-        </tr>
-        <tr>
-          <td class="celda-vacia"></td>
-          <td class="celda-vacia"></td>
-          <td class="celda-vacia"></td>
-        </tr>
-      </table>
+        <table>
+          <tr>
+            <td colspan="3" class="titulo-cuadro">CRÉDITOS</td>
+          </tr>
+          <tr>
+            <th style="width:20%;">CÓDIGO</th>
+            <th style="width:60%;">CUENTA</th>
+            <th style="width:20%;">IMPORTE</th>
+          </tr>
+          <tr>
+            <td class="celda-vacia"></td>
+            <td class="celda-vacia"></td>
+            <td class="celda-vacia"></td>
+          </tr>
+          <tr>
+            <th style="width:20%;">SUBCUENTA</th>
+            <th style="width:60%;">&nbsp;</th>
+            <th style="width:20%;">&nbsp;</th>
+          </tr>
+          <tr>
+            <td class="celda-vacia"></td>
+            <td class="celda-vacia"></td>
+            <td class="celda-vacia"></td>
+          </tr>
+        </table>
 
-      <table class="anotado-table">
-        <tr>
-          <td colspan="3" class="titulo-cuadro">ANOTADO / CODIFICADO</td>
-        </tr>
-        <tr>
-          <td class="anotado-label" style="width:20%;">ANOTADO</td>
-          <td class="celda-vacia" style="width:40%;"></td>
-          <td class="celda-vacia" style="width:40%;"></td>
-        </tr>
-        <tr>
-          <td class="anotado-label">CODIFICADO</td>
-          <td class="celda-vacia"></td>
-          <td class="celda-vacia"></td>
-        </tr>
-        <tr>
-          <td class="anotado-label">NO.</td>
-          <td class="celda-vacia"></td>
-          <td class="celda-vacia"></td>
-        </tr>
-      </table>
+        <table>
+          <tr>
+            <td colspan="4" class="titulo-cuadro">CHEQUE NOMINATIVO</td>
+          </tr>
+          <tr>
+            <th style="width:16%;">NÚMERO</th>
+            <th colspan="3" style="width:84%;">FECHA</th>
+          </tr>
+          <tr>
+            <td rowspan="2" class="celda-vacia"></td>
+            <th style="width:28%;">DÍA</th>
+            <th style="width:28%;">MES</th>
+            <th style="width:28%;">AÑO</th>
+          </tr>
+          <tr>
+            <td class="celda-vacia"></td>
+            <td class="celda-vacia"></td>
+            <td class="celda-vacia"></td>
+          </tr>
+        </table>
 
-    </div>
+        <table class="anotado-table">
+          <tr>
+            <td colspan="3" class="titulo-cuadro">ANOTADO / CODIFICADO</td>
+          </tr>
+          <tr>
+            <td class="anotado-label" style="width:20%;">ANOTADO</td>
+            <td class="celda-vacia" style="width:40%;"></td>
+            <td class="celda-vacia" style="width:40%;"></td>
+          </tr>
+          <tr>
+            <td class="anotado-label">CODIFICADO</td>
+            <td class="celda-vacia"></td>
+            <td class="celda-vacia"></td>
+          </tr>
+          <tr>
+            <td class="anotado-label">NO.</td>
+            <td class="celda-vacia"></td>
+            <td class="celda-vacia"></td>
+          </tr>
+        </table>
 
-    <!-- ESCAQUES DE FIRMAS AL FINAL (compactos, sin firma ni fecha) -->
-    <div class="escaques-reembolso">
-      <div class="fila-escaques">
-        <div class="escaque">
-          <div class="titulo-escaque">Elaborado por</div>
-          <div class="campo-escaque">Nombre y apellidos:</div>
-          <div class="linea-escaque"></div>
-          <div class="campo-escaque">Cargo:</div>
-          <div class="linea-escaque"></div>
+      </div>
+
+      <!-- Escaques de firmas al final, mismo ancho -->
+      <div class="escaques-reembolso">
+        <div class="fila-escaques">
+          <div class="escaque">
+            <div class="titulo-escaque">Elaborado por</div>
+            <div class="campo-escaque">Nombre y apellidos:</div>
+            <div class="linea-escaque"></div>
+            <div class="campo-escaque">Cargo:</div>
+            <div class="linea-escaque"></div>
+          </div>
+          <div class="escaque">
+            <div class="titulo-escaque">Revisado por</div>
+            <div class="campo-escaque">Nombre y apellidos:</div>
+            <div class="linea-escaque"></div>
+            <div class="campo-escaque">Cargo:</div>
+            <div class="linea-escaque"></div>
+          </div>
+          <div class="escaque">
+            <div class="titulo-escaque">Aprobado por</div>
+            <div class="campo-escaque">Nombre y apellidos:</div>
+            <div class="linea-escaque"></div>
+            <div class="campo-escaque">Cargo:</div>
+            <div class="linea-escaque"></div>
+          </div>
         </div>
-        <div class="escaque">
-          <div class="titulo-escaque">Revisado por</div>
-          <div class="campo-escaque">Nombre y apellidos:</div>
-          <div class="linea-escaque"></div>
-          <div class="campo-escaque">Cargo:</div>
-          <div class="linea-escaque"></div>
-        </div>
-        <div class="escaque">
-          <div class="titulo-escaque">Aprobado por</div>
-          <div class="campo-escaque">Nombre y apellidos:</div>
-          <div class="linea-escaque"></div>
-          <div class="campo-escaque">Cargo:</div>
-          <div class="linea-escaque"></div>
+        <div class="fila-escaques">
+          <div class="escaque">
+            <div class="titulo-escaque">Recibido por</div>
+            <div class="campo-escaque">Nombre y apellidos:</div>
+            <div class="linea-escaque"></div>
+            <div class="campo-escaque">Cargo:</div>
+            <div class="linea-escaque"></div>
+          </div>
+          <div class="escaque">
+            <div class="titulo-escaque">Contabilizado por</div>
+            <div class="campo-escaque">Nombre y apellidos:</div>
+            <div class="linea-escaque"></div>
+            <div class="campo-escaque">Cargo:</div>
+            <div class="linea-escaque"></div>
+          </div>
         </div>
       </div>
-      <div class="fila-escaques">
-        <div class="escaque">
-          <div class="titulo-escaque">Recibido por</div>
-          <div class="campo-escaque">Nombre y apellidos:</div>
-          <div class="linea-escaque"></div>
-          <div class="campo-escaque">Cargo:</div>
-          <div class="linea-escaque"></div>
-        </div>
-        <div class="escaque">
-          <div class="titulo-escaque">Contabilizado por</div>
-          <div class="campo-escaque">Nombre y apellidos:</div>
-          <div class="linea-escaque"></div>
-          <div class="campo-escaque">Cargo:</div>
-          <div class="linea-escaque"></div>
-        </div>
-      </div>
-    </div>
+
+    </div><!-- /modelo-reembolso-contenedor -->
 
     <div class="acciones no-print">
       <button class="btn btn-secondary" onclick="resetReembolso()">Limpiar</button>
@@ -939,7 +961,7 @@
 <script>
 /* ==========================================================
    AGESP - Control de Caja (versión Supabase + Libro de Vales)
-   + Pestaña REEMBOLSO ajustada visualmente
+   + Pestaña REEMBOLSO encuadrada a un ancho uniforme
 ========================================================== */
 const SUPABASE_URL = 'https://psxeegtwzspcxrasuxka.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_2GdEMLwwDr1BJ1tLxsLgwA_4AgG4hCF';
