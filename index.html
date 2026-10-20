@@ -155,7 +155,7 @@
   .filtro-rango .campo label {
     display: block; font-size: 0.72rem; font-weight: bold; color: #1e3a5f; margin-bottom: 3px;
   }
-  .filtro-rango .campo input {
+  .filtro-rango .campo input, .filtro-rango .campo select {
     padding: 5px 6px; border: 1px solid #ccd6e0; border-radius: 5px;
     font-size: 0.8rem; font-family: inherit;
   }
@@ -168,6 +168,51 @@
   .panel-saldo > div { flex: 1 1 30%; }
   .panel-saldo strong { color: #1e3a5f; }
   .panel-saldo .monto { font-size: 1.1rem; font-weight: bold; color: #27ae60; }
+
+  /* ====== ESTILOS MODELO REEMBOLSO ====== */
+  .reembolso-modelo {
+    background: #fff;
+    border: 1px solid #999;
+    padding: 10px;
+    margin-top: 10px;
+  }
+  .reembolso-modelo table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0;
+  }
+  .reembolso-modelo th, .reembolso-modelo td {
+    border: 1px solid #333;
+    padding: 4px 6px;
+    font-size: 0.8rem;
+    text-align: center;
+  }
+  .reembolso-modelo th {
+    background: #e8e8e8;
+    color: #000;
+    font-size: 0.75rem;
+  }
+  .reembolso-modelo .cabecera-entidad td {
+    font-weight: bold;
+    background: #f0f0f0;
+    font-size: 0.8rem;
+  }
+  .reembolso-modelo .titulo-modelo {
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+    background: #dbe4ee;
+    color: #1e3a5f;
+  }
+  .reembolso-modelo .totales td {
+    font-weight: bold;
+    background: #f0f4f8;
+  }
+  .reembolso-modelo .sin-datos {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+  }
 
   body.tema-oscuro { background: #1a1e26; color: #e6eaf0; }
   body.tema-oscuro header h1 { color: #7fb3ff; }
@@ -209,9 +254,15 @@
   body.tema-oscuro .form-vale .campo input { background: #232a36; border-color: #3a4252; color: #e6eaf0; }
   body.tema-oscuro .filtro-rango { background: #2a3140; }
   body.tema-oscuro .filtro-rango .campo label { color: #7fb3ff; }
-  body.tema-oscuro .filtro-rango .campo input { background: #232a36; border-color: #3a4252; color: #e6eaf0; }
+  body.tema-oscuro .filtro-rango .campo input, body.tema-oscuro .filtro-rango .campo select { background: #232a36; border-color: #3a4252; color: #e6eaf0; }
   body.tema-oscuro .panel-saldo { background: #1e2a3a; border-color: #3a4252; color: #c7d2e0; }
   body.tema-oscuro .panel-saldo strong { color: #7fb3ff; }
+  body.tema-oscuro .reembolso-modelo { background: #232a36; border-color: #3a4252; }
+  body.tema-oscuro .reembolso-modelo th, body.tema-oscuro .reembolso-modelo td { border-color: #3a4252; }
+  body.tema-oscuro .reembolso-modelo th { background: #2a3140; color: #c7d2e0; }
+  body.tema-oscuro .reembolso-modelo .cabecera-entidad td { background: #2a3140; }
+  body.tema-oscuro .reembolso-modelo .titulo-modelo { background: #1e3a5f; color: #7fb3ff; }
+  body.tema-oscuro .reembolso-modelo .totales td { background: #2a3140; }
 
   @media print {
     body { background: #fff; padding: 0; }
@@ -230,6 +281,8 @@
       background: transparent; color: #000; border: none;
     }
     body.tema-oscuro .encabezado strong, body.tema-oscuro .card h2, body.tema-oscuro .firma .nombre { color: #1e3a5f; }
+    .reembolso-modelo { border-color: #000; }
+    .reembolso-modelo th, .reembolso-modelo td { border-color: #000; }
   }
 </style>
 </head>
@@ -245,6 +298,7 @@
   <button id="btnDietas" onclick="mostrarSeccion('dietas')">Arqueo Dietas</button>
   <button id="btnValesDieta" onclick="mostrarSeccion('valesDieta')">Vales Dieta</button>
   <button id="btnValesPagos" onclick="mostrarSeccion('valesPagos')">Vales Pagos Menores</button>
+  <button id="btnReembolso" onclick="mostrarSeccion('reembolso')">REEMBOLSO</button>
   <button id="btnHistorial" onclick="mostrarSeccion('historial')">Historial Arqueos</button>
   <button id="btnConfig" onclick="mostrarSeccion('configuracion')">⚙️ Configuración</button>
 </div>
@@ -545,6 +599,66 @@
   </div>
 </div>
 
+<!-- ============ REEMBOLSO ============ -->
+<div id="reembolso" class="seccion">
+  <div class="card">
+    <h2>REEMBOLSO DEL FONDO</h2>
+
+    <div class="filtro-rango no-print">
+      <div class="campo">
+        <label>Tipo de fondo</label>
+        <select id="reembolsoTipo">
+          <option value="PagosMenores">Pagos Menores</option>
+          <option value="Dieta">Dieta</option>
+        </select>
+      </div>
+      <div class="campo"><label>Desde</label><input type="date" id="reembolsoDesde"></div>
+      <div class="campo"><label>Hasta</label><input type="date" id="reembolsoHasta"></div>
+      <button class="btn btn-info btn-sm" onclick="generarReembolso()">Generar reembolso</button>
+      <button class="btn btn-secondary btn-sm" onclick="resetReembolso()">Año actual</button>
+      <button class="btn btn-primary btn-sm" onclick="imprimir()">Imprimir</button>
+    </div>
+
+    <div class="reembolso-modelo" id="reembolsoModelo">
+      <table>
+        <tr class="cabecera-entidad">
+          <td colspan="3" style="text-align:left;">EMP: <span id="remEntidad">AGESP</span></td>
+          <td colspan="6" style="text-align:left;">SNC-1-11</td>
+          <td colspan="3">DÍA</td>
+          <td colspan="2">MES</td>
+          <td colspan="2">AÑO</td>
+          <td colspan="3" style="text-align:left;">COD: 151.0.04897</td>
+        </tr>
+        <tr class="titulo-modelo">
+          <td colspan="19">REEMBOLSO DEL FONDO PARA <span id="remTipoTexto">PAGOS MENORES</span></td>
+        </tr>
+        <tr>
+          <td colspan="3" style="text-align:left;">DEL: <span id="remDel">-</span></td>
+          <td colspan="3" style="text-align:left;">AL: <span id="remAl">-</span></td>
+          <td colspan="13"></td>
+        </tr>
+        <tr>
+          <th>DÍA</th><th>NUM.</th><th>IMPORTE</th>
+          <th>DÍA</th><th>NUM.</th><th>IMPORTE</th>
+          <th>DÍA</th><th>NUM.</th><th>IMPORTE</th>
+          <th>DÍA</th><th>NUM.</th><th>IMPORTE</th>
+        </tr>
+        <tbody id="remFilas"></tbody>
+        <tr class="totales">
+          <td colspan="2" style="text-align:right;">TOTAL</td>
+          <td id="remTotal" colspan="1">$0</td>
+          <td colspan="9"></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="acciones no-print">
+      <button class="btn btn-secondary" onclick="resetReembolso()">Limpiar</button>
+      <button class="btn btn-primary" onclick="imprimir()">Imprimir reembolso</button>
+    </div>
+  </div>
+</div>
+
 <!-- ============ HISTORIAL ARQUEOS ============ -->
 <div id="historial" class="seccion">
   <div class="card">
@@ -614,11 +728,11 @@
 <script>
 /* ==========================================================
    AGESP - Control de Caja (versión Supabase + Libro de Vales)
+   + Pestaña REEMBOLSO
 ========================================================== */
 const SUPABASE_URL = 'https://psxeegtwzspcxrasuxka.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_2GdEMLwwDr1BJ1tLxsLgwA_4AgG4hCF';
 
-/* Verificar que la librería de Supabase se cargó */
 if (typeof supabase === 'undefined') {
   alert('Error: no se pudo cargar la librería de Supabase. Revisa tu conexión a internet.');
   throw new Error('Supabase JS no cargado');
@@ -728,6 +842,8 @@ function aplicarConfigAUI(cfg) {
   document.getElementById('contrapartidaValesDieta').value = cfg.contraNombre;
   document.getElementById('contrapartidaValesPagos').value = cfg.contraNombre;
 
+  document.getElementById('remEntidad').textContent = cfg.entidad || 'AGESP';
+
   aplicarTema(cfg.tema);
 }
 
@@ -786,6 +902,8 @@ document.getElementById('fechaInputPagos').value = hoyISO();
 document.getElementById('fechaInputDietas').value = hoyISO();
 document.getElementById('nuevoFechaValesDieta').value = hoyISO();
 document.getElementById('nuevoFechaValesPagos').value = hoyISO();
+document.getElementById('reembolsoDesde').value = primerDiaAnio();
+document.getElementById('reembolsoHasta').value = hoyISO();
 
 /* ==========================================================
    ARQUEO
@@ -1116,6 +1234,106 @@ function resetFiltroVales(tipoVales) {
 }
 
 /* ==========================================================
+   REEMBOLSO
+========================================================== */
+async function generarReembolso() {
+  var tipo = document.getElementById('reembolsoTipo').value;
+  var desde = document.getElementById('reembolsoDesde').value;
+  var hasta = document.getElementById('reembolsoHasta').value;
+  if (!desde) desde = primerDiaAnio();
+  if (!hasta) hasta = hoyISO();
+
+  var tipoTexto = (tipo === 'Dieta') ? 'DIETA' : 'PAGOS MENORES';
+  document.getElementById('remTipoTexto').textContent = tipoTexto;
+  document.getElementById('remEntidad').textContent = configActual.entidad || 'AGESP';
+  document.getElementById('remDel').textContent = formatearFecha(desde);
+  document.getElementById('remAl').textContent = formatearFecha(hasta);
+
+  var movimientos = [];
+  try {
+    var { data, error } = await db.from('agesp_vales')
+      .select('*')
+      .eq('tipo', tipo)
+      .gte('fecha', desde)
+      .lte('fecha', hasta)
+      .order('fecha', { ascending: true })
+      .order('created_at', { ascending: true });
+    if (error) throw error;
+    movimientos = data || [];
+  } catch (e) {
+    mostrarStatus('Error al generar reembolso: ' + e.message, 'err');
+    return;
+  }
+
+  // Excluir anulados y contramovimientos (solo vales vigentes con importe de retiro o depósito)
+  var anulados = {};
+  for (var i = 0; i < movimientos.length; i++) {
+    if (movimientos[i].anula_a) anulados[movimientos[i].anula_a] = true;
+  }
+  var vigentes = [];
+  for (var j = 0; j < movimientos.length; j++) {
+    var m = movimientos[j];
+    if (m.anula_a) continue;
+    if (anulados[m.id]) continue;
+    vigentes.push(m);
+  }
+
+  // Construir filas de la tabla modelo (4 columnas por fila, como el PDF)
+  var tbody = document.getElementById('remFilas');
+  var html = '';
+  var total = 0;
+
+  // Calcular importe de cada vale (si es retiro, ese es el monto del fondo a reembolsar)
+  var items = [];
+  for (var k = 0; k < vigentes.length; k++) {
+    var v = vigentes[k];
+    var dep = parseFloat(v.deposito) || 0;
+    var ret = parseFloat(v.retiro) || 0;
+    var importe = (ret > 0) ? ret : dep;
+    items.push({
+      dia: v.fecha,
+      num: v.no_vale || '',
+      importe: importe
+    });
+    total += importe;
+  }
+
+  if (items.length === 0) {
+    html = '<tr><td colspan="12" class="sin-datos">No hay vales vigentes en el rango seleccionado.</td></tr>';
+  } else {
+    var filas = Math.ceil(items.length / 4);
+    for (var f = 0; f < filas; f++) {
+      html += '<tr>';
+      for (var c = 0; c < 4; c++) {
+        var idx = f * 4 + c;
+        if (idx < items.length) {
+          var it = items[idx];
+          html += '<td>' + formatearFecha(it.dia) + '</td>' +
+                  '<td>' + it.num + '</td>' +
+                  '<td>' + formatoMoneda(it.importe) + '</td>';
+        } else {
+          html += '<td></td><td></td><td></td>';
+        }
+      }
+      html += '</tr>';
+    }
+  }
+  tbody.innerHTML = html;
+  document.getElementById('remTotal').textContent = formatoMoneda(total);
+}
+
+function resetReembolso() {
+  document.getElementById('reembolsoTipo').value = 'PagosMenores';
+  document.getElementById('reembolsoDesde').value = primerDiaAnio();
+  document.getElementById('reembolsoHasta').value = hoyISO();
+  document.getElementById('remFilas').innerHTML = '';
+  document.getElementById('remTotal').textContent = '$0';
+  document.getElementById('remTipoTexto').textContent = 'PAGOS MENORES';
+  document.getElementById('remDel').textContent = '-';
+  document.getElementById('remAl').textContent = '-';
+}
+
+/* ==========================================================
    NAVEGACIÓN / HISTORIAL / TEMA
 ========================================================== */
 function mostrarSeccion(id) {
@@ -1126,7 +1344,8 @@ function mostrarSeccion(id) {
   document.getElementById(id).classList.add('active');
   var mapa = {
     pagos: 'btnPagos', dietas: 'btnDietas', valesDieta: 'btnValesDieta',
-    valesPagos: 'btnValesPagos', historial: 'btnHistorial', configuracion: 'btnConfig'
+    valesPagos: 'btnValesPagos', reembolso: 'btnReembolso',
+    historial: 'btnHistorial', configuracion: 'btnConfig'
   };
   if (mapa[id]) document.getElementById(mapa[id]).classList.add('active');
 
@@ -1141,6 +1360,9 @@ function mostrarSeccion(id) {
   if (id === 'valesPagos') {
     if (!document.getElementById('filtroDesdeValesPagos').value) resetFiltroVales('PagosMenores');
     else cargarVales('PagosMenores');
+  }
+  if (id === 'reembolso') {
+    document.getElementById('remEntidad').textContent = configActual.entidad || 'AGESP';
   }
 }
 
