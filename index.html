@@ -210,6 +210,15 @@
     padding: 4px 6px;
   }
 
+  /* DÍA / MES / AÑO alineados a la izquierda para dejar espacio de escritura */
+  .reembolso-modelo .celda-fecha {
+    text-align: left;
+    padding-left: 8px;
+    font-weight: bold;
+    background: #f0f0f0;
+    font-size: 0.8rem;
+  }
+
   /* ============================================================
      CUADROS EN UNA SOLA FILA: CRÉDITOS | CHEQUE | ANOTADO
      ============================================================ */
@@ -348,6 +357,7 @@
   body.tema-oscuro .reembolso-modelo th { background: #2a3140; color: #c7d2e0; }
   body.tema-oscuro .reembolso-modelo .cabecera-entidad td { background: #2a3140; }
   body.tema-oscuro .reembolso-modelo .celda-snc { background: #2a3140; }
+  body.tema-oscuro .reembolso-modelo .celda-fecha { background: #2a3140; }
   body.tema-oscuro .reembolso-modelo .titulo-modelo { background: #1e3a5f; color: #7fb3ff; }
   body.tema-oscuro .reembolso-modelo .totales td { background: #2a3140; }
   body.tema-oscuro .cuadros-reembolso { border-color: #3a4252; }
@@ -726,9 +736,9 @@
           <tr class="cabecera-entidad">
             <td colspan="3" style="text-align:left;">EMP: <span id="remEntidad">AGESP</span></td>
             <td class="celda-snc">SNC-1-11</td>
-            <td colspan="3">DÍA</td>
-            <td colspan="2">MES</td>
-            <td colspan="2">AÑO</td>
+            <td colspan="2" class="celda-fecha">DÍA</td>
+            <td colspan="2" class="celda-fecha">MES</td>
+            <td colspan="3" class="celda-fecha">AÑO</td>
             <td colspan="3" style="text-align:left;">COD: 151.0.04897</td>
             <td colspan="5"></td>
           </tr>
@@ -949,7 +959,7 @@
 <script>
 /* ==========================================================
    AGESP - Control de Caja (versión Supabase + Libro de Vales)
-   + Pestaña REEMBOLSO con SNC-1-11 ajustado
+   + Pestaña REEMBOLSO con DÍA reducido y AÑO ampliado
 ========================================================== */
 const SUPABASE_URL = 'https://psxeegtwzspcxrasuxka.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_2GdEMLwwDr1BJ1tLxsLgwA_4AgG4hCF';
