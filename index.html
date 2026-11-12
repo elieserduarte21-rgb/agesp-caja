@@ -4,47 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Arqueo de Caja - AGESP</title>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#1e3a5f">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f4f6f9;
-    color: #2c3e50;
-    padding: 15px;
-  }
+  body { font-family: Arial, Helvetica, sans-serif; background: #f4f6f9; color: #2c3e50; padding: 15px; }
   header { text-align: center; margin-bottom: 15px; }
   header h1 { color: #1e3a5f; font-size: 1.5rem; }
   header p { color: #666; font-size: 0.85rem; }
 
-  .estado-conexion {
-    text-align: center;
-    font-size: 0.75rem;
-    margin-bottom: 10px;
-    padding: 5px;
-    border-radius: 5px;
-  }
-  .estado-conexion.online { background: #d4f4dd; color: #27ae60; }
-  .estado-conexion.offline { background: #fde2e2; color: #c0392b; }
-
-  .tabs {
-    display: flex;
-    justify-content: center;
-    gap: 6px;
-    margin-bottom: 15px;
-    flex-wrap: wrap;
-  }
+  .tabs { display: flex; justify-content: center; gap: 6px; margin-bottom: 15px; flex-wrap: wrap; }
   .tabs button {
-    padding: 9px 14px;
-    border: none;
-    background: #dbe4ee;
-    color: #1e3a5f;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.8rem;
+    padding: 9px 14px; border: none; background: #dbe4ee; color: #1e3a5f;
+    font-weight: bold; border-radius: 8px; cursor: pointer; font-size: 0.8rem;
   }
   .tabs button.active { background: #1e3a5f; color: #fff; }
 
@@ -52,61 +22,35 @@
   .seccion.active { display: block; }
 
   .card {
-    background: #fff;
-    border-radius: 10px;
-    padding: 15px;
+    background: #fff; border-radius: 10px; padding: 15px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    max-width: 1100px;
-    margin: 0 auto 15px auto;
+    max-width: 1200px; margin: 0 auto 15px auto;
   }
   .card h2 {
-    color: #1e3a5f;
-    margin-bottom: 12px;
-    text-align: center;
-    border-bottom: 2px solid #dbe4ee;
-    padding-bottom: 8px;
-    font-size: 1.1rem;
+    color: #1e3a5f; margin-bottom: 12px; text-align: center;
+    border-bottom: 2px solid #dbe4ee; padding-bottom: 8px; font-size: 1.1rem;
   }
 
-  .encabezado {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 15px;
-    margin-bottom: 12px;
-    font-size: 0.85rem;
-  }
+  .encabezado { display: flex; flex-wrap: wrap; gap: 8px 15px; margin-bottom: 12px; font-size: 0.85rem; }
   .encabezado > div { flex: 1 1 45%; padding: 4px 0; }
   .encabezado strong { color: #1e3a5f; }
 
   .campo-editable {
-    width: 100%;
-    padding: 5px 6px;
-    border: 1px solid #ccd6e0;
-    border-radius: 5px;
-    font-size: 0.85rem;
-    font-family: inherit;
-    color: #2c3e50;
-    background: #fafbfd;
-    margin-top: 2px;
+    width: 100%; padding: 5px 6px; border: 1px solid #ccd6e0;
+    border-radius: 5px; font-size: 0.85rem; font-family: inherit;
+    color: #2c3e50; background: #fafbfd; margin-top: 2px;
   }
   .campo-editable:focus { outline: none; border-color: #1e3a5f; background: #fff; }
 
   table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
   th, td {
-    padding: 5px 3px;
-    text-align: center;
-    border-bottom: 1px solid #eaeef3;
-    font-size: 0.82rem;
+    padding: 5px 3px; text-align: center;
+    border-bottom: 1px solid #eaeef3; font-size: 0.82rem;
   }
   th { background: #1e3a5f; color: #fff; font-size: 0.75rem; }
   td input {
-    width: 100%;
-    padding: 4px 3px;
-    border: 1px solid #ccd6e0;
-    border-radius: 4px;
-    text-align: center;
-    font-size: 0.8rem;
-    font-family: inherit;
+    width: 100%; padding: 4px 3px; border: 1px solid #ccd6e0;
+    border-radius: 4px; text-align: center; font-size: 0.8rem; font-family: inherit;
   }
   td input:focus { outline: none; border-color: #1e3a5f; }
   td input.num { text-align: right; }
@@ -114,65 +58,27 @@
   .total-row td { font-weight: bold; background: #f0f4f8; font-size: 0.85rem; }
 
   .tabla-vales th, .tabla-vales td { padding: 3px 2px; font-size: 0.75rem; }
-  .tabla-vales td input { padding: 3px 2px; font-size: 0.75rem; }
-
-  .btn-eliminar-fila {
-    background: #c0392b; color: #fff; border: none;
-    border-radius: 4px; padding: 2px 6px;
-    cursor: pointer; font-size: 0.7rem;
-  }
 
   .resumen {
-    display: flex; flex-wrap: wrap; gap: 10px;
-    margin-top: 8px; padding: 10px;
-    background: #f0f4f8; border-radius: 6px;
-    font-size: 0.85rem;
+    display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px;
+    padding: 10px; background: #f0f4f8; border-radius: 6px; font-size: 0.85rem;
   }
   .resumen > div { flex: 1 1 45%; padding: 3px 0; }
 
-  .obs-label {
-    display: block;
-    font-size: 0.8rem;
-    color: #555;
-    margin-top: 12px;
-    margin-bottom: 4px;
-    font-weight: bold;
-  }
   .obs {
-    width: 100%; padding: 7px;
-    border: 1px solid #ccd6e0; border-radius: 5px;
-    font-family: inherit; font-size: 0.85rem;
-    resize: vertical; min-height: 55px;
-  }
-  .obs:focus { outline: none; border-color: #1e3a5f; }
-
-  .ultimo-guardado {
-    font-size: 0.72rem;
-    color: #888;
-    text-align: right;
-    margin-top: 6px;
-    font-style: italic;
+    width: 100%; padding: 7px; border: 1px solid #ccd6e0;
+    border-radius: 5px; font-family: inherit; font-size: 0.85rem;
+    margin-top: 8px; resize: vertical; min-height: 50px;
   }
 
-  .firmas {
-    display: flex; justify-content: space-between; gap: 30px;
-    margin-top: 40px; padding-top: 8px;
-  }
+  .firmas { display: flex; justify-content: space-between; gap: 30px; margin-top: 40px; padding-top: 8px; }
   .firma { flex: 1; text-align: center; font-size: 0.8rem; }
-  .firma .linea {
-    border-top: 1.5px solid #1e3a5f; margin-bottom: 5px; height: 35px;
-  }
+  .firma .linea { border-top: 1.5px solid #1e3a5f; margin-bottom: 5px; height: 35px; }
   .firma .nombre { font-weight: bold; color: #1e3a5f; font-size: 0.9rem; }
   .firma .cargo { color: #555; font-size: 0.75rem; margin-top: 2px; }
-  .firma .rol {
-    font-size: 0.7rem; color: #888; text-transform: uppercase;
-    letter-spacing: 1px; margin-bottom: 3px;
-  }
+  .firma .rol { font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
 
-  .acciones {
-    display: flex; justify-content: flex-end; gap: 8px;
-    margin-top: 12px; flex-wrap: wrap;
-  }
+  .acciones { display: flex; justify-content: flex-end; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
   .btn {
     padding: 9px 14px; border: none; border-radius: 6px;
     font-weight: bold; cursor: pointer; font-size: 0.8rem;
@@ -182,73 +88,244 @@
   .btn-secondary { background: #95a5a6; color: #fff; }
   .btn-danger { background: #c0392b; color: #fff; }
   .btn-info { background: #2980b9; color: #fff; }
-  .btn-warning { background: #d68910; color: #fff; }
+  .btn-sm { padding: 4px 8px; font-size: 0.72rem; }
 
   .item-historial {
-    border: 1px solid #e0e6ed; border-radius: 6px;
-    padding: 10px; margin-bottom: 8px;
-    background: #fafbfd;
+    border: 1px solid #e0e6ed; border-radius: 6px; padding: 10px;
+    margin-bottom: 8px; background: #fafbfd;
     display: flex; justify-content: space-between;
     align-items: center; flex-wrap: wrap; gap: 6px;
   }
   .item-historial .info { font-size: 0.8rem; color: #555; }
   .item-historial .info strong { color: #1e3a5f; }
 
-  .grupo-config {
-    border: 1px solid #e0e6ed; border-radius: 8px;
+  .config-grupo {
+    border: 1px solid #dbe4ee; border-radius: 8px;
     padding: 12px; margin-bottom: 12px; background: #fafbfd;
   }
-  .grupo-config h3 {
+  .config-grupo h3 {
     color: #1e3a5f; font-size: 0.95rem; margin-bottom: 10px;
     border-bottom: 1px solid #dbe4ee; padding-bottom: 5px;
   }
-  .grupo-config label {
-    display: block; font-size: 0.82rem;
-    margin-bottom: 8px; color: #555;
+  .config-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+  .config-campo label { display: block; font-size: 0.78rem; font-weight: bold; color: #1e3a5f; margin-bottom: 3px; }
+  .config-campo input, .config-campo select {
+    width: 100%; padding: 6px 8px; border: 1px solid #ccd6e0;
+    border-radius: 5px; font-size: 0.85rem; font-family: inherit;
+    color: #2c3e50; background: #fff;
   }
-  .grupo-config input[type=text],
-  .grupo-config input[type=number],
-  .grupo-config select {
-    width: 100%; padding: 6px 8px;
-    border: 1px solid #ccd6e0; border-radius: 5px;
-    font-size: 0.85rem; font-family: inherit;
-    margin-top: 3px;
-  }
+  .config-campo input:focus, .config-campo select:focus { outline: none; border-color: #1e3a5f; }
 
-  .aviso-respaldo {
-    background: #fff8e1;
-    border-left: 4px solid #d68910;
-    padding: 10px 12px;
-    border-radius: 5px;
-    font-size: 0.82rem;
-    color: #7a5c00;
+  .status-msg {
+    text-align: center; padding: 8px; font-size: 0.85rem;
+    border-radius: 6px; margin-bottom: 12px; display: none;
+  }
+  .status-msg.ok { background: #d4edda; color: #155724; display: block; }
+  .status-msg.err { background: #f8d7da; color: #721c24; display: block; }
+  .status-msg.info { background: #d1ecf1; color: #0c5460; display: block; }
+
+  .form-vale {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 8px;
     margin-bottom: 12px;
-    line-height: 1.4;
+    padding: 10px;
+    background: #f0f4f8;
+    border-radius: 6px;
+    align-items: end;
+  }
+  .form-vale .campo label {
+    display: block; font-size: 0.72rem; font-weight: bold; color: #1e3a5f; margin-bottom: 3px;
+  }
+  .form-vale .campo input {
+    width: 100%; padding: 5px 6px; border: 1px solid #ccd6e0;
+    border-radius: 5px; font-size: 0.8rem; font-family: inherit;
+  }
+  .form-vale .campo input:focus { outline: none; border-color: #1e3a5f; }
+
+  .fila-anulada td { opacity: 0.55; text-decoration: line-through; }
+  .fila-anulada td.estado { text-decoration: none; }
+  .badge-anulado { color: #c0392b; font-weight: bold; font-size: 0.7rem; }
+  .badge-vigente { color: #27ae60; font-weight: bold; font-size: 0.7rem; }
+
+  .filtro-rango {
+    display: flex; flex-wrap: wrap; gap: 8px; align-items: end;
+    margin-bottom: 10px; padding: 10px; background: #f0f4f8; border-radius: 6px;
+  }
+  .filtro-rango .campo label {
+    display: block; font-size: 0.72rem; font-weight: bold; color: #1e3a5f; margin-bottom: 3px;
+  }
+  .filtro-rango .campo input, .filtro-rango .campo select {
+    padding: 5px 6px; border: 1px solid #ccd6e0; border-radius: 5px;
+    font-size: 0.8rem; font-family: inherit;
   }
 
+  .panel-saldo {
+    display: flex; flex-wrap: wrap; gap: 15px;
+    padding: 10px; background: #e8f4fd; border-radius: 6px;
+    border: 1px solid #b8d8f0; margin-bottom: 12px; font-size: 0.85rem;
+  }
+  .panel-saldo > div { flex: 1 1 30%; }
+  .panel-saldo strong { color: #1e3a5f; }
+  .panel-saldo .monto { font-size: 1.1rem; font-weight: bold; color: #27ae60; }
+
+  /* ============================================================
+     MODELO REEMBOLSO — TODO ENCUADRADO A UN MISMO ANCHO
+     ============================================================ */
+  .modelo-reembolso-contenedor {
+    width: 100%;
+    max-width: 780px;
+    margin: 10px auto 0 auto;
+    background: #fff;
+    border: 1px solid #333;
+    padding: 0;
+  }
+
+  .reembolso-modelo { width: 100%; padding: 0; margin: 0; }
+  .reembolso-modelo table { width: 100%; border-collapse: collapse; margin: 0; }
+  .reembolso-modelo th, .reembolso-modelo td {
+    border: 1px solid #333; padding: 4px 6px;
+    font-size: 0.8rem; text-align: center;
+  }
+  .reembolso-modelo th { background: #e8e8e8; color: #000; font-size: 0.75rem; }
+  .reembolso-modelo .cabecera-entidad td {
+    font-weight: bold; background: #f0f0f0; font-size: 0.8rem;
+  }
+  .reembolso-modelo .titulo-modelo {
+    text-align: center; font-weight: bold; font-size: 0.9rem;
+    background: #dbe4ee; color: #1e3a5f;
+  }
+  .reembolso-modelo .totales td { font-weight: bold; background: #f0f4f8; }
+  .reembolso-modelo .sin-datos {
+    text-align: center; color: #888; font-style: italic;
+  }
+
+  .reembolso-modelo .celda-snc {
+    width: 1%;
+    white-space: nowrap;
+    font-weight: bold;
+    background: #f0f0f0;
+    font-size: 0.8rem;
+    padding: 4px 6px;
+  }
+
+  .reembolso-modelo .celda-fecha {
+    text-align: left;
+    padding-left: 8px;
+    font-weight: bold;
+    background: #f0f0f0;
+    font-size: 0.8rem;
+  }
+
+  /* ============================================================
+     CUADROS EN UNA SOLA FILA
+     ============================================================ */
+  .cuadros-reembolso {
+    display: flex;
+    gap: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid #333;
+    border-left: 1px solid #333;
+    border-right: 1px solid #333;
+    align-items: stretch;
+  }
+  .cuadros-reembolso .cuadro-item {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border-right: 1px solid #333;
+  }
+  .cuadros-reembolso .cuadro-item:last-child { border-right: none; }
+  .cuadros-reembolso table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+    height: 100%;
+  }
+  .cuadros-reembolso th, .cuadros-reembolso td {
+    border: 1px solid #333;
+    padding: 3px 4px;
+    font-size: 0.7rem;
+    text-align: center;
+    color: #000;
+    height: 20px;
+  }
+  .cuadros-reembolso th {
+    background: #e8e8e8;
+    font-weight: bold;
+    font-size: 0.66rem;
+    padding: 2px 3px;
+  }
+  .cuadros-reembolso .celda-vacia { height: 18px; }
+  .cuadros-reembolso .titulo-cuadro {
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.7rem;
+    background: #dbe4ee;
+    color: #1e3a5f;
+    padding: 3px 4px;
+    letter-spacing: 0.5px;
+  }
+  .cuadros-reembolso .anotado-label {
+    text-align: left;
+    font-weight: bold;
+    font-size: 0.66rem;
+    background: #f0f0f0;
+    padding: 2px 3px;
+    white-space: nowrap;
+  }
+
+  /* Escaques de firmas */
+  .escaques-reembolso {
+    width: 100%; margin: 0; padding: 6px;
+    border: 1px solid #333;
+    border-top: 1px solid #333;
+  }
+  .escaques-reembolso .fila-escaques {
+    display: flex; gap: 6px; margin-bottom: 6px;
+  }
+  .escaques-reembolso .fila-escaques:last-child { margin-bottom: 0; }
+  .escaques-reembolso .escaque {
+    flex: 1 1 0; min-width: 0;
+    border: 1px solid #333; padding: 5px;
+    min-height: 55px; box-sizing: border-box;
+  }
+  .escaques-reembolso .escaque .titulo-escaque {
+    font-weight: bold; font-size: 0.7rem; color: #1e3a5f;
+    text-transform: uppercase; border-bottom: 1px solid #999;
+    padding-bottom: 2px; margin-bottom: 3px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .escaques-reembolso .escaque .campo-escaque {
+    font-size: 0.68rem; color: #555; margin-top: 2px;
+  }
+  .escaques-reembolso .escaque .linea-escaque {
+    border-bottom: 1px solid #333; height: 14px; margin-top: 4px;
+  }
+
+  /* Modo oscuro */
   body.tema-oscuro { background: #1a1e26; color: #e6eaf0; }
   body.tema-oscuro header h1 { color: #7fb3ff; }
   body.tema-oscuro header p { color: #a8b0bd; }
   body.tema-oscuro .tabs button { background: #2a3140; color: #c7d2e0; }
   body.tema-oscuro .tabs button.active { background: #7fb3ff; color: #10151c; }
-  body.tema-oscuro #btnTema { background: #ffd479; color: #10151c; }
   body.tema-oscuro .card { background: #232a36; box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
   body.tema-oscuro .card h2 { color: #7fb3ff; border-bottom-color: #2a3140; }
   body.tema-oscuro .encabezado strong { color: #7fb3ff; }
-  body.tema-oscuro .encabezado input,
-  body.tema-oscuro .campo-editable,
-  body.tema-oscuro .grupo-config input,
-  body.tema-oscuro .grupo-config select {
+  body.tema-oscuro .encabezado input, body.tema-oscuro .campo-editable {
     background: #2a3140; border-color: #3a4252; color: #e6eaf0;
   }
+  body.tema-oscuro .campo-editable:focus { border-color: #7fb3ff; background: #2f3849; }
   body.tema-oscuro table th { background: #10151c; color: #c7d2e0; }
   body.tema-oscuro table td { border-bottom-color: #2a3140; color: #e6eaf0; }
   body.tema-oscuro td input { background: #2a3140; border-color: #3a4252; color: #e6eaf0; }
+  body.tema-oscuro td input:focus { border-color: #7fb3ff; }
   body.tema-oscuro .total-row td { background: #2a3140; color: #7fb3ff; }
   body.tema-oscuro .resumen { background: #2a3140; color: #c7d2e0; }
   body.tema-oscuro .obs { background: #2a3140; border-color: #3a4252; color: #e6eaf0; }
-  body.tema-oscuro .obs-label { color: #a8b0bd; }
-  body.tema-oscuro .ultimo-guardado { color: #7a8494; }
   body.tema-oscuro .firma .linea { border-top-color: #7fb3ff; }
   body.tema-oscuro .firma .nombre { color: #7fb3ff; }
   body.tema-oscuro .firma .cargo { color: #a8b0bd; }
@@ -256,28 +333,64 @@
   body.tema-oscuro .item-historial { background: #2a3140; border-color: #3a4252; }
   body.tema-oscuro .item-historial .info { color: #c7d2e0; }
   body.tema-oscuro .item-historial .info strong { color: #7fb3ff; }
-  body.tema-oscuro .grupo-config { background: #2a3140; border-color: #3a4252; }
-  body.tema-oscuro .grupo-config h3 { color: #7fb3ff; border-bottom-color: #3a4252; }
-  body.tema-oscuro .grupo-config label { color: #a8b0bd; }
-  body.tema-oscuro .aviso-respaldo { background: #3a2f14; color: #ffd479; border-left-color: #ffd479; }
+  body.tema-oscuro .config-grupo { background: #2a3140; border-color: #3a4252; }
+  body.tema-oscuro .config-grupo h3 { color: #7fb3ff; border-bottom-color: #3a4252; }
+  body.tema-oscuro .config-campo label { color: #7fb3ff; }
+  body.tema-oscuro .config-campo input, body.tema-oscuro .config-campo select {
+    background: #232a36; border-color: #3a4252; color: #e6eaf0;
+  }
+  body.tema-oscuro .status-msg.ok { background: #1e3a2a; color: #7fdb9a; }
+  body.tema-oscuro .status-msg.err { background: #3a1e1e; color: #f7a8a8; }
+  body.tema-oscuro .status-msg.info { background: #1e2a3a; color: #a8d0f0; }
+  body.tema-oscuro .form-vale { background: #2a3140; }
+  body.tema-oscuro .form-vale .campo label { color: #7fb3ff; }
+  body.tema-oscuro .form-vale .campo input { background: #232a36; border-color: #3a4252; color: #e6eaf0; }
+  body.tema-oscuro .filtro-rango { background: #2a3140; }
+  body.tema-oscuro .filtro-rango .campo label { color: #7fb3ff; }
+  body.tema-oscuro .filtro-rango .campo input, body.tema-oscuro .filtro-rango .campo select { background: #232a36; border-color: #3a4252; color: #e6eaf0; }
+  body.tema-oscuro .panel-saldo { background: #1e2a3a; border-color: #3a4252; color: #c7d2e0; }
+  body.tema-oscuro .panel-saldo strong { color: #7fb3ff; }
+  body.tema-oscuro .modelo-reembolso-contenedor { background: #232a36; border-color: #3a4252; }
+  body.tema-oscuro .reembolso-modelo th, body.tema-oscuro .reembolso-modelo td { border-color: #3a4252; }
+  body.tema-oscuro .reembolso-modelo th { background: #2a3140; color: #c7d2e0; }
+  body.tema-oscuro .reembolso-modelo .cabecera-entidad td { background: #2a3140; }
+  body.tema-oscuro .reembolso-modelo .celda-snc { background: #2a3140; }
+  body.tema-oscuro .reembolso-modelo .celda-fecha { background: #2a3140; }
+  body.tema-oscuro .reembolso-modelo .titulo-modelo { background: #1e3a5f; color: #7fb3ff; }
+  body.tema-oscuro .reembolso-modelo .totales td { background: #2a3140; }
+  body.tema-oscuro .cuadros-reembolso { border-color: #3a4252; }
+  body.tema-oscuro .cuadros-reembolso .cuadro-item { border-right-color: #3a4252; }
+  body.tema-oscuro .cuadros-reembolso th, body.tema-oscuro .cuadros-reembolso td { border-color: #3a4252; }
+  body.tema-oscuro .cuadros-reembolso th { background: #2a3140; color: #c7d2e0; }
+  body.tema-oscuro .cuadros-reembolso .titulo-cuadro { background: #1e3a5f; color: #7fb3ff; }
+  body.tema-oscuro .cuadros-reembolso .anotado-label { background: #2a3140; color: #c7d2e0; }
+  body.tema-oscuro .escaques-reembolso { border-color: #3a4252; }
+  body.tema-oscuro .escaques-reembolso .escaque { border-color: #3a4252; }
+  body.tema-oscuro .escaques-reembolso .escaque .titulo-escaque { color: #7fb3ff; border-bottom-color: #3a4252; }
+  body.tema-oscuro .escaques-reembolso .escaque .linea-escaque { border-color: #7a8494; }
 
   @media print {
     body { background: #fff; padding: 0; }
-    .tabs, .acciones, header p, .no-print, .estado-conexion, .ultimo-guardado, .aviso-respaldo { display: none !important; }
+    .tabs, .acciones, header p, .no-print, .status-msg, .form-vale, .filtro-rango { display: none !important; }
     .card { box-shadow: none; max-width: 100%; page-break-inside: avoid; padding: 8px; }
     .seccion { display: none !important; }
     .seccion.active { display: block !important; }
     textarea { border: none; background: transparent; }
     .campo-editable { border: none; background: transparent; padding: 0; font-weight: bold; color: #1e3a5f; }
-    .tabla-vales td input { border: none; background: transparent; padding: 0; }
     .tabla-vales th, .tabla-vales td { border: 1px solid #999; padding: 2px; }
     .btn-eliminar-fila { display: none !important; }
     body.tema-oscuro { background: #fff; color: #000; }
     body.tema-oscuro .card { background: #fff; }
     body.tema-oscuro table th { background: #1e3a5f; color: #fff; }
-    body.tema-oscuro td input, body.tema-oscuro .campo-editable { background: transparent; color: #000; border: none; }
-    body.tema-oscuro .encabezado strong, body.tema-oscuro .card h2,
-    body.tema-oscuro .firma .nombre { color: #1e3a5f; }
+    body.tema-oscuro td input, body.tema-oscuro .campo-editable {
+      background: transparent; color: #000; border: none;
+    }
+    body.tema-oscuro .encabezado strong, body.tema-oscuro .card h2, body.tema-oscuro .firma .nombre { color: #1e3a5f; }
+    .modelo-reembolso-contenedor { border-color: #000; max-width: 780px; margin: 0 auto; }
+    .reembolso-modelo th, .reembolso-modelo td { border-color: #000; }
+    .cuadros-reembolso, .cuadros-reembolso th, .cuadros-reembolso td { border-color: #000; }
+    .cuadros-reembolso .cuadro-item { border-right-color: #000; }
+    .escaques-reembolso, .escaques-reembolso .escaque { border-color: #000; }
   }
 </style>
 </head>
@@ -288,81 +401,79 @@
   <p id="subtituloApp">Arqueos - Vales de Dieta - Vales de Pagos Menores</p>
 </header>
 
-<div id="estadoConexion" class="estado-conexion online no-print">Conectado a la nube</div>
-
 <div class="tabs no-print">
   <button id="btnPagos" class="active" onclick="mostrarSeccion('pagos')">Arqueo Pagos</button>
   <button id="btnDietas" onclick="mostrarSeccion('dietas')">Arqueo Dietas</button>
   <button id="btnValesDieta" onclick="mostrarSeccion('valesDieta')">Vales Dieta</button>
   <button id="btnValesPagos" onclick="mostrarSeccion('valesPagos')">Vales Pagos Menores</button>
-  <button id="btnHistorial" onclick="mostrarSeccion('historial')">Historial</button>
-  <button id="btnConfig" onclick="mostrarSeccion('config')">Config</button>
-  <button id="btnTema" onclick="alternarTema()">Oscuro</button>
+  <button id="btnReembolso" onclick="mostrarSeccion('reembolso')">REEMBOLSO</button>
+  <button id="btnHistorial" onclick="mostrarSeccion('historial')">Historial Arqueos</button>
+  <button id="btnConfig" onclick="mostrarSeccion('configuracion')">⚙️ Configuración</button>
 </div>
+
+<div id="statusMsg" class="status-msg"></div>
 
 <!-- ============ ARQUEO PAGOS MENORES ============ -->
 <div id="pagos" class="seccion active">
   <div class="card">
     <h2>Arqueo - Pagos Menores</h2>
 
+    <div class="panel-saldo">
+      <div><strong>Saldo según libros (vales):</strong><br><span class="monto" id="saldoLibrosPagos">$0</span></div>
+      <div><strong>Fecha de cálculo:</strong><br><span id="fechaCalcPagos">-</span></div>
+      <div><strong>Movimientos vigentes:</strong><br><span id="movVigentesPagos">0</span></div>
+    </div>
+
     <div class="encabezado">
-      <div><strong>Entidad:</strong> <span id="entidadPagos">AGESP</span></div>
-      <div><strong>NIT:</strong> <span id="nitPagos">-</span></div>
-      <div><strong>REEUP:</strong> <span id="reeupPagos">-</span></div>
+      <div><strong>Entidad:</strong> <span class="entidad-nombre">AGESP</span></div>
+      <div><strong>NIT:</strong> <span class="entidad-nit">-</span></div>
+      <div><strong>REEUP:</strong> <span class="entidad-reeup">-</span></div>
       <div>
         <strong>Fecha del arqueo:</strong>
-        <input type="date" id="fechaInputPagos" class="campo-editable"
-               oninput="actualizarFirma('pagos')">
+        <input type="date" id="fechaInputPagos" class="campo-editable" oninput="actualizarFirma('pagos'); actualizarSaldoLibrosArqueo('pagos')">
+      </div>
+      <div>
+        <strong>Responsable:</strong>
+        <input type="text" id="responsablePagos" class="campo-editable" value="Elieser Duarte Lopez" oninput="actualizarFirma('pagos')">
+      </div>
+      <div>
+        <strong>Contrapartida:</strong>
+        <input type="text" id="contrapartidaPagos" class="campo-editable" value="Especialista Principal" oninput="actualizarFirma('pagos')">
       </div>
     </div>
 
     <table>
-      <thead>
-        <tr><th>Denominacion</th><th>Cantidad</th><th>Subtotal</th></tr>
-      </thead>
+      <thead><tr><th>Denominacion</th><th>Cantidad</th><th>Subtotal</th></tr></thead>
       <tbody id="tablaPagos"></tbody>
-      <tfoot>
-        <tr class="total-row">
-          <td colspan="2">TOTAL CONTADO</td>
-          <td id="totalPagos">$0</td>
-        </tr>
-      </tfoot>
+      <tfoot><tr class="total-row"><td colspan="2">TOTAL CONTADO</td><td id="totalPagos">$0</td></tr></tfoot>
     </table>
 
     <div class="resumen">
       <div><strong>Efectivo sistema:</strong>
-        <input type="number" id="sistemaPagos" value="0" min="0"
-               oninput="calcular('pagos')"
-               style="width:110px; padding:4px; border:1px solid #ccd6e0; border-radius:5px;">
+        <input type="number" id="sistemaPagos" value="0" min="0" oninput="calcular('pagos')"
+               style="width:120px; padding:4px; border:1px solid #ccd6e0; border-radius:5px;">
       </div>
-      <div><strong>Diferencia:</strong>
-        <span id="diferenciaPagos">$0</span>
-      </div>
+      <div><strong>Diferencia:</strong> <span id="diferenciaPagos">$0</span></div>
     </div>
 
-    <label class="obs-label">Observaciones / Justificacion de diferencia puntual</label>
-    <textarea class="obs" id="obsPagos" placeholder="Escriba aqui cualquier diferencia entre lo contado y el sistema..."></textarea>
-
-    <p class="ultimo-guardado" id="ultimoGuardadoPagos">Sin arqueo guardado aun</p>
+    <textarea class="obs" id="obsPagos" placeholder="Observaciones..."></textarea>
 
     <div class="firmas">
       <div class="firma">
-        <div class="linea"></div>
-        <div class="rol">Responsable</div>
-        <div class="nombre" id="firmaRespPagos">-</div>
-        <div class="cargo" id="cargoRespPagos">-</div>
+        <div class="linea"></div><div class="rol">Responsable</div>
+        <div class="nombre" id="firmaRespPagos">Elieser Duarte Lopez</div>
+        <div class="cargo" id="cargoRespPagos">Especialista B Gestion Economica</div>
       </div>
       <div class="firma">
-        <div class="linea"></div>
-        <div class="rol">Contrapartida</div>
-        <div class="nombre" id="firmaContraPagos">-</div>
-        <div class="cargo" id="cargoContraPagos">-</div>
+        <div class="linea"></div><div class="rol">Contrapartida</div>
+        <div class="nombre" id="firmaContraPagos">Especialista Principal</div>
+        <div class="cargo" id="cargoContraPagos">Especialista Principal</div>
       </div>
     </div>
 
     <div class="acciones no-print">
       <button class="btn btn-secondary" onclick="limpiar('pagos')">Limpiar</button>
-      <button class="btn btn-success" onclick="guardar('pagos')">Guardar arqueo</button>
+      <button class="btn btn-success" onclick="guardar('pagos')">Guardar</button>
       <button class="btn btn-primary" onclick="imprimir()">Imprimir</button>
     </div>
   </div>
@@ -373,64 +484,62 @@
   <div class="card">
     <h2>Arqueo - Dietas</h2>
 
+    <div class="panel-saldo">
+      <div><strong>Saldo según libros (vales):</strong><br><span class="monto" id="saldoLibrosDietas">$0</span></div>
+      <div><strong>Fecha de cálculo:</strong><br><span id="fechaCalcDietas">-</span></div>
+      <div><strong>Movimientos vigentes:</strong><br><span id="movVigentesDietas">0</span></div>
+    </div>
+
     <div class="encabezado">
-      <div><strong>Entidad:</strong> <span id="entidadDietas">AGESP</span></div>
-      <div><strong>NIT:</strong> <span id="nitDietas">-</span></div>
-      <div><strong>REEUP:</strong> <span id="reeupDietas">-</span></div>
+      <div><strong>Entidad:</strong> <span class="entidad-nombre">AGESP</span></div>
+      <div><strong>NIT:</strong> <span class="entidad-nit">-</span></div>
+      <div><strong>REEUP:</strong> <span class="entidad-reeup">-</span></div>
       <div>
         <strong>Fecha del arqueo:</strong>
-        <input type="date" id="fechaInputDietas" class="campo-editable"
-               oninput="actualizarFirma('dietas')">
+        <input type="date" id="fechaInputDietas" class="campo-editable" oninput="actualizarFirma('dietas'); actualizarSaldoLibrosArqueo('dietas')">
+      </div>
+      <div>
+        <strong>Responsable:</strong>
+        <input type="text" id="responsableDietas" class="campo-editable" value="Elieser Duarte Lopez" oninput="actualizarFirma('dietas')">
+      </div>
+      <div>
+        <strong>Contrapartida:</strong>
+        <input type="text" id="contrapartidaDietas" class="campo-editable" value="Especialista Principal" oninput="actualizarFirma('dietas')">
       </div>
     </div>
 
     <table>
-      <thead>
-        <tr><th>Denominacion</th><th>Cantidad</th><th>Subtotal</th></tr>
-      </thead>
+      <thead><tr><th>Denominacion</th><th>Cantidad</th><th>Subtotal</th></tr></thead>
       <tbody id="tablaDietas"></tbody>
-      <tfoot>
-        <tr class="total-row">
-          <td colspan="2">TOTAL CONTADO</td>
-          <td id="totalDietas">$0</td>
-        </tr>
-      </tfoot>
+      <tfoot><tr class="total-row"><td colspan="2">TOTAL CONTADO</td><td id="totalDietas">$0</td></tr></tfoot>
     </table>
 
     <div class="resumen">
       <div><strong>Efectivo sistema:</strong>
-        <input type="number" id="sistemaDietas" value="0" min="0"
-               oninput="calcular('dietas')"
-               style="width:110px; padding:4px; border:1px solid #ccd6e0; border-radius:5px;">
+        <input type="number" id="sistemaDietas" value="0" min="0" oninput="calcular('dietas')"
+               style="width:120px; padding:4px; border:1px solid #ccd6e0; border-radius:5px;">
       </div>
-      <div><strong>Diferencia:</strong>
-        <span id="diferenciaDietas">$0</span>
-      </div>
+      <div><strong>Diferencia:</strong> <span id="diferenciaDietas">$0</span></div>
     </div>
 
-    <label class="obs-label">Observaciones / Justificacion de diferencia puntual</label>
-    <textarea class="obs" id="obsDietas" placeholder="Escriba aqui cualquier diferencia entre lo contado y el sistema..."></textarea>
-
-    <p class="ultimo-guardado" id="ultimoGuardadoDietas">Sin arqueo guardado aun</p>
+    <textarea class="obs" id="obsDietas" placeholder="Observaciones..."></textarea>
 
     <div class="firmas">
       <div class="firma">
-        <div class="linea"></div>
-        <div class="rol">Responsable</div>
-        <div class="nombre" id="firmaRespDietas">-</div>
-        <div class="cargo" id="cargoRespDietas">-</div>
+        <div class="linea"></div><div class="rol">Responsable</div>
+        <div class="nombre" id="firmaRespDietas">Elieser Duarte Lopez</div>
+        <div class="cargo" id="cargoRespDietas">Especialista B Gestion Economica</div>
       </div>
       <div class="firma">
-        <div class="linea"></div>
-        <div class="rol">Contrapartida</div>
-        <div class="nombre" id="firmaContraDietas">-</div>
-        <div class="cargo" id="cargoContraDietas">-</div>
+        <div class="linea"></div><div class="rol">Contrapartida</div>
+        <div class="nombre" id="firmaContraDietas">Especialista Principal</div>
+        <div class="cargo" id="cargoContraDietas">Especialista Principal</div>
       </div>
     </div>
 
     <div class="acciones no-print">
       <button class="btn btn-secondary" onclick="limpiar('dietas')">Limpiar</button>
-      <button class="btn btn-success" onclick="guardar('dietas')">Guardar arqueo</button>
+      <button class="btn btn-success" onclick="guardar('dietas')">Guardar</button>
       <button class="btn btn-primary" onclick="imprimir()">Imprimir</button>
     </div>
   </div>
@@ -439,27 +548,51 @@
 <!-- ============ VALES DE DIETA ============ -->
 <div id="valesDieta" class="seccion">
   <div class="card">
-    <h2>Vales de Salida - Dieta</h2>
+    <h2>Libro de Vales - Dieta</h2>
 
     <div class="encabezado">
-      <div><strong>Entidad:</strong> <span id="entidadValesDieta">AGESP</span></div>
+      <div><strong>Entidad:</strong> <span class="entidad-nombre">AGESP</span></div>
+      <div><strong>NIT:</strong> <span class="entidad-nit">-</span></div>
+      <div><strong>REEUP:</strong> <span class="entidad-reeup">-</span></div>
       <div>
-        <strong>Fecha:</strong>
-        <input type="date" id="fechaInputValesDieta" class="campo-editable">
+        <strong>Responsable:</strong>
+        <input type="text" id="responsableValesDieta" class="campo-editable" value="Elieser Duarte Lopez" oninput="actualizarFirmaVales('ValesDieta')">
       </div>
+      <div>
+        <strong>Contrapartida:</strong>
+        <input type="text" id="contrapartidaValesDieta" class="campo-editable" value="Especialista Principal" oninput="actualizarFirmaVales('ValesDieta')">
+      </div>
+    </div>
+
+    <div class="filtro-rango no-print">
+      <div class="campo"><label>Desde</label><input type="date" id="filtroDesdeValesDieta"></div>
+      <div class="campo"><label>Hasta</label><input type="date" id="filtroHastaValesDieta"></div>
+      <button class="btn btn-info btn-sm" onclick="cargarVales('Dieta')">Aplicar filtro</button>
+      <button class="btn btn-secondary btn-sm" onclick="resetFiltroVales('Dieta')">Año actual</button>
+    </div>
+
+    <div class="form-vale no-print">
+      <div class="campo"><label>Fecha</label><input type="date" id="nuevoFechaValesDieta"></div>
+      <div class="campo"><label>No. Vale</label><input type="text" id="nuevoNoValeValesDieta"></div>
+      <div class="campo"><label>Nombre</label><input type="text" id="nuevoNombreValesDieta"></div>
+      <div class="campo"><label>Descripción</label><input type="text" id="nuevoDescValesDieta"></div>
+      <div class="campo"><label>Depósito</label><input type="number" min="0" value="0" id="nuevoDepValesDieta"></div>
+      <div class="campo"><label>Retiro</label><input type="number" min="0" value="0" id="nuevoRetValesDieta"></div>
+      <button class="btn btn-success" onclick="registrarVale('Dieta')">Registrar vale</button>
+    </div>
+
+    <div class="panel-saldo">
+      <div><strong>Saldo inicial del período:</strong><br><span id="saldoIniDieta">$0</span></div>
+      <div><strong>Existencia final:</strong><br><span class="monto" id="saldoFinDieta">$0</span></div>
+      <div><strong>Movimientos mostrados:</strong><br><span id="numMovDieta">0</span></div>
     </div>
 
     <table class="tabla-vales">
       <thead>
         <tr>
-          <th>Fecha</th>
-          <th>No. Vale</th>
-          <th>Nombre</th>
-          <th>Descripcion</th>
-          <th>Deposito</th>
-          <th>Retiro</th>
-          <th>Existencia</th>
-          <th class="no-print">X</th>
+          <th>Fecha</th><th>No. Vale</th><th>Nombre</th><th>Descripción</th>
+          <th>Depósito</th><th>Retiro</th><th>Existencia</th><th>Estado</th>
+          <th class="no-print">Acción</th>
         </tr>
       </thead>
       <tbody id="tablaValesDieta"></tbody>
@@ -469,43 +602,25 @@
           <td id="totDepValesDieta">$0</td>
           <td id="totRetValesDieta">$0</td>
           <td id="totExistValesDieta">$0</td>
-          <td class="no-print"></td>
+          <td></td><td class="no-print"></td>
         </tr>
       </tfoot>
     </table>
 
-    <div class="resumen">
-      <div><strong>Saldo inicial en caja:</strong>
-        <input type="number" id="saldoInicialValesDieta" value="0" min="0"
-               oninput="recalcularVales('ValesDieta')"
-               style="width:120px; padding:4px; border:1px solid #ccd6e0; border-radius:5px;">
-      </div>
-      <div><strong>Existencia final:</strong>
-        <span id="existFinalValesDieta">$0</span>
-      </div>
-    </div>
-
-    <textarea class="obs" id="obsValesDieta" placeholder="Observaciones..."></textarea>
-
     <div class="acciones no-print">
-      <button class="btn btn-info" onclick="agregarFilaVales('ValesDieta')">Agregar fila</button>
-      <button class="btn btn-secondary" onclick="limpiarVales('ValesDieta')">Limpiar</button>
-      <button class="btn btn-success" onclick="guardarVales('ValesDieta')">Guardar</button>
       <button class="btn btn-primary" onclick="imprimir()">Imprimir</button>
     </div>
 
     <div class="firmas">
       <div class="firma">
-        <div class="linea"></div>
-        <div class="rol">Responsable</div>
-        <div class="nombre" id="firmaRespValesDieta">-</div>
-        <div class="cargo" id="cargoRespValesDieta">-</div>
+        <div class="linea"></div><div class="rol">Responsable</div>
+        <div class="nombre" id="firmaRespValesDieta">Elieser Duarte Lopez</div>
+        <div class="cargo" id="cargoRespValesDieta">Especialista B Gestion Economica</div>
       </div>
       <div class="firma">
-        <div class="linea"></div>
-        <div class="rol">Contrapartida</div>
-        <div class="nombre" id="firmaContraValesDieta">-</div>
-        <div class="cargo" id="cargoContraValesDieta">-</div>
+        <div class="linea"></div><div class="rol">Contrapartida</div>
+        <div class="nombre" id="firmaContraValesDieta">Especialista Principal</div>
+        <div class="cargo" id="cargoContraValesDieta">Especialista Principal</div>
       </div>
     </div>
   </div>
@@ -514,27 +629,51 @@
 <!-- ============ VALES DE PAGOS MENORES ============ -->
 <div id="valesPagos" class="seccion">
   <div class="card">
-    <h2>Vales de Salida - Pagos Menores</h2>
+    <h2>Libro de Vales - Pagos Menores</h2>
 
     <div class="encabezado">
-      <div><strong>Entidad:</strong> <span id="entidadValesPagos">AGESP</span></div>
+      <div><strong>Entidad:</strong> <span class="entidad-nombre">AGESP</span></div>
+      <div><strong>NIT:</strong> <span class="entidad-nit">-</span></div>
+      <div><strong>REEUP:</strong> <span class="entidad-reeup">-</span></div>
       <div>
-        <strong>Fecha:</strong>
-        <input type="date" id="fechaInputValesPagos" class="campo-editable">
+        <strong>Responsable:</strong>
+        <input type="text" id="responsableValesPagos" class="campo-editable" value="Elieser Duarte Lopez" oninput="actualizarFirmaVales('ValesPagos')">
       </div>
+      <div>
+        <strong>Contrapartida:</strong>
+        <input type="text" id="contrapartidaValesPagos" class="campo-editable" value="Especialista Principal" oninput="actualizarFirmaVales('ValesPagos')">
+      </div>
+    </div>
+
+    <div class="filtro-rango no-print">
+      <div class="campo"><label>Desde</label><input type="date" id="filtroDesdeValesPagos"></div>
+      <div class="campo"><label>Hasta</label><input type="date" id="filtroHastaValesPagos"></div>
+      <button class="btn btn-info btn-sm" onclick="cargarVales('PagosMenores')">Aplicar filtro</button>
+      <button class="btn btn-secondary btn-sm" onclick="resetFiltroVales('PagosMenores')">Año actual</button>
+    </div>
+
+    <div class="form-vale no-print">
+      <div class="campo"><label>Fecha</label><input type="date" id="nuevoFechaValesPagos"></div>
+      <div class="campo"><label>No. Vale</label><input type="text" id="nuevoNoValeValesPagos"></div>
+      <div class="campo"><label>Nombre</label><input type="text" id="nuevoNombreValesPagos"></div>
+      <div class="campo"><label>Descripción</label><input type="text" id="nuevoDescValesPagos"></div>
+      <div class="campo"><label>Depósito</label><input type="number" min="0" value="0" id="nuevoDepValesPagos"></div>
+      <div class="campo"><label>Retiro</label><input type="number" min="0" value="0" id="nuevoRetValesPagos"></div>
+      <button class="btn btn-success" onclick="registrarVale('PagosMenores')">Registrar vale</button>
+    </div>
+
+    <div class="panel-saldo">
+      <div><strong>Saldo inicial del período:</strong><br><span id="saldoIniPagos">$0</span></div>
+      <div><strong>Existencia final:</strong><br><span class="monto" id="saldoFinPagos">$0</span></div>
+      <div><strong>Movimientos mostrados:</strong><br><span id="numMovPagos">0</span></div>
     </div>
 
     <table class="tabla-vales">
       <thead>
         <tr>
-          <th>Fecha</th>
-          <th>No. Vale</th>
-          <th>Nombre</th>
-          <th>Descripcion</th>
-          <th>Deposito</th>
-          <th>Retiro</th>
-          <th>Existencia</th>
-          <th class="no-print">X</th>
+          <th>Fecha</th><th>No. Vale</th><th>Nombre</th><th>Descripción</th>
+          <th>Depósito</th><th>Retiro</th><th>Existencia</th><th>Estado</th>
+          <th class="no-print">Acción</th>
         </tr>
       </thead>
       <tbody id="tablaValesPagos"></tbody>
@@ -544,464 +683,469 @@
           <td id="totDepValesPagos">$0</td>
           <td id="totRetValesPagos">$0</td>
           <td id="totExistValesPagos">$0</td>
-          <td class="no-print"></td>
+          <td></td><td class="no-print"></td>
         </tr>
       </tfoot>
     </table>
 
-    <div class="resumen">
-      <div><strong>Saldo inicial en caja:</strong>
-        <input type="number" id="saldoInicialValesPagos" value="0" min="0"
-               oninput="recalcularVales('ValesPagos')"
-               style="width:120px; padding:4px; border:1px solid #ccd6e0; border-radius:5px;">
-      </div>
-      <div><strong>Existencia final:</strong>
-        <span id="existFinalValesPagos">$0</span>
-      </div>
-    </div>
-
-    <textarea class="obs" id="obsValesPagos" placeholder="Observaciones..."></textarea>
-
     <div class="acciones no-print">
-      <button class="btn btn-info" onclick="agregarFilaVales('ValesPagos')">Agregar fila</button>
-      <button class="btn btn-secondary" onclick="limpiarVales('ValesPagos')">Limpiar</button>
-      <button class="btn btn-success" onclick="guardarVales('ValesPagos')">Guardar</button>
       <button class="btn btn-primary" onclick="imprimir()">Imprimir</button>
     </div>
 
     <div class="firmas">
       <div class="firma">
-        <div class="linea"></div>
-        <div class="rol">Responsable</div>
-        <div class="nombre" id="firmaRespValesPagos">-</div>
-        <div class="cargo" id="cargoRespValesPagos">-</div>
+        <div class="linea"></div><div class="rol">Responsable</div>
+        <div class="nombre" id="firmaRespValesPagos">Elieser Duarte Lopez</div>
+        <div class="cargo" id="cargoRespValesPagos">Especialista B Gestion Economica</div>
       </div>
       <div class="firma">
-        <div class="linea"></div>
-        <div class="rol">Contrapartida</div>
-        <div class="nombre" id="firmaContraValesPagos">-</div>
-        <div class="cargo" id="cargoContraValesPagos">-</div>
+        <div class="linea"></div><div class="rol">Contrapartida</div>
+        <div class="nombre" id="firmaContraValesPagos">Especialista Principal</div>
+        <div class="cargo" id="cargoContraValesPagos">Especialista Principal</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ============ HISTORIAL ============ -->
+<!-- ============ REEMBOLSO ============ -->
+<div id="reembolso" class="seccion">
+  <div class="card">
+    <h2>REEMBOLSO DEL FONDO</h2>
+
+    <div class="filtro-rango no-print">
+      <div class="campo">
+        <label>Tipo de fondo</label>
+        <select id="reembolsoTipo">
+          <option value="PagosMenores">Pagos Menores</option>
+          <option value="Dieta">Dieta</option>
+        </select>
+      </div>
+      <div class="campo"><label>Desde</label><input type="date" id="reembolsoDesde"></div>
+      <div class="campo"><label>Hasta</label><input type="date" id="reembolsoHasta"></div>
+      <button class="btn btn-info btn-sm" onclick="generarReembolso()">Generar reembolso</button>
+      <button class="btn btn-secondary btn-sm" onclick="resetReembolso()">Año actual</button>
+      <button class="btn btn-primary btn-sm" onclick="imprimir()">Imprimir</button>
+    </div>
+
+    <div class="modelo-reembolso-contenedor">
+
+      <div class="reembolso-modelo" id="reembolsoModelo">
+        <table>
+          <tr class="cabecera-entidad">
+            <td colspan="3" style="text-align:left;">EMP: <span id="remEntidad">AGESP</span></td>
+            <td class="celda-snc">SNC-1-11</td>
+            <td colspan="2" class="celda-fecha">DÍA</td>
+            <td colspan="2" class="celda-fecha">MES</td>
+            <td colspan="3" class="celda-fecha">AÑO</td>
+            <td colspan="3" style="text-align:left;">REEUP: <span id="remReeup">-</span></td>
+            <td colspan="5"></td>
+          </tr>
+          <tr class="titulo-modelo">
+            <td colspan="19">REEMBOLSO DEL FONDO PARA <span id="remTipoTexto">PAGOS MENORES</span></td>
+          </tr>
+          <tr>
+            <td colspan="3" style="text-align:left;">DEL: <span id="remDel">-</span></td>
+            <td colspan="3" style="text-align:left;">AL: <span id="remAl">-</span></td>
+            <td colspan="13"></td>
+          </tr>
+          <tr>
+            <th>DÍA</th><th>NUM.</th><th>IMPORTE</th>
+            <th>DÍA</th><th>NUM.</th><th>IMPORTE</th>
+            <th>DÍA</th><th>NUM.</th><th>IMPORTE</th>
+            <th>DÍA</th><th>NUM.</th><th>IMPORTE</th>
+          </tr>
+          <tbody id="remFilas"></tbody>
+          <tr class="totales">
+            <td colspan="2" style="text-align:right;">TOTAL</td>
+            <td id="remTotal" colspan="1">$0</td>
+            <td colspan="9"></td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="cuadros-reembolso">
+
+        <div class="cuadro-item">
+          <table>
+            <tr><td colspan="3" class="titulo-cuadro">CRÉDITOS</td></tr>
+            <tr>
+              <th style="width:25%;">CÓDIGO</th>
+              <th style="width:50%;">CUENTA</th>
+              <th style="width:25%;">IMPORTE</th>
+            </tr>
+            <tr>
+              <td class="celda-vacia"></td>
+              <td class="celda-vacia"></td>
+              <td class="celda-vacia"></td>
+            </tr>
+            <tr>
+              <th>SUBCUENTA</th>
+              <th>&nbsp;</th>
+              <th>&nbsp;</th>
+            </tr>
+            <tr>
+              <td class="celda-vacia"></td>
+              <td class="celda-vacia"></td>
+              <td class="celda-vacia"></td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="cuadro-item">
+          <table>
+            <tr><td colspan="4" class="titulo-cuadro">CHEQUE NOMINATIVO</td></tr>
+            <tr>
+              <th style="width:25%;">NÚMERO</th>
+              <th colspan="3" style="width:75%;">FECHA</th>
+            </tr>
+            <tr>
+              <td rowspan="2" class="celda-vacia"></td>
+              <th style="width:25%;">DÍA</th>
+              <th style="width:25%;">MES</th>
+              <th style="width:25%;">AÑO</th>
+            </tr>
+            <tr>
+              <td class="celda-vacia"></td>
+              <td class="celda-vacia"></td>
+              <td class="celda-vacia"></td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="cuadro-item">
+          <table>
+            <tr><td colspan="3" class="titulo-cuadro">ANOTADO / CODIFICADO</td></tr>
+            <tr>
+              <td class="anotado-label" style="width:35%;">ANOTADO</td>
+              <td class="celda-vacia" style="width:32.5%;"></td>
+              <td class="celda-vacia" style="width:32.5%;"></td>
+            </tr>
+            <tr>
+              <td class="anotado-label">CODIFICADO</td>
+              <td class="celda-vacia"></td>
+              <td class="celda-vacia"></td>
+            </tr>
+            <tr>
+              <td class="anotado-label">NO.</td>
+              <td class="celda-vacia"></td>
+              <td class="celda-vacia"></td>
+            </tr>
+          </table>
+        </div>
+
+      </div>
+
+      <div class="escaques-reembolso">
+        <div class="fila-escaques">
+          <div class="escaque">
+            <div class="titulo-escaque">Elaborado por</div>
+            <div class="campo-escaque">Nombre y apellidos:</div>
+            <div class="linea-escaque"></div>
+            <div class="campo-escaque">Cargo:</div>
+            <div class="linea-escaque"></div>
+          </div>
+          <div class="escaque">
+            <div class="titulo-escaque">Revisado por</div>
+            <div class="campo-escaque">Nombre y apellidos:</div>
+            <div class="linea-escaque"></div>
+            <div class="campo-escaque">Cargo:</div>
+            <div class="linea-escaque"></div>
+          </div>
+          <div class="escaque">
+            <div class="titulo-escaque">Aprobado por</div>
+            <div class="campo-escaque">Nombre y apellidos:</div>
+            <div class="linea-escaque"></div>
+            <div class="campo-escaque">Cargo:</div>
+            <div class="linea-escaque"></div>
+          </div>
+        </div>
+        <div class="fila-escaques">
+          <div class="escaque">
+            <div class="titulo-escaque">Recibido por</div>
+            <div class="campo-escaque">Nombre y apellidos:</div>
+            <div class="linea-escaque"></div>
+            <div class="campo-escaque">Cargo:</div>
+            <div class="linea-escaque"></div>
+          </div>
+          <div class="escaque">
+            <div class="titulo-escaque">Contabilizado por</div>
+            <div class="campo-escaque">Nombre y apellidos:</div>
+            <div class="linea-escaque"></div>
+            <div class="campo-escaque">Cargo:</div>
+            <div class="linea-escaque"></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /modelo-reembolso-contenedor -->
+
+    <div class="acciones no-print">
+      <button class="btn btn-secondary" onclick="resetReembolso()">Limpiar</button>
+      <button class="btn btn-primary" onclick="imprimir()">Imprimir reembolso</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HISTORIAL ARQUEOS ============ -->
 <div id="historial" class="seccion">
   <div class="card">
-    <h2>Historial y Copia de Seguridad</h2>
-
-    <div class="aviso-respaldo">
-      <strong>Recomendacion:</strong> Guarde una copia de seguridad al terminar cada jornada. Asi conserva toda la informacion (configuracion, historial y valores del ultimo arqueo) en un archivo que puede restaurar en cualquier momento o dispositivo.
-    </div>
-
+    <h2>Historial de Arqueos</h2>
     <div class="acciones no-print" style="justify-content: flex-start; margin-bottom: 12px;">
-      <button class="btn btn-success" onclick="exportarRespaldo()">Guardar copia de seguridad</button>
-      <button class="btn btn-warning" onclick="document.getElementById('archivoImportar').click()">Restaurar copia</button>
-      <input type="file" id="archivoImportar" accept=".json,application/json"
-             style="display:none" onchange="importarRespaldo(this)">
-      <button class="btn btn-secondary" onclick="recargarHistorial()">Recargar desde nube</button>
       <button class="btn btn-danger" onclick="borrarHistorial()">Borrar todo</button>
     </div>
-
     <div id="listaHistorial"></div>
   </div>
 </div>
 
-<!-- ============ CONFIGURACION ============ -->
-<div id="config" class="seccion">
+<!-- ============ CONFIGURACIÓN ============ -->
+<div id="configuracion" class="seccion">
   <div class="card">
-    <h2>Configuracion</h2>
+    <h2>⚙️ Configuración</h2>
 
-    <div class="grupo-config">
-      <h3>Datos de la entidad</h3>
-      <label>Nombre de la entidad
-        <input type="text" id="cfgEntidad" placeholder="AGESP">
-      </label>
-      <label>NIT
-        <input type="text" id="cfgNit" placeholder="Numero de NIT">
-      </label>
-      <label>REEUP
-        <input type="text" id="cfgReeup" placeholder="Codigo REEUP">
-      </label>
+    <div class="config-grupo">
+      <h3>Datos de la Entidad</h3>
+      <div class="config-grid">
+        <div class="config-campo"><label for="cfgEntidad">Nombre de la entidad</label><input type="text" id="cfgEntidad"></div>
+        <div class="config-campo"><label for="cfgNit">NIT</label><input type="text" id="cfgNit"></div>
+        <div class="config-campo"><label for="cfgReeup">REEUP</label><input type="text" id="cfgReeup"></div>
+      </div>
     </div>
 
-    <div class="grupo-config">
+    <div class="config-grupo">
       <h3>Firmantes</h3>
-      <label>Responsable del arqueo
-        <input type="text" id="cfgResponsable" placeholder="Nombre del responsable">
-      </label>
-      <label>Cargo del responsable
-        <input type="text" id="cfgCargoResponsable" placeholder="Cargo">
-      </label>
-      <label>Contrapartida
-        <input type="text" id="cfgContrapartida" placeholder="Nombre de la contrapartida">
-      </label>
-      <label>Cargo de la contrapartida
-        <input type="text" id="cfgCargoContrapartida" placeholder="Cargo">
-      </label>
+      <div class="config-grid">
+        <div class="config-campo"><label for="cfgRespNombre">Nombre del Responsable</label><input type="text" id="cfgRespNombre"></div>
+        <div class="config-campo"><label for="cfgRespCargo">Cargo del Responsable</label><input type="text" id="cfgRespCargo"></div>
+        <div class="config-campo"><label for="cfgContraNombre">Nombre de la Contrapartida</label><input type="text" id="cfgContraNombre"></div>
+        <div class="config-campo"><label for="cfgContraCargo">Cargo de la Contrapartida</label><input type="text" id="cfgContraCargo"></div>
+      </div>
     </div>
 
-    <div class="grupo-config">
-      <h3>Importes totales de cada arqueo</h3>
-      <label>Total Pagos Menores (efectivo sistema por defecto)
-        <input type="number" id="cfgTotalPagos" min="0" value="0">
-      </label>
-      <label>Total Dietas (efectivo sistema por defecto)
-        <input type="number" id="cfgTotalDietas" min="0" value="0">
-      </label>
+    <div class="config-grupo">
+      <h3>Importes por Defecto</h3>
+      <div class="config-grid">
+        <div class="config-campo"><label for="cfgEfectivoPagos">Efectivo sistema por defecto - Arqueo Pagos</label><input type="number" id="cfgEfectivoPagos" min="0"></div>
+        <div class="config-campo"><label for="cfgEfectivoDietas">Efectivo sistema por defecto - Arqueo Dietas</label><input type="number" id="cfgEfectivoDietas" min="0"></div>
+        <div class="config-campo"><label for="cfgSaldoValesDieta">Saldo inicial por defecto - Vales Dieta</label><input type="number" id="cfgSaldoValesDieta" min="0"></div>
+        <div class="config-campo"><label for="cfgSaldoValesPagos">Saldo inicial por defecto - Vales Pagos Menores</label><input type="number" id="cfgSaldoValesPagos" min="0"></div>
+      </div>
     </div>
 
-    <div class="grupo-config">
+    <div class="config-grupo">
       <h3>Apariencia</h3>
-      <label>Tema
-        <select id="cfgTema">
-          <option value="claro">Claro</option>
-          <option value="oscuro">Oscuro</option>
-        </select>
-      </label>
+      <div class="config-grid">
+        <div class="config-campo">
+          <label for="cfgTema">Tema</label>
+          <select id="cfgTema"><option value="claro">Claro</option><option value="oscuro">Oscuro</option></select>
+        </div>
+      </div>
     </div>
 
     <div class="acciones no-print">
-      <button class="btn btn-secondary" onclick="recargarConfig()">Descartar cambios</button>
-      <button class="btn btn-success" onclick="guardarConfig()">Guardar configuracion</button>
+      <button class="btn btn-secondary" onclick="restaurarConfig()">Restaurar valores</button>
+      <button class="btn btn-success" onclick="guardarConfig()">Guardar configuración</button>
     </div>
   </div>
 </div>
 
+<!-- PRIMERO la librería de Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- DESPUÉS tu script -->
 <script>
 /* ==========================================================
-   AGESP - Control de Caja con Supabase
-   Version corregida: tablas primero, timeout en red
+   AGESP - Control de Caja (versión Supabase + Libro de Vales)
+   - Reembolso: solo vales de RETIRO
+   - Vales: contramovimientos NO suman a totales ni al saldo
 ========================================================== */
+const SUPABASE_URL = 'https://psxeegtwzspcxrasuxka.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_2GdEMLwwDr1BJ1tLxsLgwA_4AgG4hCF';
 
-/* ---- CONFIGURACION SUPABASE ---- */
-var SUPABASE_URL = 'https://TU-PROYECTO.supabase.co';
-var SUPABASE_KEY = 'TU-ANON-KEY-AQUI';
-
-var supabaseClient = null;
-try {
-  if (window.supabase && SUPABASE_URL.indexOf('TU-PROYECTO') === -1) {
-    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-  }
-} catch (e) {
-  console.error('Error al crear cliente Supabase:', e);
-  supabaseClient = null;
+if (typeof supabase === 'undefined') {
+  alert('Error: no se pudo cargar la librería de Supabase. Revisa tu conexión a internet.');
+  throw new Error('Supabase JS no cargado');
 }
 
-var denominaciones = [2000, 1000, 500, 200, 100, 50, 20, 10, 5];
-var CLAVE_HISTORIAL_LOCAL = 'agesp_historial_v3';
-var CLAVE_CONFIG_LOCAL = 'agesp_config_v1';
-var CLAVE_TEMA = 'agesp_tema';
-var CLAVE_ULTIMO_PAGOS = 'agesp_ultimo_arqueo_pagos';
-var CLAVE_ULTIMO_DIETAS = 'agesp_ultimo_arqueo_dietas';
-var TIMEOUT_RED = 3000;
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-var configDefault = {
-  entidad: 'AGESP',
-  nit: '',
-  reeup: '',
-  responsable: 'Elieser Duarte Lopez',
-  cargoResponsable: 'Especialista B Gestion Economica',
-  contrapartida: 'Especialista Principal',
-  cargoContrapartida: 'Especialista Principal',
-  totalPagos: 0,
-  totalDietas: 0,
-  tema: 'claro'
-};
+var denominaciones = [2000, 1000, 500, 200, 100, 50, 20, 10, 5];
 var configActual = null;
 
-/* ---- Utilidades ---- */
+/* --- Utilidades --- */
 function formatoMoneda(n) {
   var num = Math.round(Number(n) || 0);
   var signo = num < 0 ? '-' : '';
   var abs = Math.abs(num).toString();
   return signo + '$' + abs.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 }
-function pad2(n) {
-  var s = String(n);
-  return s.length < 2 ? '0' + s : s;
-}
+function pad2(n) { var s = String(n); return s.length < 2 ? '0' + s : s; }
 function hoyISO() {
   var d = new Date();
   return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
 }
 function formatearFecha(iso) {
   if (!iso) return '';
-  var partes = iso.split('-');
-  if (partes.length !== 3) return iso;
-  return partes[2] + '/' + partes[1] + '/' + partes[0];
+  var p = String(iso).split('T')[0].split('-');
+  if (p.length !== 3) return iso;
+  return p[2] + '/' + p[1] + '/' + p[0];
 }
 function fechaHoraGuardado() {
   var d = new Date();
   return pad2(d.getDate()) + '/' + pad2(d.getMonth() + 1) + '/' + d.getFullYear() +
          ' ' + pad2(d.getHours()) + ':' + pad2(d.getMinutes());
 }
-function horaMinutoISO() {
-  var d = new Date();
-  return pad2(d.getHours()) + '-' + pad2(d.getMinutes());
+function mostrarStatus(msg, tipo) {
+  var el = document.getElementById('statusMsg');
+  el.textContent = msg;
+  el.className = 'status-msg ' + (tipo || 'info');
+  setTimeout(function() { el.className = 'status-msg'; }, 4500);
 }
-
-/* Envuelve una promesa con timeout */
-function conTimeout(promesa, ms) {
-  return Promise.race([
-    promesa,
-    new Promise(function(resolve) {
-      setTimeout(function() { resolve({ timeout: true }); }, ms);
-    })
-  ]);
-}
-
-/* ---- Estado de conexion ---- */
-function actualizarEstadoConexion(online) {
-  var el = document.getElementById('estadoConexion');
-  if (!el) return;
-  if (online) {
-    el.className = 'estado-conexion online no-print';
-    el.textContent = 'Conectado a la nube (sincronizacion activa)';
-  } else {
-    el.className = 'estado-conexion offline no-print';
-    el.textContent = 'Sin conexion a la nube (usando almacenamiento local)';
-  }
-}
+function anioActual() { return new Date().getFullYear(); }
+function primerDiaAnio() { return anioActual() + '-01-01'; }
 
 /* ==========================================================
-   CONFIGURACION
+   CONFIGURACIÓN
 ========================================================== */
-function leerConfigLocal() {
+var CONFIG_DEFECTO = {
+  entidad: 'AGESP', nit: '', reeup: '',
+  respNombre: 'Elieser Duarte Lopez',
+  respCargo: 'Especialista B Gestion Economica',
+  contraNombre: 'Especialista Principal',
+  contraCargo: 'Especialista Principal',
+  efectivoPagos: 0, efectivoDietas: 0,
+  saldoValesDieta: 0, saldoValesPagos: 0,
+  tema: 'claro'
+};
+
+async function cargarConfigDesdeSupabase() {
+  var cfg = Object.assign({}, CONFIG_DEFECTO);
   try {
-    var raw = localStorage.getItem(CLAVE_CONFIG_LOCAL);
-    if (!raw) return null;
-    return JSON.parse(raw);
-  } catch (e) { return null; }
-}
-function guardarConfigLocal(cfg) {
-  localStorage.setItem(CLAVE_CONFIG_LOCAL, JSON.stringify(cfg));
+    var { data, error } = await db.from('agesp_config').select('data').eq('id', 1).maybeSingle();
+    if (error && error.code !== 'PGRST116') throw error;
+    if (data && data.data) {
+      for (var k in CONFIG_DEFECTO) if (data.data[k] !== undefined) cfg[k] = data.data[k];
+    }
+  } catch (e) { console.warn('No se pudo cargar config:', e.message); }
+  return cfg;
 }
 
-async function cargarConfigDesdeNube() {
-  if (!supabaseClient) return null;
+async function guardarConfigEnSupabase(cfg) {
   try {
-    var resp = await conTimeout(
-      supabaseClient.from('agesp_config').select('datos').order('id', { ascending: false }).limit(1),
-      TIMEOUT_RED
-    );
-    if (!resp || resp.timeout || resp.error) return null;
-    if (resp.data && resp.data.length > 0) return resp.data[0].datos;
-    return null;
-  } catch (e) { return null; }
+    var { error } = await db.from('agesp_config').upsert({
+      id: 1, data: cfg, updated_at: new Date().toISOString()
+    });
+    if (error) throw error;
+    return true;
+  } catch (e) {
+    mostrarStatus('Error al guardar configuración: ' + e.message, 'err');
+    return false;
+  }
 }
 
-async function guardarConfigEnNube(cfg) {
-  if (!supabaseClient) return false;
-  try {
-    await conTimeout(supabaseClient.from('agesp_config').delete().neq('id', 0), TIMEOUT_RED);
-    var resp = await conTimeout(supabaseClient.from('agesp_config').insert({ datos: cfg }), TIMEOUT_RED);
-    if (resp && resp.timeout) return false;
-    return !resp.error;
-  } catch (e) { return false; }
+function aplicarConfigAUI(cfg) {
+  document.getElementById('tituloApp').textContent = cfg.entidad + ' - Control de Caja';
+  var nombres = document.querySelectorAll('.entidad-nombre');
+  for (var i = 0; i < nombres.length; i++) nombres[i].textContent = cfg.entidad || '-';
+  var nits = document.querySelectorAll('.entidad-nit');
+  for (var j = 0; j < nits.length; j++) nits[j].textContent = cfg.nit || '-';
+  var reeups = document.querySelectorAll('.entidad-reeup');
+  for (var r = 0; r < reeups.length; r++) reeups[r].textContent = cfg.reeup || '-';
+
+  var caps = ['Pagos', 'Dietas', 'ValesDieta', 'ValesPagos'];
+  for (var c = 0; c < caps.length; c++) {
+    var cap = caps[c];
+    var el1 = document.getElementById('firmaResp' + cap); if (el1) el1.textContent = cfg.respNombre || '-';
+    var el2 = document.getElementById('firmaContra' + cap); if (el2) el2.textContent = cfg.contraNombre || '-';
+    var el3 = document.getElementById('cargoResp' + cap); if (el3) el3.textContent = cfg.respCargo || '-';
+    var el4 = document.getElementById('cargoContra' + cap); if (el4) el4.textContent = cfg.contraCargo || '-';
+  }
+
+  document.getElementById('responsablePagos').value = cfg.respNombre;
+  document.getElementById('responsableDietas').value = cfg.respNombre;
+  document.getElementById('responsableValesDieta').value = cfg.respNombre;
+  document.getElementById('responsableValesPagos').value = cfg.respNombre;
+  document.getElementById('contrapartidaPagos').value = cfg.contraNombre;
+  document.getElementById('contrapartidaDietas').value = cfg.contraNombre;
+  document.getElementById('contrapartidaValesDieta').value = cfg.contraNombre;
+  document.getElementById('contrapartidaValesPagos').value = cfg.contraNombre;
+
+  document.getElementById('remEntidad').textContent = cfg.entidad || 'AGESP';
+  document.getElementById('remReeup').textContent = cfg.reeup || '-';
+
+  aplicarTema(cfg.tema);
 }
 
-function aplicarConfigUI() {
-  document.getElementById('tituloApp').textContent = configActual.entidad + ' - Control de Caja';
-
-  var idsEntidad = ['entidadPagos','entidadDietas','entidadValesDieta','entidadValesPagos'];
-  for (var i = 0; i < idsEntidad.length; i++) {
-    var el = document.getElementById(idsEntidad[i]);
-    if (el) el.textContent = configActual.entidad;
-  }
-  document.getElementById('nitPagos').textContent = configActual.nit || '-';
-  document.getElementById('nitDietas').textContent = configActual.nit || '-';
-  document.getElementById('reeupPagos').textContent = configActual.reeup || '-';
-  document.getElementById('reeupDietas').textContent = configActual.reeup || '-';
-
-  var secciones = ['Pagos','Dietas','ValesDieta','ValesPagos'];
-  for (var s = 0; s < secciones.length; s++) {
-    var sec = secciones[s];
-    var fr = document.getElementById('firmaResp' + sec);
-    var cr = document.getElementById('cargoResp' + sec);
-    var fc = document.getElementById('firmaContra' + sec);
-    var cc = document.getElementById('cargoContra' + sec);
-    if (fr) fr.textContent = configActual.responsable;
-    if (cr) cr.textContent = configActual.cargoResponsable;
-    if (fc) fc.textContent = configActual.contrapartida;
-    if (cc) cc.textContent = configActual.cargoContrapartida;
-  }
-
-  var sp = document.getElementById('sistemaPagos');
-  var sd = document.getElementById('sistemaDietas');
-  if (sp && !sp.dataset.tocado) sp.value = configActual.totalPagos;
-  if (sd && !sd.dataset.tocado) sd.value = configActual.totalDietas;
-
-  aplicarTema(configActual.tema);
-}
-
-function llenarFormularioConfig() {
-  document.getElementById('cfgEntidad').value = configActual.entidad || '';
-  document.getElementById('cfgNit').value = configActual.nit || '';
-  document.getElementById('cfgReeup').value = configActual.reeup || '';
-  document.getElementById('cfgResponsable').value = configActual.responsable || '';
-  document.getElementById('cfgCargoResponsable').value = configActual.cargoResponsable || '';
-  document.getElementById('cfgContrapartida').value = configActual.contrapartida || '';
-  document.getElementById('cfgCargoContrapartida').value = configActual.cargoContrapartida || '';
-  document.getElementById('cfgTotalPagos').value = configActual.totalPagos || 0;
-  document.getElementById('cfgTotalDietas').value = configActual.totalDietas || 0;
-  document.getElementById('cfgTema').value = configActual.tema || 'claro';
-}
-
-async function cargarConfig() {
-  var cfg = null;
-  if (supabaseClient) {
-    try { cfg = await cargarConfigDesdeNube(); } catch (e) { cfg = null; }
-  }
-  if (!cfg) cfg = leerConfigLocal();
-  if (!cfg) cfg = configDefault;
-
-  for (var k in configDefault) {
-    if (typeof cfg[k] === 'undefined') cfg[k] = configDefault[k];
-  }
-  configActual = cfg;
-  guardarConfigLocal(cfg);
-  aplicarConfigUI();
-  llenarFormularioConfig();
+function poblarFormularioConfig(cfg) {
+  document.getElementById('cfgEntidad').value = cfg.entidad;
+  document.getElementById('cfgNit').value = cfg.nit;
+  document.getElementById('cfgReeup').value = cfg.reeup;
+  document.getElementById('cfgRespNombre').value = cfg.respNombre;
+  document.getElementById('cfgRespCargo').value = cfg.respCargo;
+  document.getElementById('cfgContraNombre').value = cfg.contraNombre;
+  document.getElementById('cfgContraCargo').value = cfg.contraCargo;
+  document.getElementById('cfgEfectivoPagos').value = cfg.efectivoPagos;
+  document.getElementById('cfgEfectivoDietas').value = cfg.efectivoDietas;
+  document.getElementById('cfgSaldoValesDieta').value = cfg.saldoValesDieta;
+  document.getElementById('cfgSaldoValesPagos').value = cfg.saldoValesPagos;
+  document.getElementById('cfgTema').value = cfg.tema;
 }
 
 async function guardarConfig() {
-  var nueva = {
+  var cfg = {
     entidad: document.getElementById('cfgEntidad').value || 'AGESP',
-    nit: document.getElementById('cfgNit').value,
-    reeup: document.getElementById('cfgReeup').value,
-    responsable: document.getElementById('cfgResponsable').value,
-    cargoResponsable: document.getElementById('cfgCargoResponsable').value,
-    contrapartida: document.getElementById('cfgContrapartida').value,
-    cargoContrapartida: document.getElementById('cfgCargoContrapartida').value,
-    totalPagos: parseFloat(document.getElementById('cfgTotalPagos').value) || 0,
-    totalDietas: parseFloat(document.getElementById('cfgTotalDietas').value) || 0,
-    tema: document.getElementById('cfgTema').value
+    nit: document.getElementById('cfgNit').value || '',
+    reeup: document.getElementById('cfgReeup').value || '',
+    respNombre: document.getElementById('cfgRespNombre').value || '',
+    respCargo: document.getElementById('cfgRespCargo').value || '',
+    contraNombre: document.getElementById('cfgContraNombre').value || '',
+    contraCargo: document.getElementById('cfgContraCargo').value || '',
+    efectivoPagos: parseFloat(document.getElementById('cfgEfectivoPagos').value) || 0,
+    efectivoDietas: parseFloat(document.getElementById('cfgEfectivoDietas').value) || 0,
+    saldoValesDieta: parseFloat(document.getElementById('cfgSaldoValesDieta').value) || 0,
+    saldoValesPagos: parseFloat(document.getElementById('cfgSaldoValesPagos').value) || 0,
+    tema: document.getElementById('cfgTema').value || 'claro'
   };
-  configActual = nueva;
-  guardarConfigLocal(nueva);
-  var okNube = await guardarConfigEnNube(nueva);
-  aplicarConfigUI();
-  if (okNube) alert('Configuracion guardada y sincronizada.');
-  else alert('Configuracion guardada localmente.');
-}
-function recargarConfig() { llenarFormularioConfig(); }
-
-/* ==========================================================
-   PERSISTENCIA DEL ULTIMO ARQUEO
-========================================================== */
-function guardarEstadoArqueo(tipo) {
-  var cap = tipo.charAt(0).toUpperCase() + tipo.slice(1);
-  var detalles = {};
-  var inputs = document.querySelectorAll('.input-' + tipo);
-  for (var i = 0; i < inputs.length; i++) {
-    detalles[inputs[i].getAttribute('data-denom')] = parseInt(inputs[i].value, 10) || 0;
-  }
-  var estado = {
-    cantidades: detalles,
-    sistema: parseInt(document.getElementById('sistema' + cap).value, 10) || 0,
-    observaciones: document.getElementById('obs' + cap).value,
-    fecha: document.getElementById('fechaInput' + cap).value,
-    guardadoEn: fechaHoraGuardado()
-  };
-  var clave = tipo === 'pagos' ? CLAVE_ULTIMO_PAGOS : CLAVE_ULTIMO_DIETAS;
-  localStorage.setItem(clave, JSON.stringify(estado));
-  var label = document.getElementById('ultimoGuardado' + cap);
-  if (label) label.textContent = 'Ultimo arqueo guardado: ' + estado.guardadoEn;
+  var ok = await guardarConfigEnSupabase(cfg);
+  if (!ok) return;
+  configActual = cfg;
+  aplicarConfigAUI(cfg);
+  mostrarStatus('Configuración guardada.', 'ok');
+  cargarVales('Dieta');
+  cargarVales('PagosMenores');
 }
 
-function cargarEstadoArqueo(tipo) {
-  var clave = tipo === 'pagos' ? CLAVE_ULTIMO_PAGOS : CLAVE_ULTIMO_DIETAS;
-  try {
-    var raw = localStorage.getItem(clave);
-    if (!raw) return null;
-    return JSON.parse(raw);
-  } catch (e) { return null; }
+async function restaurarConfig() {
+  if (!confirm('¿Restaurar la configuración a los valores por defecto?')) return;
+  var cfg = Object.assign({}, CONFIG_DEFECTO);
+  var ok = await guardarConfigEnSupabase(cfg);
+  if (!ok) return;
+  configActual = cfg;
+  poblarFormularioConfig(cfg);
+  aplicarConfigAUI(cfg);
+  mostrarStatus('Configuración restaurada.', 'info');
 }
 
-function aplicarEstadoArqueo(tipo, estado) {
-  var cap = tipo.charAt(0).toUpperCase() + tipo.slice(1);
-  var label = document.getElementById('ultimoGuardado' + cap);
-  if (!estado) {
-    if (label) label.textContent = 'Sin arqueo guardado aun';
-    return;
-  }
-  var inputs = document.querySelectorAll('.input-' + tipo);
-  for (var i = 0; i < inputs.length; i++) {
-    var denom = inputs[i].getAttribute('data-denom');
-    var val = (estado.cantidades && estado.cantidades[denom]) ? estado.cantidades[denom] : 0;
-    inputs[i].value = val;
-  }
-  if (typeof estado.sistema !== 'undefined') {
-    var sp = document.getElementById('sistema' + cap);
-    sp.value = estado.sistema;
-    sp.dataset.tocado = '1';
-  }
-  if (typeof estado.observaciones !== 'undefined') {
-    document.getElementById('obs' + cap).value = estado.observaciones;
-  }
-  if (estado.fecha) {
-    document.getElementById('fechaInput' + cap).value = estado.fecha;
-  }
-  if (label && estado.guardadoEn) {
-    label.textContent = 'Ultimo arqueo guardado: ' + estado.guardadoEn;
-  }
-  calcular(tipo);
-}
-
-/* ==========================================================
-   TEMA
-========================================================== */
-function aplicarTema(tema) {
-  var body = document.body;
-  var btn = document.getElementById('btnTema');
-  if (tema === 'oscuro') {
-    body.classList.add('tema-oscuro');
-    if (btn) btn.innerHTML = 'Claro';
-  } else {
-    body.classList.remove('tema-oscuro');
-    if (btn) btn.innerHTML = 'Oscuro';
-  }
-}
-function alternarTema() {
-  var actual = configActual && configActual.tema ? configActual.tema : 'claro';
-  var nuevo = actual === 'oscuro' ? 'claro' : 'oscuro';
-  if (configActual) configActual.tema = nuevo;
-  localStorage.setItem(CLAVE_TEMA, nuevo);
-  aplicarTema(nuevo);
-  if (configActual) {
-    guardarConfigLocal(configActual);
-    guardarConfigEnNube(configActual);
-  }
-  var sel = document.getElementById('cfgTema');
-  if (sel) sel.value = nuevo;
-}
-
-/* ==========================================================
-   FECHAS INICIALES
-========================================================== */
+/* Fechas iniciales */
 document.getElementById('fechaInputPagos').value = hoyISO();
 document.getElementById('fechaInputDietas').value = hoyISO();
-document.getElementById('fechaInputValesDieta').value = hoyISO();
-document.getElementById('fechaInputValesPagos').value = hoyISO();
+document.getElementById('nuevoFechaValesDieta').value = hoyISO();
+document.getElementById('nuevoFechaValesPagos').value = hoyISO();
+document.getElementById('reembolsoDesde').value = primerDiaAnio();
+document.getElementById('reembolsoHasta').value = hoyISO();
 
 /* ==========================================================
    ARQUEO
 ========================================================== */
 function construirTabla(idTabla, tipo) {
   var tbody = document.getElementById(idTabla);
-  if (!tbody) { console.error('No existe tabla:', idTabla); return; }
   tbody.innerHTML = '';
   for (var i = 0; i < denominaciones.length; i++) {
     var d = denominaciones[i];
     var fila = document.createElement('tr');
     fila.innerHTML =
       '<td>' + formatoMoneda(d) + '</td>' +
-      '<td><input type="number" min="0" value="0" ' +
-      'oninput="calcular(\'' + tipo + '\')" ' +
-      'data-denom="' + d + '" ' +
-      'class="input-' + tipo + '"></td>' +
+      '<td><input type="number" min="0" value="0" oninput="calcular(\'' + tipo + '\')" data-denom="' + d + '" class="input-' + tipo + '"></td>' +
       '<td class="subtotal-' + tipo + '" data-denom="' + d + '">$0</td>';
     tbody.appendChild(fila);
   }
@@ -1009,10 +1153,21 @@ function construirTabla(idTabla, tipo) {
 
 function actualizarFirma(tipo) {
   var cap = tipo.charAt(0).toUpperCase() + tipo.slice(1);
-  var resp = document.getElementById('responsable' + cap);
-  var contra = document.getElementById('contrapartida' + cap);
-  if (resp) document.getElementById('firmaResp' + cap).textContent = resp.value || '-';
-  if (contra) document.getElementById('firmaContra' + cap).textContent = contra.value || '-';
+  var resp = document.getElementById('responsable' + cap).value || '-';
+  var contra = document.getElementById('contrapartida' + cap).value || '-';
+  document.getElementById('firmaResp' + cap).textContent = resp;
+  document.getElementById('firmaContra' + cap).textContent = contra;
+  document.getElementById('cargoResp' + cap).textContent = configActual.respCargo;
+  document.getElementById('cargoContra' + cap).textContent = configActual.contraCargo;
+}
+
+function actualizarFirmaVales(tipo) {
+  var resp = document.getElementById('responsable' + tipo).value || '-';
+  var contra = document.getElementById('contrapartida' + tipo).value || '-';
+  document.getElementById('firmaResp' + tipo).textContent = resp;
+  document.getElementById('firmaContra' + tipo).textContent = contra;
+  document.getElementById('cargoResp' + tipo).textContent = configActual.respCargo;
+  document.getElementById('cargoContra' + tipo).textContent = configActual.contraCargo;
 }
 
 function calcular(tipo) {
@@ -1030,10 +1185,10 @@ function calcular(tipo) {
   var cap = tipo.charAt(0).toUpperCase() + tipo.slice(1);
   document.getElementById('total' + cap).textContent = formatoMoneda(total);
   var sistema = parseInt(document.getElementById('sistema' + cap).value, 10) || 0;
-  var diferencia = total - sistema;
+  var dif = total - sistema;
   var elDif = document.getElementById('diferencia' + cap);
-  elDif.textContent = formatoMoneda(diferencia);
-  elDif.style.color = diferencia === 0 ? '#27ae60' : (diferencia > 0 ? '#2980b9' : '#c0392b');
+  elDif.textContent = formatoMoneda(dif);
+  elDif.style.color = dif === 0 ? '#27ae60' : (dif > 0 ? '#2980b9' : '#c0392b');
   return total;
 }
 
@@ -1041,12 +1196,55 @@ function limpiar(tipo) {
   var cap = tipo.charAt(0).toUpperCase() + tipo.slice(1);
   var inputs = document.querySelectorAll('.input-' + tipo);
   for (var i = 0; i < inputs.length; i++) inputs[i].value = 0;
-  document.getElementById('fechaInput' + cap).value = hoyISO();
-  var sp = document.getElementById('sistema' + cap);
-  sp.value = tipo === 'pagos' ? configActual.totalPagos : configActual.totalDietas;
-  delete sp.dataset.tocado;
   document.getElementById('obs' + cap).value = '';
   calcular(tipo);
+}
+
+async function actualizarSaldoLibrosArqueo(tipo) {
+  var esPagos = (tipo === 'pagos');
+  var tipoVales = esPagos ? 'PagosMenores' : 'Dieta';
+  var cap = esPagos ? 'Pagos' : 'Dietas';
+  var fechaISO = document.getElementById('fechaInput' + cap).value;
+  if (!fechaISO) return;
+
+  var saldo = await calcularExistenciaHasta(tipoVales, fechaISO);
+  document.getElementById('saldoLibros' + cap).textContent = formatoMoneda(saldo);
+  document.getElementById('fechaCalc' + cap).textContent = formatearFecha(fechaISO);
+  document.getElementById('sistema' + cap).value = saldo;
+  calcular(tipo);
+}
+
+/* Existencia según libros hasta una fecha.
+   IMPORTANTE: excluye anulados y contramovimientos (no suman). */
+async function calcularExistenciaHasta(tipoVales, fechaHasta) {
+  try {
+    var { data, error } = await db.from('agesp_vales')
+      .select('*')
+      .eq('tipo', tipoVales)
+      .lte('fecha', fechaHasta)
+      .order('fecha', { ascending: true })
+      .order('created_at', { ascending: true });
+    if (error) throw error;
+
+    // IDs de vales anulados (tienen un contramovimiento)
+    var anulados = {};
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].anula_a) anulados[data[i].anula_a] = true;
+    }
+
+    var saldo = 0, vigentes = 0;
+    for (var j = 0; j < data.length; j++) {
+      var m = data[j];
+      if (anulados[m.id]) continue;   // vale anulado: no suma
+      if (m.anula_a) continue;        // contramovimiento: no suma
+      saldo += (parseFloat(m.deposito) || 0) - (parseFloat(m.retiro) || 0);
+      vigentes++;
+    }
+    return saldo;
+  } catch (e) {
+    console.warn('Error al calcular existencia:', e.message);
+    return 0;
+  }
 }
 
 async function guardar(tipo) {
@@ -1055,6 +1253,8 @@ async function guardar(tipo) {
   var sistema = parseInt(document.getElementById('sistema' + cap).value, 10) || 0;
   var diferencia = total - sistema;
   var fechaISO = document.getElementById('fechaInput' + cap).value;
+  var responsable = document.getElementById('responsable' + cap).value;
+  var contrapartida = document.getElementById('contrapartida' + cap).value;
 
   var detalles = {};
   var inputs = document.querySelectorAll('.input-' + tipo);
@@ -1066,133 +1266,318 @@ async function guardar(tipo) {
     id: String(Date.now()) + String(Math.random()),
     categoria: 'arqueo',
     tipo: tipo === 'pagos' ? 'Arqueo - Pagos Menores' : 'Arqueo - Dietas',
-    entidad: configActual.entidad,
-    nit: configActual.nit,
-    reeup: configActual.reeup,
-    fechaArqueo: fechaISO,
-    fechaArqueoTexto: formatearFecha(fechaISO),
+    entidad: configActual.entidad, nit: configActual.nit, reeup: configActual.reeup,
+    fechaArqueo: fechaISO, fechaArqueoTexto: formatearFecha(fechaISO),
     fechaGuardado: fechaHoraGuardado(),
-    responsable: configActual.responsable,
-    cargoResponsable: configActual.cargoResponsable,
-    contrapartida: configActual.contrapartida,
-    cargoContrapartida: configActual.cargoContrapartida,
-    detalles: detalles,
-    total: total,
-    sistema: sistema,
-    diferencia: diferencia,
+    responsable: responsable, cargoResponsable: configActual.respCargo,
+    contrapartida: contrapartida, cargoContrapartida: configActual.contraCargo,
+    detalles: detalles, total: total, sistema: sistema, diferencia: diferencia,
     observaciones: document.getElementById('obs' + cap).value
   };
 
-  var historial = await obtenerHistorial();
-  historial.unshift(registro);
-  await guardarHistorial(historial);
-  guardarEstadoArqueo(tipo);
-  alert('Arqueo guardado.');
+  try {
+    var { error } = await db.from('agesp_historial').insert({
+      id: registro.id, categoria: registro.categoria, tipo: registro.tipo,
+      entidad: registro.entidad, nit: registro.nit, reeup: registro.reeup,
+      fecha_guardado: registro.fechaGuardado, data: registro
+    });
+    if (error) throw error;
+    mostrarStatus('Arqueo guardado.', 'ok');
+  } catch (e) {
+    mostrarStatus('Error al guardar: ' + e.message, 'err');
+  }
 }
 
 /* ==========================================================
-   VALES
+   LIBRO DE VALES
+   - Vales vigentes: suman a totalDep, totalRet y existencia.
+   - Vales anulados: se muestran tachados, NO suman.
+   - Contramovimientos: se muestran con marca CONTRAMOV., NO suman.
 ========================================================== */
-function crearFilaVales(tipo, datos) {
-  if (!datos) datos = {};
-  var tbody = document.getElementById('tabla' + tipo);
-  var tr = document.createElement('tr');
-  var fechaVal = datos.fecha ? datos.fecha : hoyISO();
-  tr.innerHTML =
-    '<td><input type="date" value="' + fechaVal + '" ' +
-    'onchange="recalcularVales(\'' + tipo + '\')"></td>' +
-    '<td><input type="text" value="' + (datos.vale || '') + '"></td>' +
-    '<td><input type="text" value="' + (datos.nombre || '') + '"></td>' +
-    '<td><input type="text" value="' + (datos.desc || '') + '"></td>' +
-    '<td><input type="number" class="num" min="0" value="' + (datos.dep || 0) + '" ' +
-    'oninput="recalcularVales(\'' + tipo + '\')"></td>' +
-    '<td><input type="number" class="num" min="0" value="' + (datos.ret || 0) + '" ' +
-    'oninput="recalcularVales(\'' + tipo + '\')"></td>' +
-    '<td class="exist-cell">$0</td>' +
-    '<td class="no-print"><button class="btn-eliminar-fila" ' +
-    'onclick="eliminarFilaVales(this, \'' + tipo + '\')">X</button></td>';
-  tbody.appendChild(tr);
-}
-function agregarFilaVales(tipo) { crearFilaVales(tipo); recalcularVales(tipo); }
-function eliminarFilaVales(btn, tipo) {
-  var tr = btn.parentNode.parentNode;
-  tr.parentNode.removeChild(tr);
-  recalcularVales(tipo);
-}
-function recalcularVales(tipo) {
-  var tbody = document.getElementById('tabla' + tipo);
-  var filas = tbody.querySelectorAll('tr');
-  var saldoInicial = parseFloat(document.getElementById('saldoInicial' + tipo).value) || 0;
-  var existencia = saldoInicial, totalDep = 0, totalRet = 0;
-  for (var i = 0; i < filas.length; i++) {
-    var inputs = filas[i].querySelectorAll('input');
-    var dep = parseFloat(inputs[4].value) || 0;
-    var ret = parseFloat(inputs[5].value) || 0;
-    existencia = existencia + dep - ret;
-    totalDep += dep;
-    totalRet += ret;
-    var celda = filas[i].querySelector('.exist-cell');
-    if (celda) celda.textContent = formatoMoneda(existencia);
-  }
-  document.getElementById('totDep' + tipo).textContent = formatoMoneda(totalDep);
-  document.getElementById('totRet' + tipo).textContent = formatoMoneda(totalRet);
-  document.getElementById('totExist' + tipo).textContent = formatoMoneda(existencia);
-  document.getElementById('existFinal' + tipo).textContent = formatoMoneda(existencia);
-}
-function limpiarVales(tipo) {
-  document.getElementById('tabla' + tipo).innerHTML = '';
-  document.getElementById('saldoInicial' + tipo).value = 0;
-  document.getElementById('obs' + tipo).value = '';
-  for (var i = 0; i < 5; i++) crearFilaVales(tipo);
-  recalcularVales(tipo);
-}
-async function guardarVales(tipo) {
-  var tbody = document.getElementById('tabla' + tipo);
-  var filasDOM = tbody.querySelectorAll('tr');
-  var filas = [];
-  for (var i = 0; i < filasDOM.length; i++) {
-    var inputs = filasDOM[i].querySelectorAll('input');
-    var reg = {
-      fecha: inputs[0].value, vale: inputs[1].value, nombre: inputs[2].value,
-      desc: inputs[3].value,
-      dep: parseFloat(inputs[4].value) || 0,
-      ret: parseFloat(inputs[5].value) || 0
-    };
-    if (reg.vale || reg.nombre || reg.desc || reg.dep || reg.ret) filas.push(reg);
-  }
-  if (filas.length === 0) { alert('No hay filas con datos para guardar.'); return; }
+async function cargarVales(tipoVales) {
+  var esDieta = (tipoVales === 'Dieta');
+  var sufijo = esDieta ? 'Dieta' : 'Pagos';
+  var desde = document.getElementById('filtroDesdeVales' + sufijo).value;
+  var hasta = document.getElementById('filtroHastaVales' + sufijo).value;
+  if (!desde) desde = primerDiaAnio();
+  if (!hasta) hasta = hoyISO();
 
-  var saldoInicial = parseFloat(document.getElementById('saldoInicial' + tipo).value) || 0;
+  var todos = [];
+  try {
+    var { data, error } = await db.from('agesp_vales')
+      .select('*')
+      .eq('tipo', tipoVales)
+      .lte('fecha', hasta)
+      .order('fecha', { ascending: true })
+      .order('created_at', { ascending: true });
+    if (error) throw error;
+    todos = data || [];
+  } catch (e) {
+    mostrarStatus('Error al cargar vales: ' + e.message, 'err');
+    return;
+  }
+
+  // IDs de vales anulados (porque existe un contramovimiento que los apunta)
+  var anulados = {};
+  for (var i = 0; i < todos.length; i++) {
+    if (todos[i].anula_a) anulados[todos[i].anula_a] = true;
+  }
+
+  // Saldo inicial del período: solo vales vigentes anteriores a 'desde'
+  var saldoIni = 0;
+  for (var a = 0; a < todos.length; a++) {
+    var m0 = todos[a];
+    if (m0.fecha < desde) {
+      if (anulados[m0.id]) continue;    // vale anulado: no suma
+      if (m0.anula_a) continue;          // contramovimiento: no suma
+      saldoIni += (parseFloat(m0.deposito) || 0) - (parseFloat(m0.retiro) || 0);
+    }
+  }
+
+  var visibles = [];
+  var existencia = saldoIni;
   var totalDep = 0, totalRet = 0;
-  for (var j = 0; j < filas.length; j++) { totalDep += filas[j].dep; totalRet += filas[j].ret; }
-  var existFinal = saldoInicial + totalDep - totalRet;
+  for (var b = 0; b < todos.length; b++) {
+    var m = todos[b];
+    if (m.fecha < desde) continue;
+    var esAnulado = anulados[m.id] ? true : false;
+    var esContramov = (m.anula_a !== null && m.anula_a !== undefined && m.anula_a !== '') ? true : false;
 
-  var registro = {
-    id: String(Date.now()) + String(Math.random()),
-    categoria: 'vales',
-    tipo: tipo === 'ValesDieta' ? 'Vales - Dieta' : 'Vales - Pagos Menores',
-    entidad: configActual.entidad,
-    nit: configActual.nit,
-    reeup: configActual.reeup,
-    fechaVales: document.getElementById('fechaInput' + tipo).value,
-    fechaValesTexto: formatearFecha(document.getElementById('fechaInput' + tipo).value),
-    fechaGuardado: fechaHoraGuardado(),
-    responsable: configActual.responsable,
-    cargoResponsable: configActual.cargoResponsable,
-    contrapartida: configActual.contrapartida,
-    cargoContrapartida: configActual.cargoContrapartida,
-    saldoInicial: saldoInicial, filas: filas,
-    totalDep: totalDep, totalRet: totalRet, existFinal: existFinal,
-    observaciones: document.getElementById('obs' + tipo).value
+    // Solo los vales vigentes afectan al saldo y a los totales
+    if (!esAnulado && !esContramov) {
+      existencia += (parseFloat(m.deposito) || 0) - (parseFloat(m.retiro) || 0);
+      totalDep += (parseFloat(m.deposito) || 0);
+      totalRet += (parseFloat(m.retiro) || 0);
+    }
+    visibles.push({ mov: m, existencia: existencia, anulado: esAnulado, contramov: esContramov });
+  }
+
+  var tbody = document.getElementById('tablaVales' + sufijo);
+  var html = '';
+  if (visibles.length === 0) {
+    html = '<tr><td colspan="9" style="text-align:center;color:#888;">Sin movimientos en el rango.</td></tr>';
+  } else {
+    for (var v = 0; v < visibles.length; v++) {
+      var item = visibles[v];
+      var m2 = item.mov;
+      var clase = (item.anulado || item.contramov) ? ' class="fila-anulada"' : '';
+      var estadoHtml;
+      if (item.anulado) estadoHtml = '<span class="badge-anulado">ANULADO</span>';
+      else if (item.contramov) estadoHtml = '<span class="badge-anulado">CONTRAMOV.</span>';
+      else estadoHtml = '<span class="badge-vigente">VIGENTE</span>';
+      var accionHtml = (!item.anulado && !item.contramov)
+        ? '<button class="btn btn-danger btn-sm no-print" onclick="anularVale(\'' + tipoVales + '\', \'' + m2.id + '\')">Anular</button>'
+        : '';
+      html += '<tr' + clase + '>' +
+        '<td>' + formatearFecha(m2.fecha) + '</td>' +
+        '<td>' + (m2.no_vale || '') + '</td>' +
+        '<td>' + (m2.nombre || '') + '</td>' +
+        '<td>' + (m2.descripcion || '') + '</td>' +
+        '<td>' + formatoMoneda(m2.deposito) + '</td>' +
+        '<td>' + formatoMoneda(m2.retiro) + '</td>' +
+        '<td>' + formatoMoneda(item.existencia) + '</td>' +
+        '<td class="estado">' + estadoHtml + '</td>' +
+        '<td class="no-print">' + accionHtml + '</td>' +
+      '</tr>';
+    }
+  }
+  tbody.innerHTML = html;
+
+  document.getElementById('totDepVales' + sufijo).textContent = formatoMoneda(totalDep);
+  document.getElementById('totRetVales' + sufijo).textContent = formatoMoneda(totalRet);
+  document.getElementById('totExistVales' + sufijo).textContent = formatoMoneda(existencia);
+
+  document.getElementById('saldoIni' + sufijo).textContent = formatoMoneda(saldoIni);
+  document.getElementById('saldoFin' + sufijo).textContent = formatoMoneda(existencia);
+  document.getElementById('numMov' + sufijo).textContent = visibles.length;
+}
+
+async function registrarVale(tipoVales) {
+  var esDieta = (tipoVales === 'Dieta');
+  var sufijo = esDieta ? 'Dieta' : 'Pagos';
+  var fecha = document.getElementById('nuevoFechaVales' + sufijo).value;
+  var noVale = document.getElementById('nuevoNoValeVales' + sufijo).value;
+  var nombre = document.getElementById('nuevoNombreVales' + sufijo).value;
+  var desc = document.getElementById('nuevoDescVales' + sufijo).value;
+  var dep = parseFloat(document.getElementById('nuevoDepVales' + sufijo).value) || 0;
+  var ret = parseFloat(document.getElementById('nuevoRetVales' + sufijo).value) || 0;
+
+  if (!fecha) { mostrarStatus('Falta la fecha del vale.', 'err'); return; }
+  if (dep === 0 && ret === 0) { mostrarStatus('Debe indicar depósito o retiro.', 'err'); return; }
+  if (dep > 0 && ret > 0) { mostrarStatus('Un vale no puede tener depósito y retiro a la vez.', 'err'); return; }
+
+  var id = String(Date.now()) + String(Math.random());
+  try {
+    var { error } = await db.from('agesp_vales').insert({
+      id: id, tipo: tipoVales, fecha: fecha,
+      no_vale: noVale, nombre: nombre, descripcion: desc,
+      deposito: dep, retiro: ret, anula_a: null, observaciones: null
+    });
+    if (error) throw error;
+
+    document.getElementById('nuevoNoValeVales' + sufijo).value = '';
+    document.getElementById('nuevoNombreVales' + sufijo).value = '';
+    document.getElementById('nuevoDescVales' + sufijo).value = '';
+    document.getElementById('nuevoDepVales' + sufijo).value = 0;
+    document.getElementById('nuevoRetVales' + sufijo).value = 0;
+    document.getElementById('nuevoFechaVales' + sufijo).value = hoyISO();
+
+    mostrarStatus('Vale registrado.', 'ok');
+    cargarVales(tipoVales);
+    actualizarSaldoLibrosArqueo(esDieta ? 'dietas' : 'pagos');
+  } catch (e) {
+    mostrarStatus('Error al registrar vale: ' + e.message, 'err');
+  }
+}
+
+async function anularVale(tipoVales, idVale) {
+  if (!confirm('¿Anular este vale? Se generará un contramovimiento con el signo contrario.')) return;
+
+  var original = null;
+  try {
+    var { data, error } = await db.from('agesp_vales').select('*').eq('id', idVale).maybeSingle();
+    if (error) throw error;
+    original = data;
+  } catch (e) {
+    mostrarStatus('Error al buscar vale: ' + e.message, 'err');
+    return;
+  }
+  if (!original) { mostrarStatus('Vale no encontrado.', 'err'); return; }
+
+  var nuevoId = String(Date.now()) + String(Math.random());
+  var contra = {
+    id: nuevoId,
+    tipo: original.tipo,
+    fecha: hoyISO(),
+    no_vale: original.no_vale,
+    nombre: original.nombre,
+    descripcion: 'ANULACIÓN de vale ' + (original.no_vale || original.id),
+    deposito: parseFloat(original.retiro) || 0,
+    retiro: parseFloat(original.deposito) || 0,
+    anula_a: original.id,
+    observaciones: 'Contramovimiento generado automáticamente'
   };
-  var historial = await obtenerHistorial();
-  historial.unshift(registro);
-  await guardarHistorial(historial);
-  alert('Vales guardados.');
+
+  try {
+    var { error } = await db.from('agesp_vales').insert(contra);
+    if (error) throw error;
+    mostrarStatus('Vale anulado con contramovimiento.', 'ok');
+    cargarVales(tipoVales);
+    actualizarSaldoLibrosArqueo(tipoVales === 'Dieta' ? 'dietas' : 'pagos');
+  } catch (e) {
+    mostrarStatus('Error al anular: ' + e.message, 'err');
+  }
+}
+
+function resetFiltroVales(tipoVales) {
+  var sufijo = (tipoVales === 'Dieta') ? 'Dieta' : 'Pagos';
+  document.getElementById('filtroDesdeVales' + sufijo).value = primerDiaAnio();
+  document.getElementById('filtroHastaVales' + sufijo).value = hoyISO();
+  cargarVales(tipoVales);
 }
 
 /* ==========================================================
-   NAVEGACION
+   REEMBOLSO
+   - Solo vales de RETIRO (no depósitos)
+   - Excluye vales anulados y contramovimientos
+========================================================== */
+async function generarReembolso() {
+  var tipo = document.getElementById('reembolsoTipo').value;
+  var desde = document.getElementById('reembolsoDesde').value;
+  var hasta = document.getElementById('reembolsoHasta').value;
+  if (!desde) desde = primerDiaAnio();
+  if (!hasta) hasta = hoyISO();
+
+  var tipoTexto = (tipo === 'Dieta') ? 'DIETA' : 'PAGOS MENORES';
+  document.getElementById('remTipoTexto').textContent = tipoTexto;
+  document.getElementById('remEntidad').textContent = configActual.entidad || 'AGESP';
+  document.getElementById('remReeup').textContent = configActual.reeup || '-';
+  document.getElementById('remDel').textContent = formatearFecha(desde);
+  document.getElementById('remAl').textContent = formatearFecha(hasta);
+
+  var movimientos = [];
+  try {
+    var { data, error } = await db.from('agesp_vales')
+      .select('*')
+      .eq('tipo', tipo)
+      .gte('fecha', desde)
+      .lte('fecha', hasta)
+      .order('fecha', { ascending: true })
+      .order('created_at', { ascending: true });
+    if (error) throw error;
+    movimientos = data || [];
+  } catch (e) {
+    mostrarStatus('Error al generar reembolso: ' + e.message, 'err');
+    return;
+  }
+
+  // Excluir contramovimientos y vales anulados
+  var anulados = {};
+  for (var i = 0; i < movimientos.length; i++) {
+    if (movimientos[i].anula_a) anulados[movimientos[i].anula_a] = true;
+  }
+  var vigentes = [];
+  for (var j = 0; j < movimientos.length; j++) {
+    var m = movimientos[j];
+    if (m.anula_a) continue;        // contramovimiento
+    if (anulados[m.id]) continue;   // vale anulado
+    vigentes.push(m);
+  }
+
+  var tbody = document.getElementById('remFilas');
+  var html = '';
+  var total = 0;
+  var items = [];
+  for (var k = 0; k < vigentes.length; k++) {
+    var v = vigentes[k];
+    var ret = parseFloat(v.retiro) || 0;
+    if (ret <= 0) continue;  // SOLO RETIROS
+    items.push({
+      dia: v.fecha,
+      num: v.no_vale || '',
+      importe: ret
+    });
+    total += ret;
+  }
+
+  if (items.length === 0) {
+    html = '<tr><td colspan="12" class="sin-datos">No hay vales de retiro en el rango seleccionado.</td></tr>';
+  } else {
+    var filas = Math.ceil(items.length / 4);
+    for (var f = 0; f < filas; f++) {
+      html += '<tr>';
+      for (var c = 0; c < 4; c++) {
+        var idx = f * 4 + c;
+        if (idx < items.length) {
+          var it = items[idx];
+          html += '<td>' + formatearFecha(it.dia) + '</td>' +
+                  '<td>' + it.num + '</td>' +
+                  '<td>' + formatoMoneda(it.importe) + '</td>';
+        } else {
+          html += '<td></td><td></td><td></td>';
+        }
+      }
+      html += '</tr>';
+    }
+  }
+  tbody.innerHTML = html;
+  document.getElementById('remTotal').textContent = formatoMoneda(total);
+}
+
+function resetReembolso() {
+  document.getElementById('reembolsoTipo').value = 'PagosMenores';
+  document.getElementById('reembolsoDesde').value = primerDiaAnio();
+  document.getElementById('reembolsoHasta').value = hoyISO();
+  document.getElementById('remFilas').innerHTML = '';
+  document.getElementById('remTotal').textContent = '$0';
+  document.getElementById('remTipoTexto').textContent = 'PAGOS MENORES';
+  document.getElementById('remDel').textContent = '-';
+  document.getElementById('remAl').textContent = '-';
+  document.getElementById('remReeup').textContent = configActual ? (configActual.reeup || '-') : '-';
+}
+
+/* ==========================================================
+   NAVEGACIÓN / HISTORIAL / TEMA
 ========================================================== */
 function mostrarSeccion(id) {
   var secciones = document.querySelectorAll('.seccion');
@@ -1201,216 +1586,113 @@ function mostrarSeccion(id) {
   for (var j = 0; j < botones.length; j++) botones[j].classList.remove('active');
   document.getElementById(id).classList.add('active');
   var mapa = {
-    pagos: 'btnPagos', dietas: 'btnDietas',
-    valesDieta: 'btnValesDieta', valesPagos: 'btnValesPagos',
-    historial: 'btnHistorial', config: 'btnConfig'
+    pagos: 'btnPagos', dietas: 'btnDietas', valesDieta: 'btnValesDieta',
+    valesPagos: 'btnValesPagos', reembolso: 'btnReembolso',
+    historial: 'btnHistorial', configuracion: 'btnConfig'
   };
   if (mapa[id]) document.getElementById(mapa[id]).classList.add('active');
+
   if (id === 'historial') renderHistorial();
-  if (id === 'config') llenarFormularioConfig();
+  if (id === 'configuracion') poblarFormularioConfig(configActual);
+  if (id === 'pagos') actualizarSaldoLibrosArqueo('pagos');
+  if (id === 'dietas') actualizarSaldoLibrosArqueo('dietas');
+  if (id === 'valesDieta') {
+    if (!document.getElementById('filtroDesdeValesDieta').value) resetFiltroVales('Dieta');
+    else cargarVales('Dieta');
+  }
+  if (id === 'valesPagos') {
+    if (!document.getElementById('filtroDesdeValesPagos').value) resetFiltroVales('PagosMenores');
+    else cargarVales('PagosMenores');
+  }
+  if (id === 'reembolso') {
+    document.getElementById('remEntidad').textContent = configActual.entidad || 'AGESP';
+    document.getElementById('remReeup').textContent = configActual.reeup || '-';
+  }
 }
+
 function imprimir() { window.print(); }
 
-/* ==========================================================
-   HISTORIAL CON SUPABASE
-========================================================== */
 async function obtenerHistorial() {
-  if (supabaseClient) {
-    try {
-      var resp = await conTimeout(
-        supabaseClient.from('agesp_historial').select('datos').order('id', { ascending: false }).limit(1),
-        TIMEOUT_RED
-      );
-      if (resp && !resp.timeout && !resp.error) {
-        actualizarEstadoConexion(true);
-        if (resp.data && resp.data.length > 0) return resp.data[0].datos || [];
-        return [];
-      }
-    } catch (e) { }
-  }
-  actualizarEstadoConexion(false);
   try {
-    return JSON.parse(localStorage.getItem(CLAVE_HISTORIAL_LOCAL) || '[]');
-  } catch (e) { return []; }
+    var { data, error } = await db.from('agesp_historial')
+      .select('data').order('created_at', { ascending: false });
+    if (error) throw error;
+    return data.map(function(row) { return row.data; });
+  } catch (e) { console.warn('Error historial:', e.message); return []; }
 }
-async function guardarHistorial(arr) {
-  localStorage.setItem(CLAVE_HISTORIAL_LOCAL, JSON.stringify(arr));
-  if (supabaseClient) {
-    try {
-      await conTimeout(supabaseClient.from('agesp_historial').delete().neq('id', 0), TIMEOUT_RED);
-      var resp = await conTimeout(
-        supabaseClient.from('agesp_historial').insert({ datos: arr }),
-        TIMEOUT_RED
-      );
-      if (resp && !resp.timeout && !resp.error) { actualizarEstadoConexion(true); return; }
-    } catch (e) { }
-  }
-  actualizarEstadoConexion(false);
-}
+
 async function renderHistorial() {
   var cont = document.getElementById('listaHistorial');
-  cont.innerHTML = '<p style="text-align:center; color:#888;">Cargando...</p>';
+  cont.innerHTML = '<p style="text-align:center;color:#888;">Cargando...</p>';
   var historial = await obtenerHistorial();
   if (historial.length === 0) {
-    cont.innerHTML = '<p style="text-align:center; color:#888;">No hay registros guardados.</p>';
+    cont.innerHTML = '<p style="text-align:center;color:#888;">No hay arqueos guardados.</p>';
     return;
   }
   var html = '';
   for (var i = 0; i < historial.length; i++) {
     var r = historial[i];
-    if (r.categoria === 'arqueo') {
-      var colorDif = r.diferencia === 0 ? '#27ae60' : (r.diferencia > 0 ? '#2980b9' : '#c0392b');
-      html += '<div class="item-historial">' +
-        '<div class="info">' +
-          '<strong>' + r.tipo + '</strong> - Fecha: ' + r.fechaArqueoTexto + '<br>' +
-          'Total contado: <strong>' + formatoMoneda(r.total) + '</strong> - ' +
-          'Sistema: ' + formatoMoneda(r.sistema) + ' - ' +
-          'Diferencia: <span style="color:' + colorDif + '">' + formatoMoneda(r.diferencia) + '</span><br>' +
-          'Responsable: ' + r.responsable + ' - Contrapartida: ' + r.contrapartida + '<br>' +
-          '<em style="color:#999;">Guardado: ' + r.fechaGuardado + '</em>' +
-          (r.observaciones ? '<br><em style="color:#888;">Obs: ' + r.observaciones + '</em>' : '') +
-        '</div>' +
-        '<div><button class="btn btn-danger" onclick="eliminarRegistro(\'' + r.id + '\')">Eliminar</button></div>' +
-      '</div>';
-    } else {
-      html += '<div class="item-historial">' +
-        '<div class="info">' +
-          '<strong>' + r.tipo + '</strong> - Fecha: ' + r.fechaValesTexto + '<br>' +
-          'Saldo inicial: ' + formatoMoneda(r.saldoInicial) + ' - ' +
-          'Depositos: <strong>' + formatoMoneda(r.totalDep) + '</strong> - ' +
-          'Retiros: <strong>' + formatoMoneda(r.totalRet) + '</strong> - ' +
-          'Existencia final: <strong>' + formatoMoneda(r.existFinal) + '</strong><br>' +
-          r.filas.length + ' movimiento(s) - Responsable: ' + r.responsable + '<br>' +
-          '<em style="color:#999;">Guardado: ' + r.fechaGuardado + '</em>' +
-        '</div>' +
-        '<div><button class="btn btn-danger" onclick="eliminarRegistro(\'' + r.id + '\')">Eliminar</button></div>' +
-      '</div>';
-    }
+    var colorDif = r.diferencia === 0 ? '#27ae60' : (r.diferencia > 0 ? '#2980b9' : '#c0392b');
+    html += '<div class="item-historial"><div class="info">' +
+      '<strong>' + r.tipo + '</strong> - Fecha: ' + r.fechaArqueoTexto + '<br>' +
+      'Entidad: <strong>' + (r.entidad || '-') + '</strong> - NIT: ' + (r.nit || '-') + ' - REEUP: ' + (r.reeup || '-') + '<br>' +
+      'Total contado: <strong>' + formatoMoneda(r.total) + '</strong> - ' +
+      'Sistema: ' + formatoMoneda(r.sistema) + ' - ' +
+      'Diferencia: <span style="color:' + colorDif + '">' + formatoMoneda(r.diferencia) + '</span><br>' +
+      'Responsable: ' + r.responsable + ' - Contrapartida: ' + r.contrapartida + '<br>' +
+      '<em style="color:#999;">Guardado: ' + r.fechaGuardado + '</em></div>' +
+      '<div><button class="btn btn-danger" onclick="eliminarRegistro(\'' + r.id + '\')">Eliminar</button></div></div>';
   }
   cont.innerHTML = html;
 }
+
 async function eliminarRegistro(id) {
-  if (!confirm('Eliminar este registro del historial?')) return;
-  var historial = await obtenerHistorial();
-  var nuevo = [];
-  for (var i = 0; i < historial.length; i++) {
-    if (String(historial[i].id) !== String(id)) nuevo.push(historial[i]);
-  }
-  await guardarHistorial(nuevo);
-  renderHistorial();
-}
-async function borrarHistorial() {
-  if (!confirm('Borrar TODO el historial? Esta accion no se puede deshacer.')) return;
-  await guardarHistorial([]);
-  renderHistorial();
-}
-function recargarHistorial() { renderHistorial(); }
-
-/* ==========================================================
-   RESPALDO / RESTAURACION
-========================================================== */
-async function exportarRespaldo() {
-  var historial = await obtenerHistorial();
-  var datos = {
-    app: 'AGESP - Control de Caja',
-    version: 3,
-    fechaExportacion: fechaHoraGuardado(),
-    totalRegistros: historial.length,
-    config: configActual,
-    historial: historial,
-    ultimoArqueoPagos: cargarEstadoArqueo('pagos'),
-    ultimoArqueoDietas: cargarEstadoArqueo('dietas')
-  };
-  var texto = JSON.stringify(datos, null, 2);
-  var nombreEntidad = (configActual && configActual.entidad) ? configActual.entidad : 'AGESP';
-  nombreEntidad = nombreEntidad.replace(/[^a-zA-Z0-9_-]/g, '_');
-  var nombreArchivo = nombreEntidad + '_' + hoyISO() + '_' + horaMinutoISO() + '.json';
+  if (!confirm('¿Eliminar este arqueo del historial?')) return;
   try {
-    var blob = new Blob([texto], { type: 'application/json' });
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement('a');
-    a.href = url; a.download = nombreArchivo;
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
-    alert('Copia guardada: ' + nombreArchivo + '\nRegistros: ' + historial.length);
-  } catch (e) { alert('No se pudo exportar: ' + e.message); }
+    var { error } = await db.from('agesp_historial').delete().eq('id', String(id));
+    if (error) throw error;
+    mostrarStatus('Registro eliminado.', 'ok');
+    renderHistorial();
+  } catch (e) { mostrarStatus('Error: ' + e.message, 'err'); }
 }
-function importarRespaldo(input) {
-  if (!input.files || input.files.length === 0) return;
-  var archivo = input.files[0];
-  var lector = new FileReader();
-  lector.onload = async function(evento) {
-    try {
-      var datos = JSON.parse(evento.target.result);
-      var hist = null, cfg = null;
-      if (datos && datos.historial) { hist = datos.historial; cfg = datos.config || null; }
-      else if (datos && datos.length !== undefined) hist = datos;
-      if (!hist) { alert('Archivo invalido.'); input.value = ''; return; }
-      if (!confirm('Se encontraron ' + hist.length + ' registros.\n\nAceptar = reemplazar historial actual\nCancelar = cancelar')) {
-        input.value = ''; return;
-      }
-      await guardarHistorial(hist);
-      if (cfg) {
-        for (var k in configDefault) if (typeof cfg[k] === 'undefined') cfg[k] = configDefault[k];
-        configActual = cfg;
-        guardarConfigLocal(cfg);
-        await guardarConfigEnNube(cfg);
-        aplicarConfigUI();
-        llenarFormularioConfig();
-      }
-      if (datos.ultimoArqueoPagos) {
-        localStorage.setItem(CLAVE_ULTIMO_PAGOS, JSON.stringify(datos.ultimoArqueoPagos));
-        aplicarEstadoArqueo('pagos', datos.ultimoArqueoPagos);
-      }
-      if (datos.ultimoArqueoDietas) {
-        localStorage.setItem(CLAVE_ULTIMO_DIETAS, JSON.stringify(datos.ultimoArqueoDietas));
-        aplicarEstadoArqueo('dietas', datos.ultimoArqueoDietas);
-      }
-      renderHistorial();
-      alert('Copia restaurada: ' + hist.length + ' registros.');
-    } catch (e) { alert('JSON invalido: ' + e.message); }
-    input.value = '';
-  };
-  lector.readAsText(archivo);
+
+async function borrarHistorial() {
+  if (!confirm('¿Borrar TODO el historial de arqueos? (los vales NO se borran)')) return;
+  try {
+    var { error } = await db.from('agesp_historial').delete().neq('id', '');
+    if (error) throw error;
+    mostrarStatus('Historial borrado.', 'ok');
+    renderHistorial();
+  } catch (e) { mostrarStatus('Error: ' + e.message, 'err'); }
+}
+
+function aplicarTema(tema) {
+  document.body.classList.toggle('tema-oscuro', tema === 'oscuro');
+  var sel = document.getElementById('cfgTema');
+  if (sel) sel.value = (tema === 'oscuro') ? 'oscuro' : 'claro';
 }
 
 /* ==========================================================
-   INICIALIZACION CORREGIDA
-   1. Tema
-   2. Tablas (no dependen de config)
-   3. Config (con timeout)
-   4. Restaurar ultimos arqueos
+   INICIALIZACIÓN
 ========================================================== */
-async function iniciar() {
-  /* 1. Tema */
-  aplicarTema(localStorage.getItem(CLAVE_TEMA) || 'claro');
-
-  /* 2. Construir tablas ANTES de cualquier llamada a red */
+(async function init() {
+  configActual = await cargarConfigDesdeSupabase();
   construirTabla('tablaPagos', 'pagos');
   construirTabla('tablaDietas', 'dietas');
+  poblarFormularioConfig(configActual);
+  aplicarConfigAUI(configActual);
 
-  for (var k = 0; k < 5; k++) {
-    crearFilaVales('ValesDieta');
-    crearFilaVales('ValesPagos');
-  }
-  recalcularVales('ValesDieta');
-  recalcularVales('ValesPagos');
+  document.getElementById('filtroDesdeValesDieta').value = primerDiaAnio();
+  document.getElementById('filtroHastaValesDieta').value = hoyISO();
+  document.getElementById('filtroDesdeValesPagos').value = primerDiaAnio();
+  document.getElementById('filtroHastaValesPagos').value = hoyISO();
 
-  /* 3. Cargar config con manejo de error */
-  try {
-    await cargarConfig();
-  } catch (e) {
-    console.error('Error cargando config:', e);
-    configActual = configDefault;
-    aplicarConfigUI();
-  }
+  actualizarFirma('pagos'); actualizarFirma('dietas');
+  actualizarFirmaVales('ValesDieta'); actualizarFirmaVales('ValesPagos');
 
-  /* 4. Restaurar ultimos arqueos */
-  aplicarEstadoArqueo('pagos', cargarEstadoArqueo('pagos'));
-  aplicarEstadoArqueo('dietas', cargarEstadoArqueo('dietas'));
-}
-
-iniciar();
+  await actualizarSaldoLibrosArqueo('pagos');
+  await actualizarSaldoLibrosArqueo('dietas');
+})();
 </script>
 </body>
 </html>
