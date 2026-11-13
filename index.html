@@ -62,8 +62,22 @@
   .resumen {
     display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px;
     padding: 10px; background: #f0f4f8; border-radius: 6px; font-size: 0.85rem;
+    align-items: center;
   }
   .resumen > div { flex: 1 1 45%; padding: 3px 0; }
+
+  .sistema-readonly {
+    display: inline-block;
+    padding: 5px 10px;
+    background: #eaeef3;
+    border: 1px solid #ccd6e0;
+    border-radius: 5px;
+    font-weight: bold;
+    color: #1e3a5f;
+    min-width: 110px;
+    text-align: right;
+    cursor: not-allowed;
+  }
 
   .obs {
     width: 100%; padding: 7px; border: 1px solid #ccd6e0;
@@ -117,6 +131,17 @@
   }
   .config-campo input:focus, .config-campo select:focus { outline: none; border-color: #1e3a5f; }
 
+  .chips-periodos { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .chip-periodo {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 10px; background: #dbe4ee; color: #1e3a5f;
+    border-radius: 14px; font-size: 0.75rem; font-weight: bold;
+  }
+  .chip-periodo button {
+    background: transparent; border: none; cursor: pointer;
+    color: #c0392b; font-weight: bold; padding: 0 2px;
+  }
+
   .status-msg {
     text-align: center; padding: 8px; font-size: 0.85rem;
     border-radius: 6px; margin-bottom: 12px; display: none;
@@ -127,7 +152,7 @@
 
   .form-vale {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
     gap: 8px;
     margin-bottom: 12px;
     padding: 10px;
@@ -143,6 +168,9 @@
     border-radius: 5px; font-size: 0.8rem; font-family: inherit;
   }
   .form-vale .campo input:focus { outline: none; border-color: #1e3a5f; }
+  .form-vale .campo .sugerido {
+    font-size: 0.65rem; color: #888; margin-top: 2px;
+  }
 
   .fila-anulada td { opacity: 0.55; text-decoration: line-through; }
   .fila-anulada td.estado { text-decoration: none; }
@@ -182,6 +210,16 @@
     cursor: pointer; font-weight: bold; color: #856404; font-size: 1rem;
   }
 
+  .banner-respaldo {
+    display: none; padding: 10px 12px; background: #fef3c7;
+    border: 1px solid #f59e0b; border-radius: 6px;
+    margin-bottom: 12px; font-size: 0.85rem; color: #92400e;
+    align-items: center; gap: 10px; flex-wrap: wrap;
+  }
+  .banner-respaldo.visible { display: flex; }
+  .banner-respaldo strong { color: #92400e; }
+  .banner-respaldo .separador { flex: 1; }
+
   .barra-respaldo {
     display: flex; flex-wrap: wrap; gap: 8px;
     margin-bottom: 12px; padding: 10px;
@@ -191,13 +229,75 @@
   .barra-respaldo strong { color: #1e3a5f; margin-right: 4px; }
   .barra-respaldo .separador { flex: 1; }
 
+  .filtros-historial {
+    display: flex; flex-wrap: wrap; gap: 8px; align-items: end;
+    margin-bottom: 12px; padding: 10px;
+    background: #e8f4fd; border: 1px solid #b8d8f0; border-radius: 6px;
+  }
+  .filtros-historial .campo label {
+    display: block; font-size: 0.72rem; font-weight: bold; color: #1e3a5f; margin-bottom: 3px;
+  }
+  .filtros-historial .campo input, .filtros-historial .campo select {
+    padding: 5px 8px; border: 1px solid #ccd6e0; border-radius: 5px;
+    font-size: 0.8rem; font-family: inherit;
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5); z-index: 1000;
+    justify-content: center; align-items: center; padding: 20px;
+  }
+  .modal-overlay.visible { display: flex; }
+  .modal-content {
+    background: #fff; border-radius: 10px; padding: 20px;
+    max-width: 600px; width: 100%; max-height: 90vh;
+    overflow-y: auto; position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+  .modal-content h3 {
+    color: #1e3a5f; margin-bottom: 12px;
+    border-bottom: 2px solid #dbe4ee; padding-bottom: 8px;
+  }
+  .modal-cerrar {
+    position: absolute; top: 10px; right: 10px;
+    background: transparent; border: none; font-size: 1.3rem;
+    cursor: pointer; color: #999; font-weight: bold;
+  }
+  .modal-cerrar:hover { color: #c0392b; }
+  .modal-fila {
+    display: flex; padding: 6px 0; border-bottom: 1px solid #eaeef3;
+    font-size: 0.85rem;
+  }
+  .modal-fila strong { color: #1e3a5f; min-width: 140px; }
+  .modal-fila span { flex: 1; }
+
+  /* Resumen */
+  .resumen-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px; margin-bottom: 15px;
+  }
+  .resumen-card {
+    padding: 12px; background: #f0f4f8; border-radius: 6px;
+    border-left: 4px solid #1e3a5f;
+  }
+  .resumen-card.verde { border-left-color: #27ae60; }
+  .resumen-card.rojo { border-left-color: #c0392b; }
+  .resumen-card.azul { border-left-color: #2980b9; }
+  .resumen-card strong { color: #1e3a5f; font-size: 0.78rem; display: block; margin-bottom: 4px; }
+  .resumen-card .valor { font-size: 1.2rem; font-weight: bold; color: #2c3e50; }
+
+  .tabla-meses {
+    width: 100%; border-collapse: collapse; margin-top: 10px;
+    font-size: 0.82rem;
+  }
+  .tabla-meses th { background: #1e3a5f; color: #fff; padding: 6px; }
+  .tabla-meses td { border-bottom: 1px solid #eaeef3; padding: 6px; text-align: center; }
+  .tabla-meses tr:last-child td { border-bottom: none; font-weight: bold; background: #f0f4f8; }
+
   .modelo-reembolso-contenedor {
-    width: 100%;
-    max-width: 780px;
-    margin: 10px auto 0 auto;
-    background: #fff;
-    border: 1px solid #333;
-    padding: 0;
+    width: 100%; max-width: 780px; margin: 10px auto 0 auto;
+    background: #fff; border: 1px solid #333; padding: 0;
   }
   .reembolso-modelo { width: 100%; padding: 0; margin: 0; }
   .reembolso-modelo table { width: 100%; border-collapse: collapse; margin: 0; }
@@ -224,9 +324,7 @@
 
   .cuadros-reembolso {
     display: flex; gap: 0; width: 100%; margin: 0; padding: 0;
-    border-top: 1px solid #333;
-    border-left: 1px solid #333;
-    border-right: 1px solid #333;
+    border-top: 1px solid #333; border-left: 1px solid #333; border-right: 1px solid #333;
     align-items: stretch;
   }
   .cuadros-reembolso .cuadro-item {
@@ -234,16 +332,12 @@
     box-sizing: border-box; border-right: 1px solid #333;
   }
   .cuadros-reembolso .cuadro-item:last-child { border-right: none; }
-  .cuadros-reembolso table {
-    width: 100%; border-collapse: collapse; margin: 0; height: 100%;
-  }
+  .cuadros-reembolso table { width: 100%; border-collapse: collapse; margin: 0; height: 100%; }
   .cuadros-reembolso th, .cuadros-reembolso td {
     border: 1px solid #333; padding: 3px 4px;
     font-size: 0.7rem; text-align: center; color: #000; height: 20px;
   }
-  .cuadros-reembolso th {
-    background: #e8e8e8; font-weight: bold; font-size: 0.66rem; padding: 2px 3px;
-  }
+  .cuadros-reembolso th { background: #e8e8e8; font-weight: bold; font-size: 0.66rem; padding: 2px 3px; }
   .cuadros-reembolso .celda-vacia { height: 18px; }
   .cuadros-reembolso .titulo-cuadro {
     text-align: center; font-weight: bold; font-size: 0.7rem;
@@ -258,9 +352,7 @@
     width: 100%; margin: 0; padding: 6px;
     border: 1px solid #333; border-top: 1px solid #333;
   }
-  .escaques-reembolso .fila-escaques {
-    display: flex; gap: 6px; margin-bottom: 6px;
-  }
+  .escaques-reembolso .fila-escaques { display: flex; gap: 6px; margin-bottom: 6px; }
   .escaques-reembolso .fila-escaques:last-child { margin-bottom: 0; }
   .escaques-reembolso .escaque {
     flex: 1 1 0; min-width: 0;
@@ -273,12 +365,8 @@
     padding-bottom: 2px; margin-bottom: 3px;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
-  .escaques-reembolso .escaque .campo-escaque {
-    font-size: 0.68rem; color: #555; margin-top: 2px;
-  }
-  .escaques-reembolso .escaque .linea-escaque {
-    border-bottom: 1px solid #333; height: 14px; margin-top: 4px;
-  }
+  .escaques-reembolso .escaque .campo-escaque { font-size: 0.68rem; color: #555; margin-top: 2px; }
+  .escaques-reembolso .escaque .linea-escaque { border-bottom: 1px solid #333; height: 14px; margin-top: 4px; }
 
   body.tema-oscuro { background: #1a1e26; color: #e6eaf0; }
   body.tema-oscuro header h1 { color: #7fb3ff; }
@@ -288,9 +376,7 @@
   body.tema-oscuro .card { background: #232a36; box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
   body.tema-oscuro .card h2 { color: #7fb3ff; border-bottom-color: #2a3140; }
   body.tema-oscuro .encabezado strong { color: #7fb3ff; }
-  body.tema-oscuro .encabezado input, body.tema-oscuro .campo-editable {
-    background: #2a3140; border-color: #3a4252; color: #e6eaf0;
-  }
+  body.tema-oscuro .encabezado input, body.tema-oscuro .campo-editable { background: #2a3140; border-color: #3a4252; color: #e6eaf0; }
   body.tema-oscuro .campo-editable:focus { border-color: #7fb3ff; background: #2f3849; }
   body.tema-oscuro table th { background: #10151c; color: #c7d2e0; }
   body.tema-oscuro table td { border-bottom-color: #2a3140; color: #e6eaf0; }
@@ -298,6 +384,7 @@
   body.tema-oscuro td input:focus { border-color: #7fb3ff; }
   body.tema-oscuro .total-row td { background: #2a3140; color: #7fb3ff; }
   body.tema-oscuro .resumen { background: #2a3140; color: #c7d2e0; }
+  body.tema-oscuro .sistema-readonly { background: #232a36; border-color: #3a4252; color: #7fb3ff; }
   body.tema-oscuro .obs { background: #2a3140; border-color: #3a4252; color: #e6eaf0; }
   body.tema-oscuro .firma .linea { border-top-color: #7fb3ff; }
   body.tema-oscuro .firma .nombre { color: #7fb3ff; }
@@ -309,15 +396,15 @@
   body.tema-oscuro .config-grupo { background: #2a3140; border-color: #3a4252; }
   body.tema-oscuro .config-grupo h3 { color: #7fb3ff; border-bottom-color: #3a4252; }
   body.tema-oscuro .config-campo label { color: #7fb3ff; }
-  body.tema-oscuro .config-campo input, body.tema-oscuro .config-campo select {
-    background: #232a36; border-color: #3a4252; color: #e6eaf0;
-  }
+  body.tema-oscuro .config-campo input, body.tema-oscuro .config-campo select { background: #232a36; border-color: #3a4252; color: #e6eaf0; }
+  body.tema-oscuro .chip-periodo { background: #2a3140; color: #c7d2e0; }
   body.tema-oscuro .status-msg.ok { background: #1e3a2a; color: #7fdb9a; }
   body.tema-oscuro .status-msg.err { background: #3a1e1e; color: #f7a8a8; }
   body.tema-oscuro .status-msg.info { background: #1e2a3a; color: #a8d0f0; }
   body.tema-oscuro .form-vale { background: #2a3140; }
   body.tema-oscuro .form-vale .campo label { color: #7fb3ff; }
   body.tema-oscuro .form-vale .campo input { background: #232a36; border-color: #3a4252; color: #e6eaf0; }
+  body.tema-oscuro .form-vale .campo .sugerido { color: #a8b0bd; }
   body.tema-oscuro .filtro-rango { background: #2a3140; }
   body.tema-oscuro .filtro-rango .campo label { color: #7fb3ff; }
   body.tema-oscuro .filtro-rango .campo input, body.tema-oscuro .filtro-rango .campo select { background: #232a36; border-color: #3a4252; color: #e6eaf0; }
@@ -325,8 +412,23 @@
   body.tema-oscuro .panel-saldo strong { color: #7fb3ff; }
   body.tema-oscuro .banner-vista { background: #3a2f0a; color: #ffd479; border-color: #ffd479; }
   body.tema-oscuro .banner-vista strong, body.tema-oscuro .banner-vista .cerrar-banner { color: #ffd479; }
+  body.tema-oscuro .banner-respaldo { background: #3a2f0a; color: #fcd34d; border-color: #f59e0b; }
+  body.tema-oscuro .banner-respaldo strong { color: #fcd34d; }
   body.tema-oscuro .barra-respaldo { background: #1e2a3a; border-color: #3a4252; color: #c7d2e0; }
   body.tema-oscuro .barra-respaldo strong { color: #7fb3ff; }
+  body.tema-oscuro .filtros-historial { background: #1e2a3a; border-color: #3a4252; color: #c7d2e0; }
+  body.tema-oscuro .filtros-historial .campo label { color: #7fb3ff; }
+  body.tema-oscuro .filtros-historial .campo input, body.tema-oscuro .filtros-historial .campo select { background: #232a36; border-color: #3a4252; color: #e6eaf0; }
+  body.tema-oscuro .modal-content { background: #232a36; color: #e6eaf0; }
+  body.tema-oscuro .modal-content h3 { color: #7fb3ff; border-bottom-color: #2a3140; }
+  body.tema-oscuro .modal-fila { border-bottom-color: #2a3140; }
+  body.tema-oscuro .modal-fila strong { color: #7fb3ff; }
+  body.tema-oscuro .resumen-card { background: #2a3140; }
+  body.tema-oscuro .resumen-card strong { color: #7fb3ff; }
+  body.tema-oscuro .resumen-card .valor { color: #e6eaf0; }
+  body.tema-oscuro .tabla-meses th { background: #10151c; }
+  body.tema-oscuro .tabla-meses td { border-bottom-color: #2a3140; }
+  body.tema-oscuro .tabla-meses tr:last-child td { background: #2a3140; }
   body.tema-oscuro .modelo-reembolso-contenedor { background: #232a36; border-color: #3a4252; }
   body.tema-oscuro .reembolso-modelo th, body.tema-oscuro .reembolso-modelo td { border-color: #3a4252; }
   body.tema-oscuro .reembolso-modelo th { background: #2a3140; color: #c7d2e0; }
@@ -348,20 +450,19 @@
 
   @media print {
     body { background: #fff; padding: 0; }
-    .tabs, .acciones, header p, .no-print, .status-msg, .form-vale, .filtro-rango, .banner-vista, .barra-respaldo { display: none !important; }
+    .tabs, .acciones, header p, .no-print, .status-msg, .form-vale, .filtro-rango, .banner-vista, .banner-respaldo, .barra-respaldo, .filtros-historial { display: none !important; }
     .card { box-shadow: none; max-width: 100%; page-break-inside: avoid; padding: 8px; }
     .seccion { display: none !important; }
     .seccion.active { display: block !important; }
     textarea { border: none; background: transparent; }
     .campo-editable { border: none; background: transparent; padding: 0; font-weight: bold; color: #1e3a5f; }
+    .sistema-readonly { border: none; background: transparent; padding: 0; font-weight: bold; color: #1e3a5f; }
     .tabla-vales th, .tabla-vales td { border: 1px solid #999; padding: 2px; }
     .btn-eliminar-fila { display: none !important; }
     body.tema-oscuro { background: #fff; color: #000; }
     body.tema-oscuro .card { background: #fff; }
     body.tema-oscuro table th { background: #1e3a5f; color: #fff; }
-    body.tema-oscuro td input, body.tema-oscuro .campo-editable {
-      background: transparent; color: #000; border: none;
-    }
+    body.tema-oscuro td input, body.tema-oscuro .campo-editable { background: transparent; color: #000; border: none; }
     body.tema-oscuro .encabezado strong, body.tema-oscuro .card h2, body.tema-oscuro .firma .nombre { color: #1e3a5f; }
     .modelo-reembolso-contenedor { border-color: #000; max-width: 780px; margin: 0 auto; }
     .reembolso-modelo th, .reembolso-modelo td { border-color: #000; }
@@ -384,11 +485,20 @@
   <button id="btnValesDieta" onclick="mostrarSeccion('valesDieta')">Vales Dieta</button>
   <button id="btnValesPagos" onclick="mostrarSeccion('valesPagos')">Vales Pagos Menores</button>
   <button id="btnReembolso" onclick="mostrarSeccion('reembolso')">REEMBOLSO</button>
+  <button id="btnResumen" onclick="mostrarSeccion('resumen')">📊 Resumen</button>
   <button id="btnHistorial" onclick="mostrarSeccion('historial')">Historial</button>
   <button id="btnConfig" onclick="mostrarSeccion('configuracion')">⚙️ Configuración</button>
 </div>
 
 <div id="statusMsg" class="status-msg"></div>
+
+<div id="bannerRespaldo" class="banner-respaldo no-print">
+  <strong>💾 Recordatorio:</strong>
+  <span id="bannerRespaldoTexto">Hace tiempo que no guardas un respaldo.</span>
+  <span class="separador"></span>
+  <button class="btn btn-info btn-sm" onclick="descargarRespaldoDesdeBanner()">Descargar ahora</button>
+  <button class="btn btn-secondary btn-sm" onclick="posponerRespaldo()">Recordar en 1 día</button>
+</div>
 
 <div id="bannerVista" class="banner-vista no-print">
   <button class="cerrar-banner" onclick="cerrarBannerVista()">✕</button>
@@ -431,9 +541,11 @@
     </table>
 
     <div class="resumen">
-      <div><strong>Efectivo sistema:</strong>
-        <input type="number" id="sistemaPagos" value="0" min="0" oninput="calcular('pagos')"
-               style="width:120px; padding:4px; border:1px solid #ccd6e0; border-radius:5px;">
+      <div>
+        <strong>Efectivo sistema:</strong>
+        <span class="sistema-readonly" id="sistemaPagosDisplay">$0</span>
+        <input type="hidden" id="sistemaPagos" value="0">
+        <div style="font-size:0.7rem;color:#888;margin-top:3px;">(desde ⚙️ Configuración)</div>
       </div>
       <div><strong>Diferencia:</strong> <span id="diferenciaPagos">$0</span></div>
     </div>
@@ -497,9 +609,11 @@
     </table>
 
     <div class="resumen">
-      <div><strong>Efectivo sistema:</strong>
-        <input type="number" id="sistemaDietas" value="0" min="0" oninput="calcular('dietas')"
-               style="width:120px; padding:4px; border:1px solid #ccd6e0; border-radius:5px;">
+      <div>
+        <strong>Efectivo sistema:</strong>
+        <span class="sistema-readonly" id="sistemaDietasDisplay">$0</span>
+        <input type="hidden" id="sistemaDietas" value="0">
+        <div style="font-size:0.7rem;color:#888;margin-top:3px;">(desde ⚙️ Configuración)</div>
       </div>
       <div><strong>Diferencia:</strong> <span id="diferenciaDietas">$0</span></div>
     </div>
@@ -554,12 +668,25 @@
     </div>
 
     <div class="form-vale no-print">
-      <div class="campo"><label>Fecha</label><input type="date" id="nuevoFechaValesDieta"></div>
-      <div class="campo"><label>No. Vale</label><input type="text" id="nuevoNoValeValesDieta"></div>
+      <div class="campo">
+        <label>Fecha</label>
+        <input type="date" id="nuevoFechaValesDieta" onchange="actualizarSugerido('Dieta')">
+      </div>
+      <div class="campo">
+        <label>No. Vale</label>
+        <input type="text" id="nuevoNoValeValesDieta" placeholder="Auto">
+        <div class="sugerido">Siguiente: <span id="sugeridoValesDieta">R-0001/0000</span></div>
+      </div>
       <div class="campo"><label>Nombre</label><input type="text" id="nuevoNombreValesDieta"></div>
       <div class="campo"><label>Descripción</label><input type="text" id="nuevoDescValesDieta"></div>
-      <div class="campo"><label>Depósito</label><input type="number" min="0" value="0" id="nuevoDepValesDieta"></div>
-      <div class="campo"><label>Retiro</label><input type="number" min="0" value="0" id="nuevoRetValesDieta"></div>
+      <div class="campo">
+        <label>Depósito</label>
+        <input type="number" min="0" value="0" id="nuevoDepValesDieta" onchange="actualizarSugerido('Dieta')">
+      </div>
+      <div class="campo">
+        <label>Retiro</label>
+        <input type="number" min="0" value="0" id="nuevoRetValesDieta" onchange="actualizarSugerido('Dieta')">
+      </div>
       <button class="btn btn-success" onclick="registrarVale('Dieta')">Registrar vale</button>
     </div>
 
@@ -635,12 +762,25 @@
     </div>
 
     <div class="form-vale no-print">
-      <div class="campo"><label>Fecha</label><input type="date" id="nuevoFechaValesPagos"></div>
-      <div class="campo"><label>No. Vale</label><input type="text" id="nuevoNoValeValesPagos"></div>
+      <div class="campo">
+        <label>Fecha</label>
+        <input type="date" id="nuevoFechaValesPagos" onchange="actualizarSugerido('PagosMenores')">
+      </div>
+      <div class="campo">
+        <label>No. Vale</label>
+        <input type="text" id="nuevoNoValeValesPagos" placeholder="Auto">
+        <div class="sugerido">Siguiente: <span id="sugeridoValesPagos">R-0001/0000</span></div>
+      </div>
       <div class="campo"><label>Nombre</label><input type="text" id="nuevoNombreValesPagos"></div>
       <div class="campo"><label>Descripción</label><input type="text" id="nuevoDescValesPagos"></div>
-      <div class="campo"><label>Depósito</label><input type="number" min="0" value="0" id="nuevoDepValesPagos"></div>
-      <div class="campo"><label>Retiro</label><input type="number" min="0" value="0" id="nuevoRetValesPagos"></div>
+      <div class="campo">
+        <label>Depósito</label>
+        <input type="number" min="0" value="0" id="nuevoDepValesPagos" onchange="actualizarSugerido('PagosMenores')">
+      </div>
+      <div class="campo">
+        <label>Retiro</label>
+        <input type="number" min="0" value="0" id="nuevoRetValesPagos" onchange="actualizarSugerido('PagosMenores')">
+      </div>
       <button class="btn btn-success" onclick="registrarVale('PagosMenores')">Registrar vale</button>
     </div>
 
@@ -710,7 +850,6 @@
     </div>
 
     <div class="modelo-reembolso-contenedor">
-
       <div class="reembolso-modelo" id="reembolsoModelo">
         <table>
           <tr class="cabecera-entidad">
@@ -746,54 +885,26 @@
       </div>
 
       <div class="cuadros-reembolso">
-
         <div class="cuadro-item">
           <table>
             <tr><td colspan="3" class="titulo-cuadro">CRÉDITOS</td></tr>
-            <tr>
-              <th style="width:25%;">CÓDIGO</th>
-              <th style="width:50%;">CUENTA</th>
-              <th style="width:25%;">IMPORTE</th>
-            </tr>
-            <tr>
-              <td class="celda-vacia"></td>
-              <td class="celda-vacia"></td>
-              <td class="celda-vacia"></td>
-            </tr>
-            <tr>
-              <th>SUBCUENTA</th>
-              <th>&nbsp;</th>
-              <th>&nbsp;</th>
-            </tr>
-            <tr>
-              <td class="celda-vacia"></td>
-              <td class="celda-vacia"></td>
-              <td class="celda-vacia"></td>
-            </tr>
+            <tr><th style="width:25%;">CÓDIGO</th><th style="width:50%;">CUENTA</th><th style="width:25%;">IMPORTE</th></tr>
+            <tr><td class="celda-vacia"></td><td class="celda-vacia"></td><td class="celda-vacia"></td></tr>
+            <tr><th>SUBCUENTA</th><th>&nbsp;</th><th>&nbsp;</th></tr>
+            <tr><td class="celda-vacia"></td><td class="celda-vacia"></td><td class="celda-vacia"></td></tr>
           </table>
         </div>
-
         <div class="cuadro-item">
           <table>
             <tr><td colspan="4" class="titulo-cuadro">CHEQUE NOMINATIVO</td></tr>
-            <tr>
-              <th style="width:25%;">NÚMERO</th>
-              <th colspan="3" style="width:75%;">FECHA</th>
-            </tr>
+            <tr><th style="width:25%;">NÚMERO</th><th colspan="3" style="width:75%;">FECHA</th></tr>
             <tr>
               <td rowspan="2" class="celda-vacia"></td>
-              <th style="width:25%;">DÍA</th>
-              <th style="width:25%;">MES</th>
-              <th style="width:25%;">AÑO</th>
+              <th style="width:25%;">DÍA</th><th style="width:25%;">MES</th><th style="width:25%;">AÑO</th>
             </tr>
-            <tr>
-              <td class="celda-vacia"></td>
-              <td class="celda-vacia"></td>
-              <td class="celda-vacia"></td>
-            </tr>
+            <tr><td class="celda-vacia"></td><td class="celda-vacia"></td><td class="celda-vacia"></td></tr>
           </table>
         </div>
-
         <div class="cuadro-item">
           <table>
             <tr><td colspan="3" class="titulo-cuadro">ANOTADO / CODIFICADO</td></tr>
@@ -802,19 +913,10 @@
               <td class="celda-vacia" style="width:32.5%;"></td>
               <td class="celda-vacia" style="width:32.5%;"></td>
             </tr>
-            <tr>
-              <td class="anotado-label">CODIFICADO</td>
-              <td class="celda-vacia"></td>
-              <td class="celda-vacia"></td>
-            </tr>
-            <tr>
-              <td class="anotado-label">NO.</td>
-              <td class="celda-vacia"></td>
-              <td class="celda-vacia"></td>
-            </tr>
+            <tr><td class="anotado-label">CODIFICADO</td><td class="celda-vacia"></td><td class="celda-vacia"></td></tr>
+            <tr><td class="anotado-label">NO.</td><td class="celda-vacia"></td><td class="celda-vacia"></td></tr>
           </table>
         </div>
-
       </div>
 
       <div class="escaques-reembolso">
@@ -858,7 +960,6 @@
           </div>
         </div>
       </div>
-
     </div>
 
     <div class="acciones no-print">
@@ -869,12 +970,37 @@
   </div>
 </div>
 
+<!-- ============ RESUMEN ============ -->
+<div id="resumen" class="seccion">
+  <div class="card">
+    <h2>📊 Resumen del Período</h2>
+
+    <div class="filtro-rango no-print">
+      <div class="campo">
+        <label>Tipo de fondo</label>
+        <select id="resumenTipo">
+          <option value="PagosMenores">Pagos Menores</option>
+          <option value="Dieta">Dieta</option>
+        </select>
+      </div>
+      <div class="campo"><label>Desde</label><input type="date" id="resumenDesde"></div>
+      <div class="campo"><label>Hasta</label><input type="date" id="resumenHasta"></div>
+      <button class="btn btn-info btn-sm" onclick="generarResumen()">Generar resumen</button>
+      <button class="btn btn-secondary btn-sm" onclick="resetResumen()">Año actual</button>
+      <button class="btn btn-primary btn-sm" onclick="imprimir()">Imprimir</button>
+    </div>
+
+    <div id="resumenContenido">
+      <p style="text-align:center;color:#888;padding:20px;">Configura el rango y pulsa "Generar resumen".</p>
+    </div>
+  </div>
+</div>
+
 <!-- ============ HISTORIAL ============ -->
 <div id="historial" class="seccion">
   <div class="card">
     <h2>Historial de Registros</h2>
 
-    <!-- Barra de respaldo -->
     <div class="barra-respaldo no-print">
       <strong>💾 Respaldo completo:</strong>
       <button class="btn btn-info btn-sm" onclick="exportarRespaldo()">Guardar estado en archivo</button>
@@ -882,6 +1008,26 @@
       <input type="file" id="archivoImportar" accept=".json,application/json" style="display:none" onchange="importarRespaldo(this)">
       <span class="separador"></span>
       <button class="btn btn-danger btn-sm" onclick="borrarHistorial()">Borrar historial</button>
+    </div>
+
+    <div class="filtros-historial no-print">
+      <div class="campo">
+        <label>Tipo</label>
+        <select id="filtroHistTipo" onchange="renderHistorial()">
+          <option value="">Todos</option>
+          <option value="arqueo-pagos">Arqueo Pagos</option>
+          <option value="arqueo-dietas">Arqueo Dietas</option>
+          <option value="reembolso-pagos">Reembolso Pagos</option>
+          <option value="reembolso-dietas">Reembolso Dietas</option>
+        </select>
+      </div>
+      <div class="campo"><label>Desde</label><input type="date" id="filtroHistDesde" onchange="renderHistorial()"></div>
+      <div class="campo"><label>Hasta</label><input type="date" id="filtroHistHasta" onchange="renderHistorial()"></div>
+      <div class="campo">
+        <label>Buscar</label>
+        <input type="text" id="filtroHistTexto" placeholder="Nombre, No. vale, responsable..." oninput="renderHistorial()">
+      </div>
+      <button class="btn btn-secondary btn-sm" onclick="limpiarFiltrosHistorial()">Limpiar filtros</button>
     </div>
 
     <div id="listaHistorial"></div>
@@ -923,6 +1069,24 @@
     </div>
 
     <div class="config-grupo">
+      <h3>🔒 Períodos Cerrados</h3>
+      <p style="font-size:0.78rem;color:#666;margin-bottom:8px;">
+        Los vales de estos períodos no se podrán registrar ni anular. Formato: <strong>YYYY-MM</strong>
+      </p>
+      <div id="listaPeriodosCerrados" class="chips-periodos"></div>
+      <div class="config-grid" style="margin-top:10px;">
+        <div class="config-campo">
+          <label>Nuevo período (YYYY-MM)</label>
+          <input type="text" id="nuevoPeriodoCerrado" placeholder="2025-12" maxlength="7">
+        </div>
+        <div class="config-campo">
+          <label>&nbsp;</label>
+          <button class="btn btn-info" onclick="agregarPeriodoCerrado()">+ Agregar período</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="config-grupo">
       <h3>Apariencia</h3>
       <div class="config-grid">
         <div class="config-campo">
@@ -939,13 +1103,20 @@
   </div>
 </div>
 
+<!-- ============ MODAL VALE ============ -->
+<div id="modalVale" class="modal-overlay no-print">
+  <div class="modal-content">
+    <button class="modal-cerrar" onclick="cerrarModalVale()">✕</button>
+    <h3>Detalle del Vale</h3>
+    <div id="modalValeContenido"></div>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 /* ==========================================================
    AGESP - Control de Caja
-   + Ver arqueos y reembolsos guardados
-   + Exportar / Importar respaldo completo
 ========================================================== */
 const SUPABASE_URL = 'https://psxeegtwzspcxrasuxka.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_2GdEMLwwDr1BJ1tLxsLgwA_4AgG4hCF';
@@ -961,6 +1132,10 @@ const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 var denominaciones = [2000, 1000, 500, 200, 100, 50, 20, 10, 5];
 var configActual = null;
 var ultimoReembolsoGenerado = null;
+
+var CLAVE_ARQUEO_ACTUAL = 'agesp_arqueo_actual_v1';
+var CLAVE_ULTIMO_RESPALDO = 'agesp_ultimo_respaldo';
+var DIAS_ENTRE_RESPALDOS = 7;
 
 /* --- Utilidades --- */
 function formatoMoneda(n) {
@@ -1003,8 +1178,63 @@ function cerrarBannerVista() {
 }
 
 /* ==========================================================
+   PERSISTENCIA DE CANTIDADES DEL ARQUEO (localStorage)
+   ========================================================== */
+function cargarEstadoArqueo() {
+  try {
+    var raw = localStorage.getItem(CLAVE_ARQUEO_ACTUAL);
+    if (!raw) return {};
+    return JSON.parse(raw) || {};
+  } catch (e) { return {}; }
+}
+
+function guardarEstadoArqueo(tipo) {
+  var estado = cargarEstadoArqueo();
+  var data = {};
+  var inputs = document.querySelectorAll('.input-' + tipo);
+  for (var i = 0; i < inputs.length; i++) {
+    var d = inputs[i].getAttribute('data-denom');
+    data[d] = parseInt(inputs[i].value, 10) || 0;
+  }
+  estado[tipo] = data;
+  try { localStorage.setItem(CLAVE_ARQUEO_ACTUAL, JSON.stringify(estado)); } catch (e) {}
+}
+
+/* ==========================================================
+   RESPALDO AUTOMÁTICO - Recordatorio
+   ========================================================== */
+function verificarRespaldoPendiente() {
+  var ultimo = localStorage.getItem(CLAVE_ULTIMO_RESPALDO);
+  if (!ultimo) {
+    document.getElementById('bannerRespaldoTexto').textContent = 'Aún no has guardado ningún respaldo.';
+    document.getElementById('bannerRespaldo').classList.add('visible');
+    return;
+  }
+  var ultimoDate = new Date(ultimo);
+  var ahora = new Date();
+  var diffDias = Math.floor((ahora - ultimoDate) / (1000 * 60 * 60 * 24));
+  if (diffDias >= DIAS_ENTRE_RESPALDOS) {
+    document.getElementById('bannerRespaldoTexto').textContent = 'Último respaldo hace ' + diffDias + ' días.';
+    document.getElementById('bannerRespaldo').classList.add('visible');
+  }
+}
+
+function descargarRespaldoDesdeBanner() {
+  exportarRespaldo();
+  document.getElementById('bannerRespaldo').classList.remove('visible');
+}
+
+function posponerRespaldo() {
+  var manana = new Date();
+  manana.setDate(manana.getDate() - (DIAS_ENTRE_RESPALDOS - 1));
+  localStorage.setItem(CLAVE_ULTIMO_RESPALDO, manana.toISOString());
+  document.getElementById('bannerRespaldo').classList.remove('visible');
+  mostrarStatus('Recordatorio pospuesto por 1 día.', 'info');
+}
+
+/* ==========================================================
    CONFIGURACIÓN
-========================================================== */
+   ========================================================== */
 var CONFIG_DEFECTO = {
   entidad: 'AGESP', nit: '', reeup: '',
   respNombre: 'Elieser Duarte Lopez',
@@ -1013,7 +1243,8 @@ var CONFIG_DEFECTO = {
   contraCargo: 'Especialista Principal',
   efectivoPagos: 0, efectivoDietas: 0,
   saldoValesDieta: 0, saldoValesPagos: 0,
-  tema: 'claro'
+  tema: 'claro',
+  periodosCerrados: []
 };
 
 async function cargarConfigDesdeSupabase() {
@@ -1039,6 +1270,16 @@ async function guardarConfigEnSupabase(cfg) {
     mostrarStatus('Error al guardar configuración: ' + e.message, 'err');
     return false;
   }
+}
+
+function aplicarSistemaDesdeConfig() {
+  if (!configActual) return;
+  var valPagos = configActual.efectivoPagos || 0;
+  var valDietas = configActual.efectivoDietas || 0;
+  document.getElementById('sistemaPagos').value = valPagos;
+  document.getElementById('sistemaPagosDisplay').textContent = formatoMoneda(valPagos);
+  document.getElementById('sistemaDietas').value = valDietas;
+  document.getElementById('sistemaDietasDisplay').textContent = formatoMoneda(valDietas);
 }
 
 function aplicarConfigAUI(cfg) {
@@ -1071,7 +1312,9 @@ function aplicarConfigAUI(cfg) {
   document.getElementById('remEntidad').textContent = cfg.entidad || 'AGESP';
   document.getElementById('remReeup').textContent = cfg.reeup || '-';
 
+  aplicarSistemaDesdeConfig();
   aplicarTema(cfg.tema);
+  renderChipsPeriodos();
 }
 
 function poblarFormularioConfig(cfg) {
@@ -1087,27 +1330,93 @@ function poblarFormularioConfig(cfg) {
   document.getElementById('cfgSaldoValesDieta').value = cfg.saldoValesDieta;
   document.getElementById('cfgSaldoValesPagos').value = cfg.saldoValesPagos;
   document.getElementById('cfgTema').value = cfg.tema;
+  renderChipsPeriodos();
+}
+
+function renderChipsPeriodos() {
+  var cont = document.getElementById('listaPeriodosCerrados');
+  var periodos = (configActual && configActual.periodosCerrados) || [];
+  if (periodos.length === 0) {
+    cont.innerHTML = '<span style="font-size:0.78rem;color:#999;">No hay períodos cerrados.</span>';
+    return;
+  }
+  var html = '';
+  for (var i = 0; i < periodos.length; i++) {
+    html += '<span class="chip-periodo">' + periodos[i] +
+            ' <button onclick="quitarPeriodoCerrado(\'' + periodos[i] + '\')">✕</button></span>';
+  }
+  cont.innerHTML = html;
+}
+
+function agregarPeriodoCerrado() {
+  var input = document.getElementById('nuevoPeriodoCerrado');
+  var valor = (input.value || '').trim();
+  if (!/^\d{4}-\d{2}$/.test(valor)) {
+    mostrarStatus('Formato inválido. Usa YYYY-MM (ej: 2025-12)', 'err');
+    return;
+  }
+  var periodos = (configActual && configActual.periodosCerrados) || [];
+  for (var i = 0; i < periodos.length; i++) {
+    if (periodos[i] === valor) { mostrarStatus('Ese período ya está cerrado.', 'info'); return; }
+  }
+  periodos.push(valor);
+  periodos.sort();
+  configActual.periodosCerrados = periodos;
+  input.value = '';
+  guardarConfigEnSupabase(configActual);
+  renderChipsPeriodos();
+  mostrarStatus('Período ' + valor + ' cerrado.', 'ok');
+}
+
+function quitarPeriodoCerrado(periodo) {
+  if (!confirm('¿Reabrir el período ' + periodo + '?')) return;
+  var periodos = (configActual && configActual.periodosCerrados) || [];
+  var nuevos = [];
+  for (var i = 0; i < periodos.length; i++) {
+    if (periodos[i] !== periodo) nuevos.push(periodos[i]);
+  }
+  configActual.periodosCerrados = nuevos;
+  guardarConfigEnSupabase(configActual);
+  renderChipsPeriodos();
+  mostrarStatus('Período ' + periodo + ' reabierto.', 'info');
+}
+
+function periodoDeFecha(fecha) {
+  if (!fecha) return '';
+  return String(fecha).substring(0, 7);
+}
+
+function esPeriodoCerrado(fecha) {
+  var periodo = periodoDeFecha(fecha);
+  var cerrados = (configActual && configActual.periodosCerrados) || [];
+  for (var i = 0; i < cerrados.length; i++) {
+    if (cerrados[i] === periodo) return true;
+  }
+  return false;
 }
 
 async function guardarConfig() {
-  var cfg = {
-    entidad: document.getElementById('cfgEntidad').value || 'AGESP',
-    nit: document.getElementById('cfgNit').value || '',
-    reeup: document.getElementById('cfgReeup').value || '',
-    respNombre: document.getElementById('cfgRespNombre').value || '',
-    respCargo: document.getElementById('cfgRespCargo').value || '',
-    contraNombre: document.getElementById('cfgContraNombre').value || '',
-    contraCargo: document.getElementById('cfgContraCargo').value || '',
-    efectivoPagos: parseFloat(document.getElementById('cfgEfectivoPagos').value) || 0,
-    efectivoDietas: parseFloat(document.getElementById('cfgEfectivoDietas').value) || 0,
-    saldoValesDieta: parseFloat(document.getElementById('cfgSaldoValesDieta').value) || 0,
-    saldoValesPagos: parseFloat(document.getElementById('cfgSaldoValesPagos').value) || 0,
-    tema: document.getElementById('cfgTema').value || 'claro'
-  };
+  var cfg = Object.assign({}, configActual || CONFIG_DEFECTO);
+  cfg.entidad = document.getElementById('cfgEntidad').value || 'AGESP';
+  cfg.nit = document.getElementById('cfgNit').value || '';
+  cfg.reeup = document.getElementById('cfgReeup').value || '';
+  cfg.respNombre = document.getElementById('cfgRespNombre').value || '';
+  cfg.respCargo = document.getElementById('cfgRespCargo').value || '';
+  cfg.contraNombre = document.getElementById('cfgContraNombre').value || '';
+  cfg.contraCargo = document.getElementById('cfgContraCargo').value || '';
+  cfg.efectivoPagos = parseFloat(document.getElementById('cfgEfectivoPagos').value) || 0;
+  cfg.efectivoDietas = parseFloat(document.getElementById('cfgEfectivoDietas').value) || 0;
+  cfg.saldoValesDieta = parseFloat(document.getElementById('cfgSaldoValesDieta').value) || 0;
+  cfg.saldoValesPagos = parseFloat(document.getElementById('cfgSaldoValesPagos').value) || 0;
+  cfg.tema = document.getElementById('cfgTema').value || 'claro';
+  cfg.periodosCerrados = (configActual && configActual.periodosCerrados) || [];
+
   var ok = await guardarConfigEnSupabase(cfg);
   if (!ok) return;
   configActual = cfg;
   aplicarConfigAUI(cfg);
+  calcular('pagos');
+  calcular('dietas');
   mostrarStatus('Configuración guardada.', 'ok');
   cargarVales('Dieta');
   cargarVales('PagosMenores');
@@ -1121,6 +1430,8 @@ async function restaurarConfig() {
   configActual = cfg;
   poblarFormularioConfig(cfg);
   aplicarConfigAUI(cfg);
+  calcular('pagos');
+  calcular('dietas');
   mostrarStatus('Configuración restaurada.', 'info');
 }
 
@@ -1131,10 +1442,12 @@ document.getElementById('nuevoFechaValesDieta').value = hoyISO();
 document.getElementById('nuevoFechaValesPagos').value = hoyISO();
 document.getElementById('reembolsoDesde').value = primerDiaAnio();
 document.getElementById('reembolsoHasta').value = hoyISO();
+document.getElementById('resumenDesde').value = primerDiaAnio();
+document.getElementById('resumenHasta').value = hoyISO();
 
 /* ==========================================================
    ARQUEO
-========================================================== */
+   ========================================================== */
 function construirTabla(idTabla, tipo) {
   var tbody = document.getElementById(idTabla);
   tbody.innerHTML = '';
@@ -1143,7 +1456,7 @@ function construirTabla(idTabla, tipo) {
     var fila = document.createElement('tr');
     fila.innerHTML =
       '<td>' + formatoMoneda(d) + '</td>' +
-      '<td><input type="number" min="0" value="0" oninput="calcular(\'' + tipo + '\')" data-denom="' + d + '" class="input-' + tipo + '"></td>' +
+      '<td><input type="number" min="0" value="0" oninput="calcularYPersistir(\'' + tipo + '\')" data-denom="' + d + '" class="input-' + tipo + '"></td>' +
       '<td class="subtotal-' + tipo + '" data-denom="' + d + '">$0</td>';
     tbody.appendChild(fila);
   }
@@ -1190,12 +1503,32 @@ function calcular(tipo) {
   return total;
 }
 
+function calcularYPersistir(tipo) {
+  calcular(tipo);
+  guardarEstadoArqueo(tipo);
+}
+
+function inicializarArqueo(tipo) {
+  var cap = tipo === 'pagos' ? 'Pagos' : 'Dietas';
+  var estado = cargarEstadoArqueo();
+  var data = estado[tipo];
+  var inputs = document.querySelectorAll('.input-' + tipo);
+  for (var i = 0; i < inputs.length; i++) {
+    var d = inputs[i].getAttribute('data-denom');
+    inputs[i].value = (data && data[d] !== undefined) ? data[d] : 0;
+  }
+  aplicarSistemaDesdeConfig();
+  calcular(tipo);
+}
+
 function limpiar(tipo) {
   var cap = tipo.charAt(0).toUpperCase() + tipo.slice(1);
   var inputs = document.querySelectorAll('.input-' + tipo);
   for (var i = 0; i < inputs.length; i++) inputs[i].value = 0;
   document.getElementById('obs' + cap).value = '';
+  aplicarSistemaDesdeConfig();
   calcular(tipo);
+  guardarEstadoArqueo(tipo);
   cerrarBannerVista();
 }
 
@@ -1205,11 +1538,10 @@ async function actualizarSaldoLibrosArqueo(tipo) {
   var cap = esPagos ? 'Pagos' : 'Dietas';
   var fechaISO = document.getElementById('fechaInput' + cap).value;
   if (!fechaISO) return;
-
-  var saldo = await calcularExistenciaHasta(tipoVales, fechaISO);
-  document.getElementById('saldoLibros' + cap).textContent = formatoMoneda(saldo);
+  var resultado = await calcularExistenciaHasta(tipoVales, fechaISO);
+  document.getElementById('saldoLibros' + cap).textContent = formatoMoneda(resultado.saldo);
   document.getElementById('fechaCalc' + cap).textContent = formatearFecha(fechaISO);
-  document.getElementById('sistema' + cap).value = saldo;
+  document.getElementById('movVigentes' + cap).textContent = resultado.vigentes;
   calcular(tipo);
 }
 
@@ -1225,17 +1557,18 @@ async function calcularExistenciaHasta(tipoVales, fechaHasta) {
     for (var i = 0; i < data.length; i++) {
       if (data[i].anula_a) anulados[data[i].anula_a] = true;
     }
-    var saldo = 0;
+    var saldo = 0, vigentes = 0;
     for (var j = 0; j < data.length; j++) {
       var m = data[j];
       if (anulados[m.id]) continue;
       if (m.anula_a) continue;
       saldo += (parseFloat(m.deposito) || 0) - (parseFloat(m.retiro) || 0);
+      vigentes++;
     }
-    return saldo;
+    return { saldo: saldo, vigentes: vigentes };
   } catch (e) {
     console.warn('Error al calcular existencia:', e.message);
-    return 0;
+    return { saldo: 0, vigentes: 0 };
   }
 }
 
@@ -1274,6 +1607,7 @@ async function guardar(tipo) {
       fecha_guardado: registro.fechaGuardado, data: registro
     });
     if (error) throw error;
+    guardarEstadoArqueo(tipo);
     mostrarStatus('Arqueo guardado.', 'ok');
     cerrarBannerVista();
   } catch (e) {
@@ -1282,8 +1616,56 @@ async function guardar(tipo) {
 }
 
 /* ==========================================================
-   LIBRO DE VALES
-========================================================== */
+   LIBRO DE VALES - Numeración automática
+   ========================================================== */
+async function siguienteNumeroVale(tipoVales, esDeposito, fecha) {
+  var año = fecha ? String(fecha).split('-')[0] : String(new Date().getFullYear());
+  var prefijo = esDeposito ? 'D-' : 'R-';
+  try {
+    var { data, error } = await db.from('agesp_vales')
+      .select('no_vale')
+      .eq('tipo', tipoVales)
+      .like('no_vale', prefijo + '%/' + año);
+    if (error) throw error;
+    var max = 0;
+    for (var i = 0; i < (data || []).length; i++) {
+      var nv = data[i].no_vale || '';
+      var m = nv.match(/^[DR]-(\d+)\//);
+      if (m) {
+        var n = parseInt(m[1], 10);
+        if (n > max) max = n;
+      }
+    }
+    var siguiente = max + 1;
+    var num = String(siguiente);
+    while (num.length < 4) num = '0' + num;
+    return prefijo + num + '/' + año;
+  } catch (e) {
+    console.warn('Error calculando número:', e.message);
+    return prefijo + '0001/' + año;
+  }
+}
+
+async function actualizarSugerido(tipoVales) {
+  var sufijo = (tipoVales === 'Dieta') ? 'Dieta' : 'Pagos';
+  var fecha = document.getElementById('nuevoFechaVales' + sufijo).value || hoyISO();
+  var dep = parseFloat(document.getElementById('nuevoDepVales' + sufijo).value) || 0;
+  var ret = parseFloat(document.getElementById('nuevoRetVales' + sufijo).value) || 0;
+  // Si dep>0 es depósito, si ret>0 es retiro. Por defecto asumimos retiro.
+  var esDeposito = (dep > 0 && ret === 0);
+  var sugerido = await siguienteNumeroVale(tipoVales, esDeposito, fecha);
+  document.getElementById('sugeridoVales' + sufijo).textContent = sugerido;
+}
+
+async function existeValeDuplicado(tipoVales, noVale) {
+  try {
+    var { data, error } = await db.from('agesp_vales')
+      .select('id').eq('tipo', tipoVales).eq('no_vale', noVale);
+    if (error) throw error;
+    return (data && data.length > 0);
+  } catch (e) { return false; }
+}
+
 async function cargarVales(tipoVales) {
   var esDieta = (tipoVales === 'Dieta');
   var sufijo = esDieta ? 'Dieta' : 'Pagos';
@@ -1350,9 +1732,10 @@ async function cargarVales(tipoVales) {
       if (item.anulado) estadoHtml = '<span class="badge-anulado">ANULADO</span>';
       else if (item.contramov) estadoHtml = '<span class="badge-anulado">CONTRAMOV.</span>';
       else estadoHtml = '<span class="badge-vigente">VIGENTE</span>';
-      var accionHtml = (!item.anulado && !item.contramov)
-        ? '<button class="btn btn-danger btn-sm no-print" onclick="anularVale(\'' + tipoVales + '\', \'' + m2.id + '\')">Anular</button>'
-        : '';
+      var accionHtml = '<button class="btn btn-info btn-sm no-print" onclick="verVale(\'' + m2.id + '\')">Ver</button> ';
+      if (!item.anulado && !item.contramov) {
+        accionHtml += '<button class="btn btn-danger btn-sm no-print" onclick="anularVale(\'' + tipoVales + '\', \'' + m2.id + '\')">Anular</button>';
+      }
       html += '<tr' + clase + '>' +
         '<td>' + formatearFecha(m2.fecha) + '</td>' +
         '<td>' + (m2.no_vale || '') + '</td>' +
@@ -1381,7 +1764,7 @@ async function registrarVale(tipoVales) {
   var esDieta = (tipoVales === 'Dieta');
   var sufijo = esDieta ? 'Dieta' : 'Pagos';
   var fecha = document.getElementById('nuevoFechaVales' + sufijo).value;
-  var noVale = document.getElementById('nuevoNoValeVales' + sufijo).value;
+  var noVale = (document.getElementById('nuevoNoValeVales' + sufijo).value || '').trim();
   var nombre = document.getElementById('nuevoNombreVales' + sufijo).value;
   var desc = document.getElementById('nuevoDescVales' + sufijo).value;
   var dep = parseFloat(document.getElementById('nuevoDepVales' + sufijo).value) || 0;
@@ -1390,6 +1773,36 @@ async function registrarVale(tipoVales) {
   if (!fecha) { mostrarStatus('Falta la fecha del vale.', 'err'); return; }
   if (dep === 0 && ret === 0) { mostrarStatus('Debe indicar depósito o retiro.', 'err'); return; }
   if (dep > 0 && ret > 0) { mostrarStatus('Un vale no puede tener depósito y retiro a la vez.', 'err'); return; }
+
+  // 5. Período cerrado
+  if (esPeriodoCerrado(fecha)) {
+    mostrarStatus('El período ' + periodoDeFecha(fecha) + ' está cerrado. No se puede registrar.', 'err');
+    return;
+  }
+
+  // 1. Número sugerido si está vacío
+  if (!noVale) {
+    noVale = await siguienteNumeroVale(tipoVales, dep > 0, fecha);
+  }
+
+  // 4. Validar duplicado
+  var duplicado = await existeValeDuplicado(tipoVales, noVale);
+  if (duplicado) {
+    if (!confirm('Ya existe un vale con el número "' + noVale + '" en este libro.\n\n¿Deseas continuar de todos modos?')) {
+      return;
+    }
+  }
+
+  // 3. Validar saldo negativo (solo si es retiro)
+  if (ret > 0) {
+    var resultado = await calcularExistenciaHasta(tipoVales, fecha);
+    var saldoNuevo = resultado.saldo - ret;
+    if (saldoNuevo < 0) {
+      if (!confirm('El saldo quedaría NEGATIVO (' + formatoMoneda(saldoNuevo) + ').\n\n¿Deseas continuar?')) {
+        return;
+      }
+    }
+  }
 
   var id = String(Date.now()) + String(Math.random());
   try {
@@ -1407,8 +1820,9 @@ async function registrarVale(tipoVales) {
     document.getElementById('nuevoRetVales' + sufijo).value = 0;
     document.getElementById('nuevoFechaVales' + sufijo).value = hoyISO();
 
-    mostrarStatus('Vale registrado.', 'ok');
+    mostrarStatus('Vale ' + noVale + ' registrado.', 'ok');
     cargarVales(tipoVales);
+    actualizarSugerido(tipoVales);
     actualizarSaldoLibrosArqueo(esDieta ? 'dietas' : 'pagos');
   } catch (e) {
     mostrarStatus('Error al registrar vale: ' + e.message, 'err');
@@ -1428,6 +1842,12 @@ async function anularVale(tipoVales, idVale) {
     return;
   }
   if (!original) { mostrarStatus('Vale no encontrado.', 'err'); return; }
+
+  // 5. Período cerrado
+  if (esPeriodoCerrado(original.fecha)) {
+    mostrarStatus('El vale pertenece al período ' + periodoDeFecha(original.fecha) + ' (cerrado). No se puede anular.', 'err');
+    return;
+  }
 
   var nuevoId = String(Date.now()) + String(Math.random());
   var contra = {
@@ -1459,8 +1879,59 @@ function resetFiltroVales(tipoVales) {
 }
 
 /* ==========================================================
+   MODAL VER VALE
+   ========================================================== */
+async function verVale(idVale) {
+  try {
+    var { data, error } = await db.from('agesp_vales').select('*').eq('id', idVale).maybeSingle();
+    if (error) throw error;
+    if (!data) { mostrarStatus('Vale no encontrado.', 'err'); return; }
+
+    // Ver si está anulado
+    var { data: contraData } = await db.from('agesp_vales').select('*').eq('anula_a', idVale).maybeSingle();
+
+    var estado = 'VIGENTE';
+    var estadoColor = '#27ae60';
+    if (data.anula_a) { estado = 'CONTRAMOVIMIENTO'; estadoColor = '#c0392b'; }
+    else if (contraData) { estado = 'ANULADO'; estadoColor = '#c0392b'; }
+
+    var html = '';
+    html += '<div class="modal-fila"><strong>No. Vale:</strong><span>' + (data.no_vale || '-') + '</span></div>';
+    html += '<div class="modal-fila"><strong>Fecha:</strong><span>' + formatearFecha(data.fecha) + '</span></div>';
+    html += '<div class="modal-fila"><strong>Libro:</strong><span>' + (data.tipo === 'Dieta' ? 'Dieta' : 'Pagos Menores') + '</span></div>';
+    html += '<div class="modal-fila"><strong>Nombre:</strong><span>' + (data.nombre || '-') + '</span></div>';
+    html += '<div class="modal-fila"><strong>Descripción:</strong><span>' + (data.descripcion || '-') + '</span></div>';
+    html += '<div class="modal-fila"><strong>Depósito:</strong><span>' + formatoMoneda(data.deposito) + '</span></div>';
+    html += '<div class="modal-fila"><strong>Retiro:</strong><span>' + formatoMoneda(data.retiro) + '</span></div>';
+    html += '<div class="modal-fila"><strong>Estado:</strong><span style="color:' + estadoColor + ';font-weight:bold;">' + estado + '</span></div>';
+    if (data.anula_a) {
+      html += '<div class="modal-fila"><strong>Anula al vale:</strong><span>' + data.anula_a + '</span></div>';
+    }
+    if (contraData) {
+      html += '<div class="modal-fila"><strong>Anulado por:</strong><span>Vale ' + (contraData.no_vale || '') + ' (' + formatearFecha(contraData.fecha) + ')</span></div>';
+    }
+    if (data.observaciones) {
+      html += '<div class="modal-fila"><strong>Observaciones:</strong><span>' + data.observaciones + '</span></div>';
+    }
+    var periodo = periodoDeFecha(data.fecha);
+    if (esPeriodoCerrado(data.fecha)) {
+      html += '<div class="modal-fila"><strong>Período:</strong><span style="color:#c0392b;">🔒 ' + periodo + ' (CERRADO)</span></div>';
+    }
+
+    document.getElementById('modalValeContenido').innerHTML = html;
+    document.getElementById('modalVale').classList.add('visible');
+  } catch (e) {
+    mostrarStatus('Error al cargar vale: ' + e.message, 'err');
+  }
+}
+
+function cerrarModalVale() {
+  document.getElementById('modalVale').classList.remove('visible');
+}
+
+/* ==========================================================
    REEMBOLSO
-========================================================== */
+   ========================================================== */
 async function generarReembolso() {
   var tipo = document.getElementById('reembolsoTipo').value;
   var desde = document.getElementById('reembolsoDesde').value;
@@ -1590,8 +2061,166 @@ function resetReembolso() {
 }
 
 /* ==========================================================
+   RESUMEN DEL PERÍODO
+   ========================================================== */
+function resetResumen() {
+  document.getElementById('resumenDesde').value = primerDiaAnio();
+  document.getElementById('resumenHasta').value = hoyISO();
+  generarResumen();
+}
+
+async function generarResumen() {
+  var tipo = document.getElementById('resumenTipo').value;
+  var desde = document.getElementById('resumenDesde').value || primerDiaAnio();
+  var hasta = document.getElementById('resumenHasta').value || hoyISO();
+
+  var cont = document.getElementById('resumenContenido');
+  cont.innerHTML = '<p style="text-align:center;color:#888;padding:20px;">Cargando resumen...</p>';
+
+  // Vales del período
+  var vales = [];
+  try {
+    var { data: v1 } = await db.from('agesp_vales').select('*').eq('tipo', tipo)
+      .gte('fecha', desde).lte('fecha', hasta).order('fecha', { ascending: true });
+    vales = v1 || [];
+  } catch (e) { mostrarStatus('Error resumen vales: ' + e.message, 'err'); return; }
+
+  // Vales anteriores para saldo inicial
+  var anteriores = [];
+  try {
+    var { data: v2 } = await db.from('agesp_vales').select('*').eq('tipo', tipo).lt('fecha', desde);
+    anteriores = v2 || [];
+  } catch (e) { anteriores = []; }
+
+  var anulados = {};
+  for (var i = 0; i < vales.length; i++) if (vales[i].anula_a) anulados[vales[i].anula_a] = true;
+  for (var i = 0; i < anteriores.length; i++) if (anteriores[i].anula_a) anulados[anteriores[i].anula_a] = true;
+
+  var saldoIni = 0;
+  for (var i = 0; i < anteriores.length; i++) {
+    var v = anteriores[i];
+    if (anulados[v.id] || v.anula_a) continue;
+    saldoIni += (parseFloat(v.deposito) || 0) - (parseFloat(v.retiro) || 0);
+  }
+
+  var totalDep = 0, totalRet = 0, numVigentes = 0, numAnulados = 0;
+  for (var i = 0; i < vales.length; i++) {
+    var v = vales[i];
+    if (v.anula_a) { numAnulados++; continue; }
+    if (anulados[v.id]) { numAnulados++; continue; }
+    totalDep += parseFloat(v.deposito) || 0;
+    totalRet += parseFloat(v.retiro) || 0;
+    numVigentes++;
+  }
+  var saldoFin = saldoIni + totalDep - totalRet;
+
+  // Arqueos del período y tipo
+  var historial = await obtenerHistorial();
+  var arqueosPeriodo = [];
+  for (var i = 0; i < historial.length; i++) {
+    var r = historial[i];
+    if (r.categoria !== 'arqueo') continue;
+    var esPagos = r.tipo === 'Arqueo - Pagos Menores';
+    var tReg = esPagos ? 'PagosMenores' : 'Dieta';
+    if (tReg !== tipo) continue;
+    if (r.fechaArqueo < desde || r.fechaArqueo > hasta) continue;
+    arqueosPeriodo.push(r);
+  }
+  var sumaDif = 0;
+  for (var i = 0; i < arqueosPeriodo.length; i++) sumaDif += (arqueosPeriodo[i].diferencia || 0);
+
+  // Reembolsos del período (guardados)
+  var reembolsosPeriodo = [];
+  for (var i = 0; i < historial.length; i++) {
+    var r = historial[i];
+    if (r.categoria !== 'reembolso') continue;
+    if (r.tipoFondo !== tipo) continue;
+    if (r.hasta < desde || r.desde > hasta) continue;
+    reembolsosPeriodo.push(r);
+  }
+  var totalReembolsado = 0;
+  for (var i = 0; i < reembolsosPeriodo.length; i++) totalReembolsado += reembolsosPeriodo[i].total || 0;
+
+  // Movimientos por mes
+  var porMes = {};
+  for (var i = 0; i < vales.length; i++) {
+    var v = vales[i];
+    if (v.anula_a || anulados[v.id]) continue;
+    var mes = v.fecha.substring(0, 7);
+    if (!porMes[mes]) porMes[mes] = { dep: 0, ret: 0, num: 0 };
+    porMes[mes].dep += parseFloat(v.deposito) || 0;
+    porMes[mes].ret += parseFloat(v.retiro) || 0;
+    porMes[mes].num++;
+  }
+  var mesesOrdenados = Object.keys(porMes).sort();
+
+  // HTML
+  var html = '';
+  html += '<h3 style="color:#1e3a5f;margin-bottom:10px;font-size:0.95rem;">' +
+          (tipo === 'Dieta' ? '🍽 Dieta' : '💰 Pagos Menores') + ' — ' +
+          formatearFecha(desde) + ' al ' + formatearFecha(hasta) + '</h3>';
+
+  html += '<div class="resumen-grid">';
+  html += '<div class="resumen-card"><strong>Saldo inicial</strong><div class="valor">' + formatoMoneda(saldoIni) + '</div></div>';
+  html += '<div class="resumen-card verde"><strong>Total depósitos</strong><div class="valor">' + formatoMoneda(totalDep) + '</div></div>';
+  html += '<div class="resumen-card rojo"><strong>Total retiros</strong><div class="valor">' + formatoMoneda(totalRet) + '</div></div>';
+  html += '<div class="resumen-card azul"><strong>Saldo final</strong><div class="valor">' + formatoMoneda(saldoFin) + '</div></div>';
+  html += '</div>';
+
+  html += '<div class="resumen-grid">';
+  html += '<div class="resumen-card"><strong>Vales vigentes</strong><div class="valor">' + numVigentes + '</div></div>';
+  html += '<div class="resumen-card"><strong>Vales anulados</strong><div class="valor">' + numAnulados + '</div></div>';
+  html += '<div class="resumen-card"><strong>Arqueos del período</strong><div class="valor">' + arqueosPeriodo.length + '</div></div>';
+  var colorDif = sumaDif === 0 ? '#27ae60' : (sumaDif > 0 ? '#2980b9' : '#c0392b');
+  html += '<div class="resumen-card"><strong>Suma de diferencias</strong><div class="valor" style="color:' + colorDif + '">' + formatoMoneda(sumaDif) + '</div></div>';
+  html += '</div>';
+
+  html += '<div class="resumen-grid">';
+  html += '<div class="resumen-card azul"><strong>Reembolsos guardados</strong><div class="valor">' + reembolsosPeriodo.length + '</div></div>';
+  html += '<div class="resumen-card azul"><strong>Total reembolsado</strong><div class="valor">' + formatoMoneda(totalReembolsado) + '</div></div>';
+  html += '</div>';
+
+  // Tabla por mes
+  if (mesesOrdenados.length > 0) {
+    html += '<h4 style="margin-top:18px;color:#1e3a5f;font-size:0.85rem;">Movimientos por mes</h4>';
+    html += '<table class="tabla-meses"><thead><tr><th>Mes</th><th>Vales</th><th>Depósitos</th><th>Retiros</th><th>Neto</th></tr></thead><tbody>';
+    var sumMDep = 0, sumMRet = 0, sumMNum = 0;
+    for (var m = 0; m < mesesOrdenados.length; m++) {
+      var key = mesesOrdenados[m];
+      var d = porMes[key];
+      var neto = d.dep - d.ret;
+      html += '<tr><td>' + key + '</td><td>' + d.num + '</td><td>' +
+              formatoMoneda(d.dep) + '</td><td>' + formatoMoneda(d.ret) + '</td><td style="color:' +
+              (neto >= 0 ? '#27ae60' : '#c0392b') + ';font-weight:bold;">' + formatoMoneda(neto) + '</td></tr>';
+      sumMDep += d.dep; sumMRet += d.ret; sumMNum += d.num;
+    }
+    html += '<tr><td>TOTAL</td><td>' + sumMNum + '</td><td>' + formatoMoneda(sumMDep) + '</td><td>' +
+            formatoMoneda(sumMRet) + '</td><td>' + formatoMoneda(sumMDep - sumMRet) + '</td></tr>';
+    html += '</tbody></table>';
+  } else {
+    html += '<p style="text-align:center;color:#888;margin-top:15px;">Sin movimientos en el período.</p>';
+  }
+
+  // Lista de arqueos
+  if (arqueosPeriodo.length > 0) {
+    html += '<h4 style="margin-top:18px;color:#1e3a5f;font-size:0.85rem;">Arqueos del período</h4>';
+    html += '<table class="tabla-meses"><thead><tr><th>Fecha</th><th>Responsable</th><th>Contado</th><th>Sistema</th><th>Diferencia</th></tr></thead><tbody>';
+    for (var i = 0; i < arqueosPeriodo.length; i++) {
+      var r = arqueosPeriodo[i];
+      var cDif = r.diferencia === 0 ? '#27ae60' : (r.diferencia > 0 ? '#2980b9' : '#c0392b');
+      html += '<tr><td>' + r.fechaArqueoTexto + '</td><td>' + r.responsable + '</td><td>' +
+              formatoMoneda(r.total) + '</td><td>' + formatoMoneda(r.sistema) +
+              '</td><td style="color:' + cDif + ';font-weight:bold;">' + formatoMoneda(r.diferencia) + '</td></tr>';
+    }
+    html += '</tbody></table>';
+  }
+
+  cont.innerHTML = html;
+}
+
+/* ==========================================================
    VER REGISTROS GUARDADOS
-========================================================== */
+   ========================================================== */
 async function verArqueo(id) {
   var historial = await obtenerHistorial();
   var reg = null;
@@ -1609,7 +2238,11 @@ async function verArqueo(id) {
   document.getElementById('fechaInput' + cap).value = reg.fechaArqueo || hoyISO();
   document.getElementById('responsable' + cap).value = reg.responsable || '';
   document.getElementById('contrapartida' + cap).value = reg.contrapartida || '';
-  document.getElementById('sistema' + cap).value = reg.sistema || 0;
+
+  var sistemaGuardado = reg.sistema || 0;
+  document.getElementById('sistema' + cap).value = sistemaGuardado;
+  document.getElementById('sistema' + cap + 'Display').textContent = formatoMoneda(sistemaGuardado);
+
   document.getElementById('obs' + cap).value = reg.observaciones || '';
 
   var inputs = document.querySelectorAll('.input-' + tipo);
@@ -1620,7 +2253,6 @@ async function verArqueo(id) {
   }
   calcular(tipo);
   actualizarFirma(tipo);
-
   mostrarBannerVista('Arqueo del ' + (reg.fechaArqueoTexto || '-') + ' — Puedes imprimirlo o guardarlo de nuevo.');
 }
 
@@ -1675,44 +2307,40 @@ async function verReembolso(id) {
     items: items, total: reg.total
   };
 
-  mostrarBannerVista('Reembolso guardado el ' + (reg.fechaGuardado || '-') + ' — Puedes imprimirlo desde el botón Imprimir.');
+  mostrarBannerVista('Reembolso guardado el ' + (reg.fechaGuardado || '-') + ' — Puedes imprimirlo.');
 }
 
 /* ==========================================================
-   RESPALDO COMPLETO (Config + Historial + Vales)
-========================================================== */
+   RESPALDO COMPLETO
+   ========================================================== */
 async function obtenerTodosVales() {
   try {
     var { data, error } = await db.from('agesp_vales').select('*');
     if (error) throw error;
     return data || [];
-  } catch (e) {
-    console.warn('Error al obtener vales:', e.message);
-    return [];
-  }
+  } catch (e) { return []; }
 }
 
 async function exportarRespaldo() {
   try {
     mostrarStatus('Recopilando datos para el respaldo...', 'info');
-
     var historial = await obtenerHistorial();
     var vales = await obtenerTodosVales();
 
     var datos = {
       app: 'AGESP - Control de Caja',
-      version: 5,
+      version: 6,
       fechaExportacion: fechaHoraGuardado(),
       totalRegistros: historial.length,
       totalVales: vales.length,
       configuracion: configActual,
       historial: historial,
-      vales: vales
+      vales: vales,
+      arqueoActual: cargarEstadoArqueo()
     };
 
     var texto = JSON.stringify(datos, null, 2);
     var nombreArchivo = 'respaldo_agesp_' + hoyISO() + '.json';
-
     var blob = new Blob([texto], { type: 'application/json' });
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
@@ -1723,6 +2351,7 @@ async function exportarRespaldo() {
     document.body.removeChild(a);
     setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
 
+    localStorage.setItem(CLAVE_ULTIMO_RESPALDO, new Date().toISOString());
     mostrarStatus('Respaldo exportado: ' + nombreArchivo + ' (' + historial.length + ' registros, ' + vales.length + ' vales)', 'ok');
   } catch (e) {
     mostrarStatus('Error al exportar respaldo: ' + e.message, 'err');
@@ -1737,7 +2366,6 @@ function importarRespaldo(input) {
   lector.onload = async function(evento) {
     try {
       var datos = JSON.parse(evento.target.result);
-
       if (!datos || !datos.historial) {
         mostrarStatus('El archivo no tiene el formato correcto de respaldo.', 'err');
         input.value = '';
@@ -1755,26 +2383,21 @@ function importarRespaldo(input) {
         '⚠️ ATENCIÓN: Se REEMPLAZARÁN TODOS los datos actuales de la base de datos.\n\n' +
         '¿Continuar con la restauración?'
       );
-
       if (!confirma) { input.value = ''; return; }
 
-      // 1. Borrar datos actuales
       mostrarStatus('Eliminando datos actuales...', 'info');
       await db.from('agesp_vales').delete().neq('id', '');
       await db.from('agesp_historial').delete().neq('id', '');
 
-      // 2. Insertar vales
       if (datos.vales && datos.vales.length > 0) {
         mostrarStatus('Restaurando ' + datos.vales.length + ' vales...', 'info');
-        var chunkVales = 50;
-        for (var i = 0; i < datos.vales.length; i += chunkVales) {
-          var chunk = datos.vales.slice(i, i + chunkVales);
+        for (var i = 0; i < datos.vales.length; i += 50) {
+          var chunk = datos.vales.slice(i, i + 50);
           var { error } = await db.from('agesp_vales').insert(chunk);
           if (error) throw error;
         }
       }
 
-      // 3. Insertar historial
       if (datos.historial && datos.historial.length > 0) {
         mostrarStatus('Restaurando ' + datos.historial.length + ' registros...', 'info');
         var registros = [];
@@ -1791,21 +2414,29 @@ function importarRespaldo(input) {
             data: r
           });
         }
-        var chunkHist = 50;
-        for (var k = 0; k < registros.length; k += chunkHist) {
-          var chunk2 = registros.slice(k, k + chunkHist);
+        for (var k = 0; k < registros.length; k += 50) {
+          var chunk2 = registros.slice(k, k + 50);
           var { error: err2 } = await db.from('agesp_historial').insert(chunk2);
           if (err2) throw err2;
         }
       }
 
-      // 4. Restaurar configuración
       if (datos.configuracion) {
         configActual = datos.configuracion;
+        if (!configActual.periodosCerrados) configActual.periodosCerrados = [];
         await guardarConfigEnSupabase(configActual);
         poblarFormularioConfig(configActual);
         aplicarConfigAUI(configActual);
       }
+
+      if (datos.arqueoActual) {
+        try {
+          localStorage.setItem(CLAVE_ARQUEO_ACTUAL, JSON.stringify(datos.arqueoActual));
+        } catch (e) {}
+      }
+
+      inicializarArqueo('pagos');
+      inicializarArqueo('dietas');
 
       mostrarStatus('Respaldo restaurado correctamente.', 'ok');
       renderHistorial();
@@ -1823,13 +2454,12 @@ function importarRespaldo(input) {
     mostrarStatus('No se pudo leer el archivo.', 'err');
     input.value = '';
   };
-
   lector.readAsText(archivo);
 }
 
 /* ==========================================================
    NAVEGACIÓN / HISTORIAL / TEMA
-========================================================== */
+   ========================================================== */
 function mostrarSeccion(id) {
   var secciones = document.querySelectorAll('.seccion');
   for (var i = 0; i < secciones.length; i++) secciones[i].classList.remove('active');
@@ -1839,7 +2469,7 @@ function mostrarSeccion(id) {
   var mapa = {
     pagos: 'btnPagos', dietas: 'btnDietas', valesDieta: 'btnValesDieta',
     valesPagos: 'btnValesPagos', reembolso: 'btnReembolso',
-    historial: 'btnHistorial', configuracion: 'btnConfig'
+    resumen: 'btnResumen', historial: 'btnHistorial', configuracion: 'btnConfig'
   };
   if (mapa[id]) document.getElementById(mapa[id]).classList.add('active');
 
@@ -1847,13 +2477,16 @@ function mostrarSeccion(id) {
   if (id === 'configuracion') poblarFormularioConfig(configActual);
   if (id === 'pagos') actualizarSaldoLibrosArqueo('pagos');
   if (id === 'dietas') actualizarSaldoLibrosArqueo('dietas');
+  if (id === 'resumen') { /* generado por botón */ }
   if (id === 'valesDieta') {
     if (!document.getElementById('filtroDesdeValesDieta').value) resetFiltroVales('Dieta');
     else cargarVales('Dieta');
+    actualizarSugerido('Dieta');
   }
   if (id === 'valesPagos') {
     if (!document.getElementById('filtroDesdeValesPagos').value) resetFiltroVales('PagosMenores');
     else cargarVales('PagosMenores');
+    actualizarSugerido('PagosMenores');
   }
   if (id === 'reembolso') {
     document.getElementById('remEntidad').textContent = configActual.entidad || 'AGESP';
@@ -1869,7 +2502,59 @@ async function obtenerHistorial() {
       .select('data').order('created_at', { ascending: false });
     if (error) throw error;
     return data.map(function(row) { return row.data; });
-  } catch (e) { console.warn('Error historial:', e.message); return []; }
+  } catch (e) { return []; }
+}
+
+/* ==========================================================
+   HISTORIAL CON FILTROS
+   ========================================================== */
+function limpiarFiltrosHistorial() {
+  document.getElementById('filtroHistTipo').value = '';
+  document.getElementById('filtroHistDesde').value = '';
+  document.getElementById('filtroHistHasta').value = '';
+  document.getElementById('filtroHistTexto').value = '';
+  renderHistorial();
+}
+
+function coincideFiltroHistorial(r) {
+  var fTipo = document.getElementById('filtroHistTipo').value;
+  var fDesde = document.getElementById('filtroHistDesde').value;
+  var fHasta = document.getElementById('filtroHistHasta').value;
+  var fTexto = (document.getElementById('filtroHistTexto').value || '').toLowerCase().trim();
+
+  // Tipo
+  if (fTipo) {
+    if (fTipo === 'arqueo-pagos' && r.tipo !== 'Arqueo - Pagos Menores') return false;
+    if (fTipo === 'arqueo-dietas' && r.tipo !== 'Arqueo - Dietas') return false;
+    if (fTipo === 'reembolso-pagos' && !(r.categoria === 'reembolso' && r.tipoFondo === 'PagosMenores')) return false;
+    if (fTipo === 'reembolso-dietas' && !(r.categoria === 'reembolso' && r.tipoFondo === 'Dieta')) return false;
+  }
+
+  // Fechas
+  var fechaReg = '';
+  if (r.categoria === 'arqueo') fechaReg = r.fechaArqueo;
+  else if (r.categoria === 'reembolso') fechaReg = r.desde;
+  if (fDesde && fechaReg && fechaReg < fDesde) return false;
+  if (fHasta && fechaReg && fechaReg > fHasta) return false;
+
+  // Texto
+  if (fTexto) {
+    var campos = [];
+    if (r.responsable) campos.push(r.responsable);
+    if (r.contrapartida) campos.push(r.contrapartida);
+    if (r.tipo) campos.push(r.tipo);
+    if (r.entidad) campos.push(r.entidad);
+    if (r.reeup) campos.push(r.reeup);
+    if (r.items) {
+      for (var i = 0; i < r.items.length; i++) {
+        if (r.items[i].num) campos.push(r.items[i].num);
+      }
+    }
+    var textoCompleto = campos.join(' ').toLowerCase();
+    if (textoCompleto.indexOf(fTexto) === -1) return false;
+  }
+
+  return true;
 }
 
 async function renderHistorial() {
@@ -1880,9 +2565,22 @@ async function renderHistorial() {
     cont.innerHTML = '<p style="text-align:center;color:#888;">No hay registros guardados.</p>';
     return;
   }
-  var html = '';
+
+  var filtrados = [];
   for (var i = 0; i < historial.length; i++) {
-    var r = historial[i];
+    if (coincideFiltroHistorial(historial[i])) filtrados.push(historial[i]);
+  }
+
+  if (filtrados.length === 0) {
+    cont.innerHTML = '<p style="text-align:center;color:#888;">No hay registros que coincidan con los filtros.</p>';
+    return;
+  }
+
+  var html = '<p style="font-size:0.78rem;color:#888;margin-bottom:10px;">' +
+             filtrados.length + ' de ' + historial.length + ' registros</p>';
+
+  for (var i = 0; i < filtrados.length; i++) {
+    var r = filtrados[i];
     if (r.categoria === 'arqueo') {
       var colorDif = r.diferencia === 0 ? '#27ae60' : (r.diferencia > 0 ? '#2980b9' : '#c0392b');
       html += '<div class="item-historial"><div class="info">' +
@@ -1942,13 +2640,18 @@ function aplicarTema(tema) {
 
 /* ==========================================================
    INICIALIZACIÓN
-========================================================== */
+   ========================================================== */
 (async function init() {
   configActual = await cargarConfigDesdeSupabase();
+  if (!configActual.periodosCerrados) configActual.periodosCerrados = [];
+
   construirTabla('tablaPagos', 'pagos');
   construirTabla('tablaDietas', 'dietas');
   poblarFormularioConfig(configActual);
   aplicarConfigAUI(configActual);
+
+  inicializarArqueo('pagos');
+  inicializarArqueo('dietas');
 
   document.getElementById('filtroDesdeValesDieta').value = primerDiaAnio();
   document.getElementById('filtroHastaValesDieta').value = hoyISO();
@@ -1958,8 +2661,13 @@ function aplicarTema(tema) {
   actualizarFirma('pagos'); actualizarFirma('dietas');
   actualizarFirmaVales('ValesDieta'); actualizarFirmaVales('ValesPagos');
 
+  actualizarSugerido('Dieta');
+  actualizarSugerido('PagosMenores');
+
   await actualizarSaldoLibrosArqueo('pagos');
   await actualizarSaldoLibrosArqueo('dietas');
+
+  verificarRespaldoPendiente();
 })();
 </script>
 </body>
