@@ -293,10 +293,20 @@
   .tabla-meses td { border-bottom: 1px solid #eaeef3; padding: 6px; text-align: center; }
   .tabla-meses tr:last-child td { border-bottom: none; font-weight: bold; background: #f0f4f8; }
 
-  /* Tabla específica de movimientos por mes (imprimible) */
   .tabla-movimientos { }
-  /* Tabla de arqueos (no imprimible en resumen) */
   .tabla-arqueos { }
+
+  /* Bloque de totales imprimibles (oculto en pantalla) */
+  .totales-impresion { display: none; }
+  .totales-impresion .fila-total {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px dashed #999;
+    font-size: 0.9rem;
+  }
+  .totales-impresion .fila-total:last-child { border-bottom: none; }
+  .totales-impresion .fila-total strong { color: #1e3a5f; }
 
   .modelo-reembolso-contenedor {
     width: 100%; max-width: 780px; margin: 10px auto 0 auto;
@@ -432,6 +442,7 @@
   body.tema-oscuro .tabla-meses th { background: #10151c; }
   body.tema-oscuro .tabla-meses td { border-bottom-color: #2a3140; }
   body.tema-oscuro .tabla-meses tr:last-child td { background: #2a3140; }
+  body.tema-oscuro .totales-impresion .fila-total strong { color: #7fb3ff; }
   body.tema-oscuro .modelo-reembolso-contenedor { background: #232a36; border-color: #3a4252; }
   body.tema-oscuro .reembolso-modelo th, body.tema-oscuro .reembolso-modelo td { border-color: #3a4252; }
   body.tema-oscuro .reembolso-modelo th { background: #2a3140; color: #c7d2e0; }
@@ -472,18 +483,37 @@
     #valesDieta .firmas,
     #valesPagos .firmas { display: none !important; }
 
-    /* Resumen: solo tabla de movimientos y totales */
+    /* Resumen: mostrar SOLO título, totales y tabla de movimientos */
     #resumen .resumen-grid,
-    #resumen h3,
     #resumen h4,
     #resumen .tabla-arqueos { display: none !important; }
+    #resumen h3 { display: block !important; }
     #resumen .tabla-movimientos { display: table !important; }
+
+    /* Bloque de totales imprimible */
+    #resumen .totales-impresion {
+      display: block !important;
+      margin: 10px 0;
+      padding: 8px 12px;
+      border: 1px solid #333;
+      font-size: 0.9rem;
+    }
+    #resumen .totales-impresion .fila-total {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      border-bottom: 1px dashed #999;
+    }
+    #resumen .totales-impresion .fila-total:last-child { border-bottom: none; }
+    #resumen .totales-impresion strong { color: #000; }
 
     body.tema-oscuro { background: #fff; color: #000; }
     body.tema-oscuro .card { background: #fff; }
     body.tema-oscuro table th { background: #1e3a5f; color: #fff; }
     body.tema-oscuro td input, body.tema-oscuro .campo-editable { background: transparent; color: #000; border: none; }
     body.tema-oscuro .encabezado strong, body.tema-oscuro .card h2, body.tema-oscuro .firma .nombre { color: #1e3a5f; }
+    body.tema-oscuro #resumen .totales-impresion { border-color: #000; }
+    body.tema-oscuro #resumen .totales-impresion strong { color: #000; }
 
     .modelo-reembolso-contenedor { border-color: #000; max-width: 780px; margin: 0 auto; }
     .reembolso-modelo th, .reembolso-modelo td { border-color: #000; }
@@ -2186,6 +2216,14 @@ async function generarResumen() {
   html += '<div class="resumen-grid">';
   html += '<div class="resumen-card azul"><strong>Reembolsos guardados</strong><div class="valor">' + reembolsosPeriodo.length + '</div></div>';
   html += '<div class="resumen-card azul"><strong>Total reembolsado</strong><div class="valor">' + formatoMoneda(totalReembolsado) + '</div></div>';
+  html += '</div>';
+
+  // Bloque de totales (visible solo en impresión)
+  html += '<div class="totales-impresion">';
+  html += '<div class="fila-total"><span><strong>Saldo inicial:</strong></span><span>' + formatoMoneda(saldoIni) + '</span></div>';
+  html += '<div class="fila-total"><span><strong>Total depósitos:</strong></span><span>' + formatoMoneda(totalDep) + '</span></div>';
+  html += '<div class="fila-total"><span><strong>Total retiros:</strong></span><span>' + formatoMoneda(totalRet) + '</span></div>';
+  html += '<div class="fila-total"><span><strong>Saldo final:</strong></span><span>' + formatoMoneda(saldoFin) + '</span></div>';
   html += '</div>';
 
   if (mesesOrdenados.length > 0) {
