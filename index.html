@@ -242,7 +242,6 @@
     font-size: 0.8rem; font-family: inherit;
   }
 
-  /* MODAL */
   .modal-overlay {
     display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.5); z-index: 1000;
@@ -272,7 +271,6 @@
   .modal-fila strong { color: #1e3a5f; min-width: 140px; }
   .modal-fila span { flex: 1; }
 
-  /* Resumen */
   .resumen-grid {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 10px; margin-bottom: 15px;
@@ -294,6 +292,11 @@
   .tabla-meses th { background: #1e3a5f; color: #fff; padding: 6px; }
   .tabla-meses td { border-bottom: 1px solid #eaeef3; padding: 6px; text-align: center; }
   .tabla-meses tr:last-child td { border-bottom: none; font-weight: bold; background: #f0f4f8; }
+
+  /* Tabla específica de movimientos por mes (imprimible) */
+  .tabla-movimientos { }
+  /* Tabla de arqueos (no imprimible en resumen) */
+  .tabla-arqueos { }
 
   .modelo-reembolso-contenedor {
     width: 100%; max-width: 780px; margin: 10px auto 0 auto;
@@ -450,20 +453,38 @@
 
   @media print {
     body { background: #fff; padding: 0; }
-    .tabs, .acciones, header p, .no-print, .status-msg, .form-vale, .filtro-rango, .banner-vista, .banner-respaldo, .barra-respaldo, .filtros-historial { display: none !important; }
+    .tabs, .acciones, header, .no-print, .status-msg, .form-vale, .filtro-rango,
+    .banner-vista, .banner-respaldo, .barra-respaldo, .filtros-historial,
+    .panel-saldo { display: none !important; }
+
     .card { box-shadow: none; max-width: 100%; page-break-inside: avoid; padding: 8px; }
     .seccion { display: none !important; }
     .seccion.active { display: block !important; }
+
     textarea { border: none; background: transparent; }
     .campo-editable { border: none; background: transparent; padding: 0; font-weight: bold; color: #1e3a5f; }
     .sistema-readonly { border: none; background: transparent; padding: 0; font-weight: bold; color: #1e3a5f; }
+
     .tabla-vales th, .tabla-vales td { border: 1px solid #999; padding: 2px; }
     .btn-eliminar-fila { display: none !important; }
+
+    /* Ocultar pie de firmas SOLO en el libro de vales */
+    #valesDieta .firmas,
+    #valesPagos .firmas { display: none !important; }
+
+    /* Resumen: solo tabla de movimientos y totales */
+    #resumen .resumen-grid,
+    #resumen h3,
+    #resumen h4,
+    #resumen .tabla-arqueos { display: none !important; }
+    #resumen .tabla-movimientos { display: table !important; }
+
     body.tema-oscuro { background: #fff; color: #000; }
     body.tema-oscuro .card { background: #fff; }
     body.tema-oscuro table th { background: #1e3a5f; color: #fff; }
     body.tema-oscuro td input, body.tema-oscuro .campo-editable { background: transparent; color: #000; border: none; }
     body.tema-oscuro .encabezado strong, body.tema-oscuro .card h2, body.tema-oscuro .firma .nombre { color: #1e3a5f; }
+
     .modelo-reembolso-contenedor { border-color: #000; max-width: 780px; margin: 0 auto; }
     .reembolso-modelo th, .reembolso-modelo td { border-color: #000; }
     .cuadros-reembolso, .cuadros-reembolso th, .cuadros-reembolso td { border-color: #000; }
@@ -1651,7 +1672,6 @@ async function actualizarSugerido(tipoVales) {
   var fecha = document.getElementById('nuevoFechaVales' + sufijo).value || hoyISO();
   var dep = parseFloat(document.getElementById('nuevoDepVales' + sufijo).value) || 0;
   var ret = parseFloat(document.getElementById('nuevoRetVales' + sufijo).value) || 0;
-  // Si dep>0 es depósito, si ret>0 es retiro. Por defecto asumimos retiro.
   var esDeposito = (dep > 0 && ret === 0);
   var sugerido = await siguienteNumeroVale(tipoVales, esDeposito, fecha);
   document.getElementById('sugeridoVales' + sufijo).textContent = sugerido;
@@ -1774,18 +1794,15 @@ async function registrarVale(tipoVales) {
   if (dep === 0 && ret === 0) { mostrarStatus('Debe indicar depósito o retiro.', 'err'); return; }
   if (dep > 0 && ret > 0) { mostrarStatus('Un vale no puede tener depósito y retiro a la vez.', 'err'); return; }
 
-  // 5. Período cerrado
   if (esPeriodoCerrado(fecha)) {
     mostrarStatus('El período ' + periodoDeFecha(fecha) + ' está cerrado. No se puede registrar.', 'err');
     return;
   }
 
-  // 1. Número sugerido si está vacío
   if (!noVale) {
     noVale = await siguienteNumeroVale(tipoVales, dep > 0, fecha);
   }
 
-  // 4. Validar duplicado
   var duplicado = await existeValeDuplicado(tipoVales, noVale);
   if (duplicado) {
     if (!confirm('Ya existe un vale con el número "' + noVale + '" en este libro.\n\n¿Deseas continuar de todos modos?')) {
@@ -1793,7 +1810,6 @@ async function registrarVale(tipoVales) {
     }
   }
 
-  // 3. Validar saldo negativo (solo si es retiro)
   if (ret > 0) {
     var resultado = await calcularExistenciaHasta(tipoVales, fecha);
     var saldoNuevo = resultado.saldo - ret;
@@ -1843,7 +1859,6 @@ async function anularVale(tipoVales, idVale) {
   }
   if (!original) { mostrarStatus('Vale no encontrado.', 'err'); return; }
 
-  // 5. Período cerrado
   if (esPeriodoCerrado(original.fecha)) {
     mostrarStatus('El vale pertenece al período ' + periodoDeFecha(original.fecha) + ' (cerrado). No se puede anular.', 'err');
     return;
@@ -1887,7 +1902,6 @@ async function verVale(idVale) {
     if (error) throw error;
     if (!data) { mostrarStatus('Vale no encontrado.', 'err'); return; }
 
-    // Ver si está anulado
     var { data: contraData } = await db.from('agesp_vales').select('*').eq('anula_a', idVale).maybeSingle();
 
     var estado = 'VIGENTE';
@@ -2077,7 +2091,6 @@ async function generarResumen() {
   var cont = document.getElementById('resumenContenido');
   cont.innerHTML = '<p style="text-align:center;color:#888;padding:20px;">Cargando resumen...</p>';
 
-  // Vales del período
   var vales = [];
   try {
     var { data: v1 } = await db.from('agesp_vales').select('*').eq('tipo', tipo)
@@ -2085,7 +2098,6 @@ async function generarResumen() {
     vales = v1 || [];
   } catch (e) { mostrarStatus('Error resumen vales: ' + e.message, 'err'); return; }
 
-  // Vales anteriores para saldo inicial
   var anteriores = [];
   try {
     var { data: v2 } = await db.from('agesp_vales').select('*').eq('tipo', tipo).lt('fecha', desde);
@@ -2114,7 +2126,6 @@ async function generarResumen() {
   }
   var saldoFin = saldoIni + totalDep - totalRet;
 
-  // Arqueos del período y tipo
   var historial = await obtenerHistorial();
   var arqueosPeriodo = [];
   for (var i = 0; i < historial.length; i++) {
@@ -2129,7 +2140,6 @@ async function generarResumen() {
   var sumaDif = 0;
   for (var i = 0; i < arqueosPeriodo.length; i++) sumaDif += (arqueosPeriodo[i].diferencia || 0);
 
-  // Reembolsos del período (guardados)
   var reembolsosPeriodo = [];
   for (var i = 0; i < historial.length; i++) {
     var r = historial[i];
@@ -2141,7 +2151,6 @@ async function generarResumen() {
   var totalReembolsado = 0;
   for (var i = 0; i < reembolsosPeriodo.length; i++) totalReembolsado += reembolsosPeriodo[i].total || 0;
 
-  // Movimientos por mes
   var porMes = {};
   for (var i = 0; i < vales.length; i++) {
     var v = vales[i];
@@ -2154,7 +2163,6 @@ async function generarResumen() {
   }
   var mesesOrdenados = Object.keys(porMes).sort();
 
-  // HTML
   var html = '';
   html += '<h3 style="color:#1e3a5f;margin-bottom:10px;font-size:0.95rem;">' +
           (tipo === 'Dieta' ? '🍽 Dieta' : '💰 Pagos Menores') + ' — ' +
@@ -2180,10 +2188,9 @@ async function generarResumen() {
   html += '<div class="resumen-card azul"><strong>Total reembolsado</strong><div class="valor">' + formatoMoneda(totalReembolsado) + '</div></div>';
   html += '</div>';
 
-  // Tabla por mes
   if (mesesOrdenados.length > 0) {
     html += '<h4 style="margin-top:18px;color:#1e3a5f;font-size:0.85rem;">Movimientos por mes</h4>';
-    html += '<table class="tabla-meses"><thead><tr><th>Mes</th><th>Vales</th><th>Depósitos</th><th>Retiros</th><th>Neto</th></tr></thead><tbody>';
+    html += '<table class="tabla-meses tabla-movimientos"><thead><tr><th>Mes</th><th>Vales</th><th>Depósitos</th><th>Retiros</th><th>Neto</th></tr></thead><tbody>';
     var sumMDep = 0, sumMRet = 0, sumMNum = 0;
     for (var m = 0; m < mesesOrdenados.length; m++) {
       var key = mesesOrdenados[m];
@@ -2201,10 +2208,9 @@ async function generarResumen() {
     html += '<p style="text-align:center;color:#888;margin-top:15px;">Sin movimientos en el período.</p>';
   }
 
-  // Lista de arqueos
   if (arqueosPeriodo.length > 0) {
     html += '<h4 style="margin-top:18px;color:#1e3a5f;font-size:0.85rem;">Arqueos del período</h4>';
-    html += '<table class="tabla-meses"><thead><tr><th>Fecha</th><th>Responsable</th><th>Contado</th><th>Sistema</th><th>Diferencia</th></tr></thead><tbody>';
+    html += '<table class="tabla-meses tabla-arqueos"><thead><tr><th>Fecha</th><th>Responsable</th><th>Contado</th><th>Sistema</th><th>Diferencia</th></tr></thead><tbody>';
     for (var i = 0; i < arqueosPeriodo.length; i++) {
       var r = arqueosPeriodo[i];
       var cDif = r.diferencia === 0 ? '#27ae60' : (r.diferencia > 0 ? '#2980b9' : '#c0392b');
@@ -2477,7 +2483,6 @@ function mostrarSeccion(id) {
   if (id === 'configuracion') poblarFormularioConfig(configActual);
   if (id === 'pagos') actualizarSaldoLibrosArqueo('pagos');
   if (id === 'dietas') actualizarSaldoLibrosArqueo('dietas');
-  if (id === 'resumen') { /* generado por botón */ }
   if (id === 'valesDieta') {
     if (!document.getElementById('filtroDesdeValesDieta').value) resetFiltroVales('Dieta');
     else cargarVales('Dieta');
@@ -2505,9 +2510,6 @@ async function obtenerHistorial() {
   } catch (e) { return []; }
 }
 
-/* ==========================================================
-   HISTORIAL CON FILTROS
-   ========================================================== */
 function limpiarFiltrosHistorial() {
   document.getElementById('filtroHistTipo').value = '';
   document.getElementById('filtroHistDesde').value = '';
@@ -2522,7 +2524,6 @@ function coincideFiltroHistorial(r) {
   var fHasta = document.getElementById('filtroHistHasta').value;
   var fTexto = (document.getElementById('filtroHistTexto').value || '').toLowerCase().trim();
 
-  // Tipo
   if (fTipo) {
     if (fTipo === 'arqueo-pagos' && r.tipo !== 'Arqueo - Pagos Menores') return false;
     if (fTipo === 'arqueo-dietas' && r.tipo !== 'Arqueo - Dietas') return false;
@@ -2530,14 +2531,12 @@ function coincideFiltroHistorial(r) {
     if (fTipo === 'reembolso-dietas' && !(r.categoria === 'reembolso' && r.tipoFondo === 'Dieta')) return false;
   }
 
-  // Fechas
   var fechaReg = '';
   if (r.categoria === 'arqueo') fechaReg = r.fechaArqueo;
   else if (r.categoria === 'reembolso') fechaReg = r.desde;
   if (fDesde && fechaReg && fechaReg < fDesde) return false;
   if (fHasta && fechaReg && fechaReg > fHasta) return false;
 
-  // Texto
   if (fTexto) {
     var campos = [];
     if (r.responsable) campos.push(r.responsable);
