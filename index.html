@@ -102,6 +102,7 @@
   .btn-secondary { background: #95a5a6; color: #fff; }
   .btn-danger { background: #c0392b; color: #fff; }
   .btn-info { background: #2980b9; color: #fff; }
+  .btn-warning { background: #f39c12; color: #fff; }
   .btn-sm { padding: 4px 8px; font-size: 0.72rem; }
 
   .item-historial {
@@ -176,6 +177,37 @@
   .fila-anulada td.estado { text-decoration: none; }
   .badge-anulado { color: #c0392b; font-weight: bold; font-size: 0.7rem; }
   .badge-vigente { color: #27ae60; font-weight: bold; font-size: 0.7rem; }
+
+  /* ============================================================
+     ESTILOS: fila modificada (fondo amarillo, nombre subrayado)
+     ============================================================ */
+  .fila-modificada td { background: #fff8e1; }
+  .fila-modificada:hover td { background: #fff3cd; }
+  .fila-modificada td.estado { background: #fff8e1; }
+  .nombre-modificado {
+    text-decoration: underline;
+    text-decoration-color: #b8860b;
+    text-decoration-thickness: 2px;
+    color: #b8860b;
+    font-weight: bold;
+  }
+  .nombre-modificado small {
+    font-size: 0.75em;
+    color: #856404;
+    font-weight: normal;
+    font-style: italic;
+    text-decoration: none;
+  }
+  .leyenda-modificado {
+    font-size: 0.75rem;
+    color: #856404;
+    background: #fffbea;
+    padding: 6px 10px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    border: 1px solid #ffe082;
+  }
+  .leyenda-modificado strong { color: #856404; }
 
   .filtro-rango {
     display: flex; flex-wrap: wrap; gap: 8px; align-items: end;
@@ -271,6 +303,26 @@
   .modal-fila strong { color: #1e3a5f; min-width: 140px; }
   .modal-fila span { flex: 1; }
 
+  .modal-aviso {
+    background: #fff3cd; color: #856404;
+    padding: 8px 10px; border-radius: 6px;
+    margin-bottom: 12px; font-size: 0.8rem;
+    border: 1px solid #ffe082;
+  }
+  .form-edit {
+    display: grid; gap: 8px;
+  }
+  .form-edit .campo label {
+    display: block; font-size: 0.78rem; font-weight: bold;
+    color: #1e3a5f; margin-bottom: 3px;
+  }
+  .form-edit .campo input {
+    width: 100%; padding: 6px 8px; border: 1px solid #ccd6e0;
+    border-radius: 5px; font-size: 0.85rem; font-family: inherit;
+  }
+  .form-edit .campo input:focus { outline: none; border-color: #1e3a5f; }
+  .form-edit .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
   .resumen-grid {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 10px; margin-bottom: 15px;
@@ -296,7 +348,6 @@
   .tabla-movimientos { }
   .tabla-arqueos { }
 
-  /* Bloque de totales imprimibles (oculto en pantalla) */
   .totales-impresion { display: none; }
   .totales-impresion .fila-total {
     display: flex;
@@ -436,6 +487,16 @@
   body.tema-oscuro .modal-content h3 { color: #7fb3ff; border-bottom-color: #2a3140; }
   body.tema-oscuro .modal-fila { border-bottom-color: #2a3140; }
   body.tema-oscuro .modal-fila strong { color: #7fb3ff; }
+  body.tema-oscuro .modal-aviso { background: #3a2f0a; color: #ffd479; border-color: #ffd479; }
+  body.tema-oscuro .form-edit .campo label { color: #7fb3ff; }
+  body.tema-oscuro .form-edit .campo input { background: #2a3140; border-color: #3a4252; color: #e6eaf0; }
+  body.tema-oscuro .form-edit .campo input:focus { border-color: #7fb3ff; }
+  body.tema-oscuro .fila-modificada td { background: #3a2f0a; }
+  body.tema-oscuro .fila-modificada:hover td { background: #4a3f0a; }
+  body.tema-oscuro .nombre-modificado { color: #ffd479; text-decoration-color: #ffd479; }
+  body.tema-oscuro .nombre-modificado small { color: #fcd34d; }
+  body.tema-oscuro .leyenda-modificado { background: #3a2f0a; color: #fcd34d; border-color: #f59e0b; }
+  body.tema-oscuro .leyenda-modificado strong { color: #fcd34d; }
   body.tema-oscuro .resumen-card { background: #2a3140; }
   body.tema-oscuro .resumen-card strong { color: #7fb3ff; }
   body.tema-oscuro .resumen-card .valor { color: #e6eaf0; }
@@ -466,7 +527,7 @@
     body { background: #fff; padding: 0; }
     .tabs, .acciones, header, .no-print, .status-msg, .form-vale, .filtro-rango,
     .banner-vista, .banner-respaldo, .barra-respaldo, .filtros-historial,
-    .panel-saldo { display: none !important; }
+    .panel-saldo, .leyenda-modificado { display: none !important; }
 
     .card { box-shadow: none; max-width: 100%; page-break-inside: avoid; padding: 8px; }
     .seccion { display: none !important; }
@@ -479,18 +540,23 @@
     .tabla-vales th, .tabla-vales td { border: 1px solid #999; padding: 2px; }
     .btn-eliminar-fila { display: none !important; }
 
-    /* Ocultar pie de firmas SOLO en el libro de vales */
     #valesDieta .firmas,
     #valesPagos .firmas { display: none !important; }
 
-    /* Resumen: mostrar SOLO título, totales y tabla de movimientos */
+    /* Mantener indicador de modificado en la impresión */
+    .fila-modificada td { background: #fff8e1 !important; }
+    .nombre-modificado {
+      text-decoration: underline !important;
+      color: #000 !important;
+      font-weight: bold !important;
+    }
+
     #resumen .resumen-grid,
     #resumen h4,
     #resumen .tabla-arqueos { display: none !important; }
     #resumen h3 { display: block !important; }
     #resumen .tabla-movimientos { display: table !important; }
 
-    /* Bloque de totales imprimible */
     #resumen .totales-impresion {
       display: block !important;
       margin: 10px 0;
@@ -514,6 +580,8 @@
     body.tema-oscuro .encabezado strong, body.tema-oscuro .card h2, body.tema-oscuro .firma .nombre { color: #1e3a5f; }
     body.tema-oscuro #resumen .totales-impresion { border-color: #000; }
     body.tema-oscuro #resumen .totales-impresion strong { color: #000; }
+    body.tema-oscuro .fila-modificada td { background: #fff8e1 !important; }
+    body.tema-oscuro .nombre-modificado { color: #000 !important; text-decoration-color: #000 !important; }
 
     .modelo-reembolso-contenedor { border-color: #000; max-width: 780px; margin: 0 auto; }
     .reembolso-modelo th, .reembolso-modelo td { border-color: #000; }
@@ -741,6 +809,10 @@
       <button class="btn btn-success" onclick="registrarVale('Dieta')">Registrar vale</button>
     </div>
 
+    <div class="leyenda-modificado no-print">
+      ℹ️ Los vales con <strong>nombre subrayado</strong> y fondo amarillo fueron <strong>modificados</strong> (no son el original).
+    </div>
+
     <div class="panel-saldo">
       <div><strong>Saldo inicial del período:</strong><br><span id="saldoIniDieta">$0</span></div>
       <div><strong>Existencia final:</strong><br><span class="monto" id="saldoFinDieta">$0</span></div>
@@ -833,6 +905,10 @@
         <input type="number" min="0" value="0" id="nuevoRetValesPagos" onchange="actualizarSugerido('PagosMenores')">
       </div>
       <button class="btn btn-success" onclick="registrarVale('PagosMenores')">Registrar vale</button>
+    </div>
+
+    <div class="leyenda-modificado no-print">
+      ℹ️ Los vales con <strong>nombre subrayado</strong> y fondo amarillo fueron <strong>modificados</strong> (no son el original).
     </div>
 
     <div class="panel-saldo">
@@ -1114,15 +1190,18 @@
       <div class="config-grid">
         <div class="config-campo"><label for="cfgEfectivoPagos">Efectivo sistema por defecto - Arqueo Pagos</label><input type="number" id="cfgEfectivoPagos" min="0"></div>
         <div class="config-campo"><label for="cfgEfectivoDietas">Efectivo sistema por defecto - Arqueo Dietas</label><input type="number" id="cfgEfectivoDietas" min="0"></div>
-        <div class="config-campo"><label for="cfgSaldoValesDieta">Saldo inicial por defecto - Vales Dieta</label><input type="number" id="cfgSaldoValesDieta" min="0"></div>
-        <div class="config-campo"><label for="cfgSaldoValesPagos">Saldo inicial por defecto - Vales Pagos Menores</label><input type="number" id="cfgSaldoValesPagos" min="0"></div>
+        <div class="config-campo"><label for="cfgSaldoValesDieta">Saldo inicial del período - Vales Dieta</label><input type="number" id="cfgSaldoValesDieta" min="0"></div>
+        <div class="config-campo"><label for="cfgSaldoValesPagos">Saldo inicial del período - Vales Pagos Menores</label><input type="number" id="cfgSaldoValesPagos" min="0"></div>
       </div>
+      <p style="font-size:0.72rem;color:#666;margin-top:8px;">
+        Estos saldos se usan como <strong>base del año</strong> en la pestaña Vales. Si el filtro "Desde" empieza el 01/01, el saldo inicial del período será este valor. Si empieza después, se suma lo configurado + los vales del año hasta un día antes de "Desde".
+      </p>
     </div>
 
     <div class="config-grupo">
       <h3>🔒 Períodos Cerrados</h3>
       <p style="font-size:0.78rem;color:#666;margin-bottom:8px;">
-        Los vales de estos períodos no se podrán registrar ni anular. Formato: <strong>YYYY-MM</strong>
+        Los vales de estos períodos no se podrán registrar, editar ni anular. Formato: <strong>YYYY-MM</strong>
       </p>
       <div id="listaPeriodosCerrados" class="chips-periodos"></div>
       <div class="config-grid" style="margin-top:10px;">
@@ -1154,12 +1233,58 @@
   </div>
 </div>
 
-<!-- ============ MODAL VALE ============ -->
+<!-- ============ MODAL VALE (ver) ============ -->
 <div id="modalVale" class="modal-overlay no-print">
   <div class="modal-content">
     <button class="modal-cerrar" onclick="cerrarModalVale()">✕</button>
     <h3>Detalle del Vale</h3>
     <div id="modalValeContenido"></div>
+  </div>
+</div>
+
+<!-- ============ MODAL EDITAR VALE ============ -->
+<div id="modalEditVale" class="modal-overlay no-print">
+  <div class="modal-content">
+    <button class="modal-cerrar" onclick="cerrarModalEditVale()">✕</button>
+    <h3>✏️ Editar Vale</h3>
+
+    <div class="modal-aviso">
+      ⚠️ Al guardar los cambios, este vale quedará <strong>marcado como modificado</strong> y no contará como el original. Se mostrará con fondo amarillo y nombre subrayado.
+    </div>
+
+    <div class="form-edit">
+      <div class="campo">
+        <label for="editFecha">Fecha</label>
+        <input type="date" id="editFecha">
+      </div>
+      <div class="campo">
+        <label for="editNoVale">No. Vale</label>
+        <input type="text" id="editNoVale">
+      </div>
+      <div class="campo">
+        <label for="editNombre">Nombre</label>
+        <input type="text" id="editNombre">
+      </div>
+      <div class="campo">
+        <label for="editDesc">Descripción</label>
+        <input type="text" id="editDesc">
+      </div>
+      <div class="row-2">
+        <div class="campo">
+          <label for="editDep">Depósito</label>
+          <input type="number" min="0" id="editDep">
+        </div>
+        <div class="campo">
+          <label for="editRet">Retiro</label>
+          <input type="number" min="0" id="editRet">
+        </div>
+      </div>
+    </div>
+
+    <div class="acciones" style="margin-top:15px;">
+      <button class="btn btn-secondary" onclick="cerrarModalEditVale()">Cancelar</button>
+      <button class="btn btn-success" onclick="guardarEdicionVale()">Guardar cambios</button>
+    </div>
   </div>
 </div>
 
@@ -1183,10 +1308,12 @@ const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 var denominaciones = [2000, 1000, 500, 200, 100, 50, 20, 10, 5];
 var configActual = null;
 var ultimoReembolsoGenerado = null;
+var valeEditando = null;
 
 var CLAVE_ARQUEO_ACTUAL = 'agesp_arqueo_actual_v1';
 var CLAVE_ULTIMO_RESPALDO = 'agesp_ultimo_respaldo';
 var DIAS_ENTRE_RESPALDOS = 7;
+var MARCADOR_MODIFICADO = '[[MODIFICADO]]';
 
 /* --- Utilidades --- */
 function formatoMoneda(n) {
@@ -1228,9 +1355,18 @@ function cerrarBannerVista() {
   document.getElementById('bannerVista').classList.remove('visible');
 }
 
-/* ==========================================================
-   PERSISTENCIA DE CANTIDADES DEL ARQUEO (localStorage)
-   ========================================================== */
+/* --- Detección de modificado --- */
+function esValeModificado(v) {
+  if (!v) return false;
+  return String(v.observaciones || '').indexOf(MARCADOR_MODIFICADO) === 0;
+}
+
+/* --- Comprobación robusta de contramovimiento --- */
+function esValeContramovimiento(vale) {
+  return (vale.anula_a && String(vale.anula_a).trim() !== '') ? true : false;
+}
+
+/* --- Persistencia de cantidades del arqueo --- */
 function cargarEstadoArqueo() {
   try {
     var raw = localStorage.getItem(CLAVE_ARQUEO_ACTUAL);
@@ -1251,9 +1387,7 @@ function guardarEstadoArqueo(tipo) {
   try { localStorage.setItem(CLAVE_ARQUEO_ACTUAL, JSON.stringify(estado)); } catch (e) {}
 }
 
-/* ==========================================================
-   RESPALDO AUTOMÁTICO - Recordatorio
-   ========================================================== */
+/* --- Recordatorio de respaldo --- */
 function verificarRespaldoPendiente() {
   var ultimo = localStorage.getItem(CLAVE_ULTIMO_RESPALDO);
   if (!ultimo) {
@@ -1583,6 +1717,13 @@ function limpiar(tipo) {
   cerrarBannerVista();
 }
 
+function getSaldoConfigurado(tipoVales) {
+  if (!configActual) return 0;
+  return (tipoVales === 'Dieta')
+    ? (configActual.saldoValesDieta || 0)
+    : (configActual.saldoValesPagos || 0);
+}
+
 async function actualizarSaldoLibrosArqueo(tipo) {
   var esPagos = (tipo === 'pagos');
   var tipoVales = esPagos ? 'PagosMenores' : 'Dieta';
@@ -1598,21 +1739,27 @@ async function actualizarSaldoLibrosArqueo(tipo) {
 
 async function calcularExistenciaHasta(tipoVales, fechaHasta) {
   try {
+    var anioHasta = String(fechaHasta).substring(0, 4);
+    var primerDiaDelAnio = anioHasta + '-01-01';
+    var saldoBase = getSaldoConfigurado(tipoVales);
+
     var { data, error } = await db.from('agesp_vales')
-      .select('*').eq('tipo', tipoVales).lte('fecha', fechaHasta)
+      .select('*').eq('tipo', tipoVales)
+      .gte('fecha', primerDiaDelAnio)
+      .lte('fecha', fechaHasta)
       .order('fecha', { ascending: true })
       .order('created_at', { ascending: true });
     if (error) throw error;
 
     var anulados = {};
     for (var i = 0; i < data.length; i++) {
-      if (data[i].anula_a) anulados[data[i].anula_a] = true;
+      if (esValeContramovimiento(data[i])) anulados[data[i].anula_a] = true;
     }
-    var saldo = 0, vigentes = 0;
+    var saldo = saldoBase, vigentes = 0;
     for (var j = 0; j < data.length; j++) {
       var m = data[j];
       if (anulados[m.id]) continue;
-      if (m.anula_a) continue;
+      if (esValeContramovimiento(m)) continue;
       saldo += (parseFloat(m.deposito) || 0) - (parseFloat(m.retiro) || 0);
       vigentes++;
     }
@@ -1707,15 +1854,25 @@ async function actualizarSugerido(tipoVales) {
   document.getElementById('sugeridoVales' + sufijo).textContent = sugerido;
 }
 
-async function existeValeDuplicado(tipoVales, noVale) {
+async function existeValeDuplicado(tipoVales, noVale, excluirId) {
   try {
-    var { data, error } = await db.from('agesp_vales')
-      .select('id').eq('tipo', tipoVales).eq('no_vale', noVale);
+    var q = db.from('agesp_vales').select('id').eq('tipo', tipoVales).eq('no_vale', noVale);
+    var { data, error } = await q;
     if (error) throw error;
-    return (data && data.length > 0);
+    if (!data) return false;
+    if (excluirId) {
+      for (var i = 0; i < data.length; i++) {
+        if (String(data[i].id) !== String(excluirId)) return true;
+      }
+      return false;
+    }
+    return data.length > 0;
   } catch (e) { return false; }
 }
 
+/* ==========================================================
+   LIBRO DE VALES - Carga
+   ========================================================== */
 async function cargarVales(tipoVales) {
   var esDieta = (tipoVales === 'Dieta');
   var sufijo = esDieta ? 'Dieta' : 'Pagos';
@@ -1739,16 +1896,25 @@ async function cargarVales(tipoVales) {
 
   var anulados = {};
   for (var i = 0; i < todos.length; i++) {
-    if (todos[i].anula_a) anulados[todos[i].anula_a] = true;
+    if (esValeContramovimiento(todos[i])) anulados[todos[i].anula_a] = true;
   }
 
-  var saldoIni = 0;
-  for (var a = 0; a < todos.length; a++) {
-    var m0 = todos[a];
-    if (m0.fecha < desde) {
-      if (anulados[m0.id]) continue;
-      if (m0.anula_a) continue;
-      saldoIni += (parseFloat(m0.deposito) || 0) - (parseFloat(m0.retiro) || 0);
+  var anioDesde = String(desde).substring(0, 4);
+  var primerDiaDelAnio = anioDesde + '-01-01';
+  var saldoBase = getSaldoConfigurado(tipoVales);
+
+  var saldoIni;
+  if (desde === primerDiaDelAnio) {
+    saldoIni = saldoBase;
+  } else {
+    saldoIni = saldoBase;
+    for (var a = 0; a < todos.length; a++) {
+      var m0 = todos[a];
+      if (m0.fecha >= primerDiaDelAnio && m0.fecha < desde) {
+        if (anulados[m0.id]) continue;
+        if (esValeContramovimiento(m0)) continue;
+        saldoIni += (parseFloat(m0.deposito) || 0) - (parseFloat(m0.retiro) || 0);
+      }
     }
   }
 
@@ -1759,7 +1925,7 @@ async function cargarVales(tipoVales) {
     var m = todos[b];
     if (m.fecha < desde) continue;
     var esAnulado = anulados[m.id] ? true : false;
-    var esContramov = (m.anula_a !== null && m.anula_a !== undefined && m.anula_a !== '') ? true : false;
+    var esContramov = esValeContramovimiento(m);
 
     if (!esAnulado && !esContramov) {
       existencia += (parseFloat(m.deposito) || 0) - (parseFloat(m.retiro) || 0);
@@ -1777,19 +1943,35 @@ async function cargarVales(tipoVales) {
     for (var v = 0; v < visibles.length; v++) {
       var item = visibles[v];
       var m2 = item.mov;
-      var clase = (item.anulado || item.contramov) ? ' class="fila-anulada"' : '';
+      var esMod = esValeModificado(m2);
+
+      var clases = [];
+      if (item.anulado || item.contramov) clases.push('fila-anulada');
+      if (esMod && !item.anulado && !item.contramov) clases.push('fila-modificada');
+      var clase = clases.length > 0 ? ' class="' + clases.join(' ') + '"' : '';
+
       var estadoHtml;
       if (item.anulado) estadoHtml = '<span class="badge-anulado">ANULADO</span>';
       else if (item.contramov) estadoHtml = '<span class="badge-anulado">CONTRAMOV.</span>';
       else estadoHtml = '<span class="badge-vigente">VIGENTE</span>';
+
+      var nombreHtml;
+      if (esMod) {
+        nombreHtml = '<span class="nombre-modificado">' + (m2.nombre || '') + ' <small>(mod.)</small></span>';
+      } else {
+        nombreHtml = (m2.nombre || '');
+      }
+
       var accionHtml = '<button class="btn btn-info btn-sm no-print" onclick="verVale(\'' + m2.id + '\')">Ver</button> ';
       if (!item.anulado && !item.contramov) {
+        accionHtml += '<button class="btn btn-warning btn-sm no-print" onclick="editarVale(\'' + m2.id + '\')">Editar</button> ';
         accionHtml += '<button class="btn btn-danger btn-sm no-print" onclick="anularVale(\'' + tipoVales + '\', \'' + m2.id + '\')">Anular</button>';
       }
+
       html += '<tr' + clase + '>' +
         '<td>' + formatearFecha(m2.fecha) + '</td>' +
         '<td>' + (m2.no_vale || '') + '</td>' +
-        '<td>' + (m2.nombre || '') + '</td>' +
+        '<td>' + nombreHtml + '</td>' +
         '<td>' + (m2.descripcion || '') + '</td>' +
         '<td>' + formatoMoneda(m2.deposito) + '</td>' +
         '<td>' + formatoMoneda(m2.retiro) + '</td>' +
@@ -1833,7 +2015,7 @@ async function registrarVale(tipoVales) {
     noVale = await siguienteNumeroVale(tipoVales, dep > 0, fecha);
   }
 
-  var duplicado = await existeValeDuplicado(tipoVales, noVale);
+  var duplicado = await existeValeDuplicado(tipoVales, noVale, null);
   if (duplicado) {
     if (!confirm('Ya existe un vale con el número "' + noVale + '" en este libro.\n\n¿Deseas continuar de todos modos?')) {
       return;
@@ -1924,6 +2106,113 @@ function resetFiltroVales(tipoVales) {
 }
 
 /* ==========================================================
+   EDITAR VALE
+   ========================================================== */
+async function editarVale(idVale) {
+  try {
+    var { data, error } = await db.from('agesp_vales').select('*').eq('id', idVale).maybeSingle();
+    if (error) throw error;
+    if (!data) { mostrarStatus('Vale no encontrado.', 'err'); return; }
+
+    if (esValeContramovimiento(data)) {
+      mostrarStatus('No se puede editar un contramovimiento.', 'err');
+      return;
+    }
+
+    var { data: contraData } = await db.from('agesp_vales').select('id').eq('anula_a', idVale).maybeSingle();
+    if (contraData) {
+      mostrarStatus('No se puede editar un vale que ya fue anulado.', 'err');
+      return;
+    }
+
+    if (esPeriodoCerrado(data.fecha)) {
+      mostrarStatus('El vale pertenece al período ' + periodoDeFecha(data.fecha) + ' (cerrado). No se puede editar.', 'err');
+      return;
+    }
+
+    valeEditando = data;
+
+    document.getElementById('editFecha').value = data.fecha || '';
+    document.getElementById('editNoVale').value = data.no_vale || '';
+    document.getElementById('editNombre').value = data.nombre || '';
+    document.getElementById('editDesc').value = data.descripcion || '';
+    document.getElementById('editDep').value = parseFloat(data.deposito) || 0;
+    document.getElementById('editRet').value = parseFloat(data.retiro) || 0;
+
+    document.getElementById('modalEditVale').classList.add('visible');
+  } catch (e) {
+    mostrarStatus('Error al cargar vale: ' + e.message, 'err');
+  }
+}
+
+function cerrarModalEditVale() {
+  document.getElementById('modalEditVale').classList.remove('visible');
+  valeEditando = null;
+}
+
+async function guardarEdicionVale() {
+  if (!valeEditando) { mostrarStatus('No hay vale en edición.', 'err'); return; }
+
+  var fecha = document.getElementById('editFecha').value;
+  var noVale = (document.getElementById('editNoVale').value || '').trim();
+  var nombre = document.getElementById('editNombre').value;
+  var desc = document.getElementById('editDesc').value;
+  var dep = parseFloat(document.getElementById('editDep').value) || 0;
+  var ret = parseFloat(document.getElementById('editRet').value) || 0;
+
+  if (!fecha) { mostrarStatus('Falta la fecha.', 'err'); return; }
+  if (dep === 0 && ret === 0) { mostrarStatus('Debe indicar depósito o retiro.', 'err'); return; }
+  if (dep > 0 && ret > 0) { mostrarStatus('Un vale no puede tener depósito y retiro a la vez.', 'err'); return; }
+
+  if (esPeriodoCerrado(fecha)) {
+    mostrarStatus('La nueva fecha pertenece al período ' + periodoDeFecha(fecha) + ' (cerrado).', 'err');
+    return;
+  }
+
+  var duplicado = await existeValeDuplicado(valeEditando.tipo, noVale, valeEditando.id);
+  if (duplicado) {
+    if (!confirm('Ya existe otro vale con el número "' + noVale + '" en este libro.\n\n¿Deseas continuar?')) {
+      return;
+    }
+  }
+
+  var tipoVales = valeEditando.tipo;
+  var idVale = valeEditando.id;
+
+  // Marcamos como modificado añadiendo el marcador al inicio de observaciones
+  // Si ya estaba modificado, preservamos esa marca
+  var obsActual = String(valeEditando.observaciones || '');
+  var obsNuevas;
+  if (esValeModificado(valeEditando)) {
+    // Ya estaba modificado, mantenemos el marcador
+    obsNuevas = obsActual;
+  } else {
+    // Primera vez modificado: añadimos marcador
+    obsNuevas = MARCADOR_MODIFICADO + (obsActual ? ' ' + obsActual : '');
+  }
+
+  try {
+    var { error } = await db.from('agesp_vales').update({
+      fecha: fecha,
+      no_vale: noVale,
+      nombre: nombre,
+      descripcion: desc,
+      deposito: dep,
+      retiro: ret,
+      observaciones: obsNuevas
+    }).eq('id', idVale);
+    if (error) throw error;
+
+    mostrarStatus('Vale modificado y guardado.', 'ok');
+    cerrarModalEditVale();
+    cargarVales(tipoVales);
+    actualizarSaldoLibrosArqueo(tipoVales === 'Dieta' ? 'dietas' : 'pagos');
+  } catch (e) {
+    mostrarStatus('Error al guardar modificación: ' + e.message, 'err');
+  }
+}
+
+/* ==========================================================
    MODAL VER VALE
    ========================================================== */
 async function verVale(idVale) {
@@ -1936,10 +2225,15 @@ async function verVale(idVale) {
 
     var estado = 'VIGENTE';
     var estadoColor = '#27ae60';
-    if (data.anula_a) { estado = 'CONTRAMOVIMIENTO'; estadoColor = '#c0392b'; }
+    if (esValeContramovimiento(data)) { estado = 'CONTRAMOVIMIENTO'; estadoColor = '#c0392b'; }
     else if (contraData) { estado = 'ANULADO'; estadoColor = '#c0392b'; }
 
+    var esMod = esValeModificado(data);
+
     var html = '';
+    if (esMod) {
+      html += '<div class="modal-aviso">⚠️ Este vale fue <strong>MODIFICADO</strong>. No es el original.</div>';
+    }
     html += '<div class="modal-fila"><strong>No. Vale:</strong><span>' + (data.no_vale || '-') + '</span></div>';
     html += '<div class="modal-fila"><strong>Fecha:</strong><span>' + formatearFecha(data.fecha) + '</span></div>';
     html += '<div class="modal-fila"><strong>Libro:</strong><span>' + (data.tipo === 'Dieta' ? 'Dieta' : 'Pagos Menores') + '</span></div>';
@@ -1948,14 +2242,14 @@ async function verVale(idVale) {
     html += '<div class="modal-fila"><strong>Depósito:</strong><span>' + formatoMoneda(data.deposito) + '</span></div>';
     html += '<div class="modal-fila"><strong>Retiro:</strong><span>' + formatoMoneda(data.retiro) + '</span></div>';
     html += '<div class="modal-fila"><strong>Estado:</strong><span style="color:' + estadoColor + ';font-weight:bold;">' + estado + '</span></div>';
+    if (esMod) {
+      html += '<div class="modal-fila"><strong>Modificado:</strong><span style="color:#b8860b;font-weight:bold;">SÍ — No es el original</span></div>';
+    }
     if (data.anula_a) {
       html += '<div class="modal-fila"><strong>Anula al vale:</strong><span>' + data.anula_a + '</span></div>';
     }
     if (contraData) {
       html += '<div class="modal-fila"><strong>Anulado por:</strong><span>Vale ' + (contraData.no_vale || '') + ' (' + formatearFecha(contraData.fecha) + ')</span></div>';
-    }
-    if (data.observaciones) {
-      html += '<div class="modal-fila"><strong>Observaciones:</strong><span>' + data.observaciones + '</span></div>';
     }
     var periodo = periodoDeFecha(data.fecha);
     if (esPeriodoCerrado(data.fecha)) {
@@ -2005,12 +2299,12 @@ async function generarReembolso() {
 
   var anulados = {};
   for (var i = 0; i < movimientos.length; i++) {
-    if (movimientos[i].anula_a) anulados[movimientos[i].anula_a] = true;
+    if (esValeContramovimiento(movimientos[i])) anulados[movimientos[i].anula_a] = true;
   }
   var vigentes = [];
   for (var j = 0; j < movimientos.length; j++) {
     var m = movimientos[j];
-    if (m.anula_a) continue;
+    if (esValeContramovimiento(m)) continue;
     if (anulados[m.id]) continue;
     vigentes.push(m);
   }
@@ -2121,6 +2415,9 @@ async function generarResumen() {
   var cont = document.getElementById('resumenContenido');
   cont.innerHTML = '<p style="text-align:center;color:#888;padding:20px;">Cargando resumen...</p>';
 
+  var anioDesde = String(desde).substring(0, 4);
+  var primerDiaDelAnio = anioDesde + '-01-01';
+
   var vales = [];
   try {
     var { data: v1 } = await db.from('agesp_vales').select('*').eq('tipo', tipo)
@@ -2130,25 +2427,27 @@ async function generarResumen() {
 
   var anteriores = [];
   try {
-    var { data: v2 } = await db.from('agesp_vales').select('*').eq('tipo', tipo).lt('fecha', desde);
+    var { data: v2 } = await db.from('agesp_vales').select('*').eq('tipo', tipo)
+      .gte('fecha', primerDiaDelAnio).lt('fecha', desde);
     anteriores = v2 || [];
   } catch (e) { anteriores = []; }
 
   var anulados = {};
-  for (var i = 0; i < vales.length; i++) if (vales[i].anula_a) anulados[vales[i].anula_a] = true;
-  for (var i = 0; i < anteriores.length; i++) if (anteriores[i].anula_a) anulados[anteriores[i].anula_a] = true;
+  for (var i = 0; i < vales.length; i++) if (esValeContramovimiento(vales[i])) anulados[vales[i].anula_a] = true;
+  for (var i = 0; i < anteriores.length; i++) if (esValeContramovimiento(anteriores[i])) anulados[anteriores[i].anula_a] = true;
 
-  var saldoIni = 0;
+  var saldoBase = getSaldoConfigurado(tipo);
+  var saldoIni = saldoBase;
   for (var i = 0; i < anteriores.length; i++) {
     var v = anteriores[i];
-    if (anulados[v.id] || v.anula_a) continue;
+    if (anulados[v.id] || esValeContramovimiento(v)) continue;
     saldoIni += (parseFloat(v.deposito) || 0) - (parseFloat(v.retiro) || 0);
   }
 
   var totalDep = 0, totalRet = 0, numVigentes = 0, numAnulados = 0;
   for (var i = 0; i < vales.length; i++) {
     var v = vales[i];
-    if (v.anula_a) { numAnulados++; continue; }
+    if (esValeContramovimiento(v)) { numAnulados++; continue; }
     if (anulados[v.id]) { numAnulados++; continue; }
     totalDep += parseFloat(v.deposito) || 0;
     totalRet += parseFloat(v.retiro) || 0;
@@ -2184,7 +2483,7 @@ async function generarResumen() {
   var porMes = {};
   for (var i = 0; i < vales.length; i++) {
     var v = vales[i];
-    if (v.anula_a || anulados[v.id]) continue;
+    if (esValeContramovimiento(v) || anulados[v.id]) continue;
     var mes = v.fecha.substring(0, 7);
     if (!porMes[mes]) porMes[mes] = { dep: 0, ret: 0, num: 0 };
     porMes[mes].dep += parseFloat(v.deposito) || 0;
@@ -2218,7 +2517,6 @@ async function generarResumen() {
   html += '<div class="resumen-card azul"><strong>Total reembolsado</strong><div class="valor">' + formatoMoneda(totalReembolsado) + '</div></div>';
   html += '</div>';
 
-  // Bloque de totales (visible solo en impresión)
   html += '<div class="totales-impresion">';
   html += '<div class="fila-total"><span><strong>Saldo inicial:</strong></span><span>' + formatoMoneda(saldoIni) + '</span></div>';
   html += '<div class="fila-total"><span><strong>Total depósitos:</strong></span><span>' + formatoMoneda(totalDep) + '</span></div>';
